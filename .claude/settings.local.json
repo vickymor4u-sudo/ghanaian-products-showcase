@@ -30,7 +30,14 @@
       "Bash(sips -g pixelWidth -g pixelHeight test_kokonte.png)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl -s -o /dev/null -w \"fufu-borga.png size: %{size_download} bytes, status: %{http_code}\\\\n\" https://ghanaian-products-showcase.pages.dev/images/fufu-borga.png)",
+      "Bash(curl -s -o /dev/null -w \"gari-borga.png size: %{size_download} bytes, status: %{http_code}\\\\n\" https://ghanaian-products-showcase.pages.dev/images/gari-borga.png)",
+      "Bash(curl -s -o /dev/null -w \"kokonte-borga.png size: %{size_download} bytes, status: %{http_code}\\\\n\" https://ghanaian-products-showcase.pages.dev/images/kokonte-borga.png)",
+      "Bash(curl -s -o /dev/null -w \"banku-borga.png size: %{size_download} bytes, status: %{http_code}\\\\n\" https://ghanaian-products-showcase.pages.dev/images/banku-borga.png)",
+      "Bash(sips -s format png upload_4.webp --out cassava-flour-new.png)",
+      "Bash(sips --resampleWidth 900 cassava-flour-new.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight cassava-flour-new.png)"
     ]
   }
 }

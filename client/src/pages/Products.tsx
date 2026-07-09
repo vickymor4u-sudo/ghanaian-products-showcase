@@ -70,6 +70,22 @@ export default function Products() {
       },
       variants: ["Standard mix", "High corn blend", "High cassava blend"],
     },
+    {
+      name: "Cassava Flour",
+      image: "/images/cassava-flour.png",
+      description: "Pure, finely milled cassava flour for making fufu—a versatile Borga staple sourced and processed for export-grade consistency.",
+      standardSizes: ["1kg", "2kg", "5kg"],
+      specs: {
+        "Brand": "Borga (Exclusive)",
+        "Standard Retail Sizes": "1kg, 2kg, 5kg (customizable)",
+        "Bulk Options": "25kg, 50kg sacks available",
+        "Shelf Life": "Up to 24 months",
+        "Storage": "Cool, dry place away from direct sunlight",
+        "Certification": "Ghana FDA registered facilities",
+        "Origin": "Ghana",
+      },
+      variants: ["Fine milled", "For fufu preparation", "Custom blends available upon request"],
+    },
   ];
 
   return (
