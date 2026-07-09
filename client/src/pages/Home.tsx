@@ -78,19 +78,20 @@ export default function Home() {
             All our products are exclusively under the Borga brand. We supply premium quality with complete flexibility on packaging, sizing, and order quantities.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 mb-12">
             {[
               { name: "Fufu Borga", desc: "Premium plantain & cassava flour", image: "/images/fufu-borga.png" },
               { name: "Gari Borga", desc: "Clean cassava granules", image: "/images/gari-borga.png" },
               { name: "Kokonte Borga", desc: "Traditional cassava flour", image: "/images/kokonte-borga.png" },
               { name: "Banku Borga", desc: "Fermented corn & cassava blend", image: "/images/banku-borga.png" },
+              { name: "Cassava Flour", desc: "Pure milled cassava for fufu", image: "/images/cassava-flour.png" },
             ].map((product) => (
-              <Card key={product.name} className="p-6 text-center hover:shadow-lg transition-shadow">
-                <div className="mb-4 bg-gradient-to-br from-secondary/20 to-background rounded-lg p-4 flex items-center justify-center">
-                  <img 
-                    src={product.image} 
+              <Card key={product.name} className="group p-6 text-center border-border/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div className="mb-4 aspect-[4/5] overflow-hidden rounded-lg border border-border/50 bg-gradient-to-br from-secondary/15 via-background to-secondary/5 p-4 flex items-center justify-center">
+                  <img
+                    src={product.image}
                     alt={product.name}
-                    className="w-full h-48 object-contain"
+                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
                 <h3 className="text-xl font-bold text-primary mb-2">{product.name}</h3>

@@ -37,7 +37,15 @@
       "Bash(curl -s -o /dev/null -w \"banku-borga.png size: %{size_download} bytes, status: %{http_code}\\\\n\" https://ghanaian-products-showcase.pages.dev/images/banku-borga.png)",
       "Bash(sips -s format png upload_4.webp --out cassava-flour-new.png)",
       "Bash(sips --resampleWidth 900 cassava-flour-new.png)",
-      "Bash(sips -g pixelWidth -g pixelHeight cassava-flour-new.png)"
+      "Bash(sips -g pixelWidth -g pixelHeight cassava-flour-new.png)",
+      "Bash(curl -s -o /dev/null -w \"cassava-flour.png size: %{size_download} bytes, status: %{http_code}\\\\n\" https://ghanaian-products-showcase.pages.dev/images/cassava-flour.png)",
+      "Bash(curl -s https://ghanaian-products-showcase.pages.dev/assets/*.js -o /dev/null -w \"%{http_code}\\\\n\")",
+      "Bash(curl -s https://ghanaian-products-showcase.pages.dev/products)",
+      "Bash(dig +short borgafoods.com A)",
+      "Bash(dig +short borgafoods.com CNAME)",
+      "Bash(dig +short borgafoods.com MX)",
+      "Bash(dig +short borgafoods.com TXT)",
+      "Bash(dig +short www.borgafoods.com A)"
     ]
   }
 }

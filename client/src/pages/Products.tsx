@@ -168,14 +168,14 @@ export default function Products() {
                 </div>
 
                 <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                  <div className="bg-gradient-to-br from-secondary/20 to-background rounded-lg p-8 flex items-center justify-center mb-8">
-                    <img 
-                      src={product.image} 
+                  <div className="group relative aspect-[4/5] max-w-sm mx-auto mb-8 flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-gradient-to-br from-secondary/15 via-background to-secondary/5 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <img
+                      src={product.image}
                       alt={product.name}
-                      className="w-full max-w-sm h-auto object-contain"
+                      className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
-                  
+
                   <Card className="p-8">
                     <h3 className="text-lg font-bold text-foreground mb-6">Product Details</h3>
                     <div className="space-y-4">
