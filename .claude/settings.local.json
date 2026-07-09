@@ -1,7 +1,21 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls node_modules 2>/dev/null | grep -i manus *)"
+      "Bash(ls node_modules 2>/dev/null | grep -i manus *)",
+      "Bash(pnpm build *)",
+      "Bash(npm -v)",
+      "Bash(corepack enable *)",
+      "Bash(corepack pnpm *)",
+      "Bash(brew --version)",
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(wrangler --version)",
+      "Bash(sudo -n true)",
+      "Bash(mkdir -p ~/.local/bin)",
+      "Bash(curl -s https://api.github.com/repos/cli/cli/releases/latest)",
+      "Bash(curl -sI https://api.github.com/repos/cli/cli/releases/latest)",
+      "Bash(curl -sI -L https://github.com/cli/cli/releases/latest)",
+      "Bash(npm install *)"
     ]
   }
 }
