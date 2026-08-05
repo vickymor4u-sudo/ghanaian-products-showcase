@@ -2,6 +2,17 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 6 August 2026 — AI project documentation system
+
+Commit: `1b172520f76a8471c0fa831e14b3806187904a61`
+
+Completed changes:
+
+- created the permanent `docs/` project knowledge base;
+- documented business context, permanent rules, roadmap, change history, and the AI working protocol;
+- made approved manufacturing, partner-sourcing, supplier-confidentiality, architecture, testing, and reporting requirements available to future agents;
+- changed documentation only; website functionality and configuration were not modified.
+
 ## 6 August 2026 — Phase 1 product architecture
 
 Commit: `787c1804b51ef7d5e658424874a4d05853feb185`
