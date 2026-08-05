@@ -15,8 +15,8 @@ export default function About() {
     <div className="min-h-screen bg-background">
       <SEO 
         title="About Us - Supply & Demand Worldwide Ltd | borgafoods.com"
-        description="Learn about Supply & Demand Worldwide Ltd, a Ghana-focused food export company established in 2013. We specialize in exporting premium Borga brand staple foods to international markets."
-        keywords="Supply & Demand Worldwide Ltd, Ghana food exporter, Borga brand, African food export company, Ghana to Asia food trade"
+        description="Learn about Supply & Demand Worldwide Ltd, a Ghana-focused food export company established in 2013. We specialize in exporting premium BorgaFoods brand staple foods to international markets."
+        keywords="Supply & Demand Worldwide Ltd, Ghana food exporter, BorgaFoods brand, African food export company, Ghana to Asia food trade"
       />
       {/* Header */}
       <section className="py-16 bg-gradient-to-br from-primary/5 to-background border-b border-border">
@@ -35,7 +35,7 @@ export default function About() {
             <div>
               <h2 className="text-4xl font-bold text-foreground mb-6">Our Story</h2>
               <p className="text-lg text-foreground mb-4 leading-relaxed">
-                Supply & Demand Worldwide Limited is a legally registered limited liability company in Ghana, established in 2013. With over a decade of trading experience, we specialize in exporting traditional West African staple foods to global markets through our flagship Borga brand.
+                Supply & Demand Worldwide Limited is a legally registered limited liability company in Ghana, established in 2013. With over a decade of trading experience, we specialize in exporting traditional West African staple foods to global markets through our flagship BorgaFoods brand.
               </p>
               <p className="text-lg text-foreground mb-4 leading-relaxed">
                 We operate international trading activities with operational presence in both Ghana (Tema) and China (Hangzhou), allowing us to bridge African production with international market expectations.

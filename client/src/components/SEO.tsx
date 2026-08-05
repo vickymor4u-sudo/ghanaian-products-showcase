@@ -12,7 +12,7 @@ interface SEOProps {
 export default function SEO({ 
   title = "borgafoods.com - Premium Ghanaian Staple Foods",
   description = "Export-ready fufu, gari, kokonte, and banku products sourced and processed in Ghana. Supply & Demand Worldwide Ltd serves distributors, wholesalers, and food importers globally.",
-  keywords = "Ghana food export, fufu wholesale, gari export, kokonte, banku, African food distributor, West African staples, Borga products",
+  keywords = "Ghana food export, fufu wholesale, gari export, kokonte, banku, African food distributor, West African staples, BorgaFoods products",
   image = "https://borgafoods.com/images/fufu-borga.png",
   type = "website"
 }: SEOProps) {

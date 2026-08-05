@@ -3,106 +3,30 @@ import { Button } from "@/components/ui/button";
 import { Download, Mail, Star } from "lucide-react";
 import { Link } from "wouter";
 import SEO from "@/components/SEO";
+import { products, supplyTypeLabels } from "@/data/products";
 
 export default function Products() {
-  const products = [
-    {
-      name: "Fufu Borga",
-      image: "/images/fufu-borga.png",
-      description: "Premium Ghanaian fufu flour—the flagship Borga product developed for consistent texture, taste, and export stability.",
-      standardSizes: ["700g", "1kg", "2kg"],
-      specs: {
-        "Brand": "Borga (Exclusive)",
-        "Standard Retail Sizes": "700g, 1kg, 2kg (customizable)",
-        "Bulk Options": "Available upon request",
-        "Shelf Life": "Up to 24 months",
-        "Storage": "Cool, dry place away from direct sunlight",
-        "Certification": "Ghana FDA registered facilities",
-        "Origin": "Ghana",
-      },
-      variants: ["Plantain-based fufu flour", "Cassava-plantain blends", "Custom blends available upon request"],
-    },
-    {
-      name: "Gari Borga",
-      image: "/images/gari-borga.png",
-      description: "Clean, well-processed cassava granules—the Borga standard for retail, wholesale, and food service distribution.",
-      standardSizes: ["500g", "1kg", "2kg", "5kg"],
-      specs: {
-        "Brand": "Borga (Exclusive)",
-        "Standard Retail Sizes": "500g, 1kg, 2kg, 5kg (customizable)",
-        "Bulk Options": "25kg, 50kg sacks available",
-        "Shelf Life": "Up to 24 months",
-        "Storage": "Cool, dry place away from direct sunlight",
-        "Certification": "Ghana FDA registered facilities",
-        "Origin": "Ghana",
-      },
-      variants: ["Fine grain", "Medium grain", "Coarse grain"],
-    },
-    {
-      name: "Kokonte Borga",
-      image: "/images/kokonte-borga.png",
-      description: "Traditional dried cassava flour—processed under the Borga standard for export consistency and long shelf life.",
-      standardSizes: ["1kg", "2kg", "5kg"],
-      specs: {
-        "Brand": "Borga (Exclusive)",
-        "Standard Retail Sizes": "1kg, 2kg, 5kg (customizable)",
-        "Bulk Options": "Available upon request",
-        "Shelf Life": "Up to 24 months",
-        "Storage": "Cool, dry place away from direct sunlight",
-        "Certification": "Ghana FDA registered facilities",
-        "Origin": "Ghana",
-      },
-      variants: ["Standard mix", "High plantain blend", "Custom blends available"],
-    },
-    {
-      name: "Banku Borga",
-      image: "/images/banku-borga.png",
-      description: "Fermented corn and cassava blend—the Borga signature offering authentic taste adapted for international markets.",
-      standardSizes: ["1kg", "2kg", "5kg"],
-      specs: {
-        "Brand": "Borga (Exclusive)",
-        "Standard Retail Sizes": "1kg, 2kg, 5kg (customizable)",
-        "Bulk Options": "Available upon request",
-        "Shelf Life": "Up to 24 months",
-        "Storage": "Cool, dry place away from direct sunlight",
-        "Certification": "Ghana FDA registered facilities",
-        "Origin": "Ghana",
-      },
-      variants: ["Standard mix", "High corn blend", "High cassava blend"],
-    },
-    {
-      name: "Cassava Flour",
-      image: "/images/cassava-flour.png",
-      description: "Pure, finely milled cassava flour for making fufu—a versatile Borga staple sourced and processed for export-grade consistency.",
-      standardSizes: ["1kg", "2kg", "5kg"],
-      specs: {
-        "Brand": "Borga (Exclusive)",
-        "Standard Retail Sizes": "1kg, 2kg, 5kg (customizable)",
-        "Bulk Options": "25kg, 50kg sacks available",
-        "Shelf Life": "Up to 24 months",
-        "Storage": "Cool, dry place away from direct sunlight",
-        "Certification": "Ghana FDA registered facilities",
-        "Origin": "Ghana",
-      },
-      variants: ["Fine milled", "For fufu preparation", "Custom blends available upon request"],
-    },
-  ];
+  const productNames = products.map(product => product.name).join(", ");
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO 
-        title="Borga Products - Premium Ghanaian Staple Foods | borgafoods.com"
-        description="Explore our Borga product line: Fufu Borga, Gari Borga, Kokonte Borga, and Banku Borga. Premium Ghanaian staple foods with flexible packaging and order quantities for international distributors."
-        keywords="Fufu Borga, Gari Borga, Kokonte Borga, Banku Borga, Ghana fufu export, cassava flour wholesale, plantain flour, fermented corn flour"
+      <SEO
+        title="BorgaFoods Products - Premium Ghanaian Staple Foods | borgafoods.com"
+        description={`Explore our BorgaFoods product line: ${productNames}. Premium Ghanaian staple foods with flexible packaging and order quantities for international distributors.`}
+        keywords={`${productNames}, Ghana fufu export, cassava flour wholesale, plantain flour, fermented corn flour`}
       />
       <section className="py-16 bg-gradient-to-br from-primary/5 to-background border-b border-border">
         <div className="container">
           <div className="flex items-center gap-3 mb-4">
             <Star size={32} className="text-primary fill-primary" />
-            <h1 className="text-5xl font-bold text-foreground">The Borga Product Line</h1>
+            <h1 className="text-5xl font-bold text-foreground">
+              The BorgaFoods Product Line
+            </h1>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            All our products are exclusively under the Borga brand. We supply premium Ghanaian staple foods with complete flexibility on packaging sizes, formats, and order quantities.
+            All our products are exclusively under the BorgaFoods brand. We supply
+            premium Ghanaian staple foods with complete flexibility on packaging
+            sizes, formats, and order quantities.
           </p>
         </div>
       </section>
@@ -113,19 +37,24 @@ export default function Products() {
             {[
               {
                 title: "One Brand, Endless Flexibility",
-                description: "All products are Borga. We customize packaging sizes, formats, and quantities to match your distribution strategy.",
+                description:
+                  "All products are BorgaFoods. We customize packaging sizes, formats, and quantities to match your distribution strategy.",
               },
               {
                 title: "Your Packaging, Your Size",
-                description: "Need 250g sachets? 10kg bulk bags? Custom carton sizes? We accommodate your preferred packaging specifications.",
+                description:
+                  "Need 250g sachets? 10kg bulk bags? Custom carton sizes? We accommodate your preferred packaging specifications.",
               },
               {
                 title: "Flexible Order Quantities",
-                description: "Whether you're testing a new market or scaling up, we work with flexible MOQs tailored to your business stage.",
+                description:
+                  "Whether you're testing a new market or scaling up, we work with flexible MOQs tailored to your business stage.",
               },
             ].map((item, index) => (
               <Card key={index} className="p-6 border-primary/20">
-                <h3 className="text-lg font-bold text-foreground mb-3">{item.title}</h3>
+                <h3 className="text-lg font-bold text-foreground mb-3">
+                  {item.title}
+                </h3>
                 <p className="text-foreground">{item.description}</p>
               </Card>
             ))}
@@ -135,23 +64,39 @@ export default function Products() {
 
       <section className="py-20">
         <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-16">Our Borga Products</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-16">
+            Our BorgaFoods Products
+          </h2>
           <div className="space-y-20">
             {products.map((product, index) => (
-              <div key={product.name} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+              <div
+                key={product.name}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
+              >
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                   <div className="flex items-center gap-2 mb-2">
                     <Star size={20} className="text-primary fill-primary" />
-                    <span className="text-sm font-bold text-primary">Borga Brand</span>
+                    <span className="text-sm font-bold text-primary">
+                      BorgaFoods Brand
+                    </span>
                   </div>
-                  <h2 className="text-4xl font-bold text-foreground mb-4">{product.name}</h2>
-                  <p className="text-lg text-foreground mb-8 leading-relaxed">{product.description}</p>
+                  <h2 className="text-4xl font-bold text-foreground mb-4">
+                    {product.name}
+                  </h2>
+                  <p className="text-lg text-foreground mb-8 leading-relaxed">
+                    {product.description}
+                  </p>
 
                   <div className="mb-8">
-                    <h3 className="text-lg font-bold text-foreground mb-4">Available Variants</h3>
+                    <h3 className="text-lg font-bold text-foreground mb-4">
+                      Available Variants
+                    </h3>
                     <ul className="space-y-2">
-                      {product.variants.map((variant) => (
-                        <li key={variant} className="flex items-start gap-3 text-foreground">
+                      {product.variants.map(variant => (
+                        <li
+                          key={variant}
+                          className="flex items-start gap-3 text-foreground"
+                        >
                           <span className="text-primary font-bold mt-1">•</span>
                           <span>{variant}</span>
                         </li>
@@ -170,18 +115,46 @@ export default function Products() {
                 <div className={index % 2 === 1 ? "lg:order-1" : ""}>
                   <div className="group relative aspect-[4/5] max-w-sm mx-auto mb-8 flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-gradient-to-br from-secondary/15 via-background to-secondary/5 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                     <img
-                      src={product.image}
+                      src={product.images[0]}
                       alt={product.name}
                       className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
 
                   <Card className="p-8">
-                    <h3 className="text-lg font-bold text-foreground mb-6">Product Details</h3>
+                    <h3 className="text-lg font-bold text-foreground mb-6">
+                      Product Details
+                    </h3>
                     <div className="space-y-4">
-                      {Object.entries(product.specs).map(([key, value]) => (
-                        <div key={key} className="border-b border-border pb-4 last:border-b-0">
-                          <p className="text-sm font-semibold text-muted-foreground mb-1">{key}</p>
+                      {Object.entries({
+                        ...(product.supplyType === "manufactured"
+                          ? {
+                              Brand: product.brand,
+                              Manufacturer: product.manufacturer,
+                            }
+                          : {}),
+                        Category: product.category,
+                        "Supply Type": supplyTypeLabels[product.supplyType],
+                        "Standard Retail Sizes": `${product.packagingSizes.join(", ")} (customizable)`,
+                        "Bulk Options": product.bulkPackagingSizes.join(", "),
+                        "Shelf Life": product.shelfLife,
+                        Storage: product.storage,
+                        Certification: product.certification,
+                        Origin: product.countryOfOrigin,
+                        "Export Availability": product.exportAvailable
+                          ? "Available"
+                          : "Not available",
+                        "Wholesale Availability": product.wholesaleAvailable
+                          ? "Available"
+                          : "Not available",
+                      }).map(([key, value]) => (
+                        <div
+                          key={key}
+                          className="border-b border-border pb-4 last:border-b-0"
+                        >
+                          <p className="text-sm font-semibold text-muted-foreground mb-1">
+                            {key}
+                          </p>
                           <p className="text-foreground font-medium">{value}</p>
                         </div>
                       ))}
@@ -196,14 +169,20 @@ export default function Products() {
 
       <section className="py-20 bg-secondary/5">
         <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-12">Flexible Packaging & Sizing</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-12">
+            Flexible Packaging & Sizing
+          </h2>
           <p className="text-lg text-foreground mb-12 max-w-3xl">
-            The standard sizes listed above are our baseline offerings. However, we understand that different markets have different needs. We are fully flexible on:
+            The standard sizes listed above are our baseline offerings. However,
+            we understand that different markets have different needs. We are
+            fully flexible on:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <Card className="p-8">
-              <h3 className="text-2xl font-bold text-foreground mb-6">Packaging Customization</h3>
+              <h3 className="text-2xl font-bold text-foreground mb-6">
+                Packaging Customization
+              </h3>
               <ul className="space-y-4">
                 {[
                   "Custom net weight options (any size you need)",
@@ -212,8 +191,11 @@ export default function Products() {
                   "Branded packaging with your design",
                   "Multi-language labeling",
                   "Regulatory compliance for destination markets",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-foreground">
+                ].map(item => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 text-foreground"
+                  >
                     <span className="text-primary font-bold">✓</span>
                     <span>{item}</span>
                   </li>
@@ -222,7 +204,9 @@ export default function Products() {
             </Card>
 
             <Card className="p-8">
-              <h3 className="text-2xl font-bold text-foreground mb-6">Order Quantity Flexibility</h3>
+              <h3 className="text-2xl font-bold text-foreground mb-6">
+                Order Quantity Flexibility
+              </h3>
               <ul className="space-y-4">
                 {[
                   "No fixed minimum order quantities",
@@ -231,8 +215,11 @@ export default function Products() {
                   "Larger bulk orders with volume pricing",
                   "Scalable supply as your market grows",
                   "Consistent quality at any order size",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-foreground">
+                ].map(item => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 text-foreground"
+                  >
                     <span className="text-primary font-bold">✓</span>
                     <span>{item}</span>
                   </li>
@@ -242,7 +229,9 @@ export default function Products() {
           </div>
 
           <Card className="p-8 bg-primary/5 border-primary">
-            <h3 className="text-2xl font-bold text-foreground mb-4">How It Works</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              How It Works
+            </h3>
             <p className="text-lg text-foreground mb-6">
               When you contact us with your requirements, we discuss:
             </p>
@@ -274,27 +263,38 @@ export default function Products() {
 
       <section className="py-20">
         <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-12">Borga Quality Standards</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-12">
+            BorgaFoods Quality Standards
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="p-8">
-              <h3 className="text-xl font-bold text-primary mb-4">One Brand, One Standard</h3>
+              <h3 className="text-xl font-bold text-primary mb-4">
+                One Brand, One Standard
+              </h3>
               <p className="text-foreground">
-                Whether it's 500g or 50kg, every Borga product meets the same rigorous quality standards and export specifications.
+                Whether it's 500g or 50kg, every BorgaFoods product meets the same
+                rigorous quality standards and export specifications.
               </p>
             </Card>
 
             <Card className="p-8">
-              <h3 className="text-xl font-bold text-primary mb-4">Compliance Ready</h3>
+              <h3 className="text-xl font-bold text-primary mb-4">
+                Compliance Ready
+              </h3>
               <p className="text-foreground">
-                All Borga products meet Ghana FDA compliance standards and are suitable for export to international markets.
+                All BorgaFoods products meet Ghana FDA compliance standards and are
+                suitable for export to international markets.
               </p>
             </Card>
 
             <Card className="p-8">
-              <h3 className="text-xl font-bold text-primary mb-4">Shelf Stability</h3>
+              <h3 className="text-xl font-bold text-primary mb-4">
+                Shelf Stability
+              </h3>
               <p className="text-foreground">
-                Products are processed with attention to shelf life and stability, suitable for long-distance export and storage.
+                Products are processed with attention to shelf life and
+                stability, suitable for long-distance export and storage.
               </p>
             </Card>
           </div>
@@ -303,12 +303,18 @@ export default function Products() {
 
       <section className="py-16 bg-primary">
         <div className="container text-center">
-          <h2 className="text-3xl font-bold mb-4 text-white">Ready to Partner with Borga?</h2>
+          <h2 className="text-3xl font-bold mb-4 text-white">
+            Ready to Partner with BorgaFoods?
+          </h2>
           <p className="text-lg mb-8 max-w-2xl mx-auto text-white/90">
-            Contact us to discuss your custom packaging requirements, order quantities, and market needs.
+            Contact us to discuss your custom packaging requirements, order
+            quantities, and market needs.
           </p>
           <Link href="/contact">
-            <Button size="lg" className="bg-primary-foreground hover:bg-primary-foreground/90 text-primary">
+            <Button
+              size="lg"
+              className="bg-primary-foreground hover:bg-primary-foreground/90 text-primary"
+            >
               Get in Touch
             </Button>
           </Link>

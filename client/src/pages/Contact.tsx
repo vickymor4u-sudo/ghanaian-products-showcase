@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import SEO from "@/components/SEO";
+import { products } from "@/data/products";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -15,9 +16,13 @@ export default function Contact() {
     message: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,16 +42,20 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO 
+      <SEO
         title="Contact Us - Get in Touch | borgafoods.com"
-        description="Contact Supply & Demand Worldwide Ltd for Borga product inquiries. Ghana office: +233 555 362 208 | China office: +86 135 1681 8572 | Email: vickymor4u@gmail.com"
-        keywords="contact Borga foods, Ghana food exporter contact, wholesale inquiry, distributor contact, food import inquiry"
+        description="Contact Supply & Demand Worldwide Ltd for BorgaFoods product inquiries. Ghana office: +233 555 362 208 | China office: +86 135 1681 8572 | Email: vickymor4u@gmail.com"
+        keywords="contact BorgaFoods, Ghana food exporter contact, wholesale inquiry, distributor contact, food import inquiry"
       />
       <section className="py-16 bg-gradient-to-br from-primary/5 to-background border-b border-border">
         <div className="container">
-          <h1 className="text-5xl font-bold text-foreground mb-4">Let's Discuss Your Market Needs</h1>
+          <h1 className="text-5xl font-bold text-foreground mb-4">
+            Let's Discuss Your Market Needs
+          </h1>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            We welcome inquiries from distributors, importers, wholesalers, retail chains, and food service suppliers. Get in touch to discuss partnership opportunities.
+            We welcome inquiries from distributors, importers, wholesalers,
+            retail chains, and food service suppliers. Get in touch to discuss
+            partnership opportunities.
           </p>
         </div>
       </section>
@@ -56,23 +65,43 @@ export default function Contact() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Information */}
             <div className="lg:col-span-1">
-              <h2 className="text-3xl font-bold text-foreground mb-8">Contact Information</h2>
+              <h2 className="text-3xl font-bold text-foreground mb-8">
+                Contact Information
+              </h2>
 
               <div className="space-y-8">
                 <div>
                   <div className="flex items-center gap-4 mb-3">
                     <MapPin size={24} className="text-primary" />
-                    <h3 className="text-lg font-bold text-foreground">🇬🇭 Ghana Office</h3>
+                    <h3 className="text-lg font-bold text-foreground">
+                      🇬🇭 Ghana Office
+                    </h3>
                   </div>
                   <div className="ml-10 space-y-2">
-                    <p className="text-foreground font-semibold">Supply & Demand Worldwide Ltd.</p>
-                    <p className="text-foreground">C 16 Sakumono Estate Junction Site 8</p>
-                    <p className="text-foreground">Tema, Greater Accra Region, Ghana</p>
-                    <p className="text-foreground mt-3">
-                      <a href="tel:+233555362208" className="text-primary hover:underline">+233 555 362 208</a>
+                    <p className="text-foreground font-semibold">
+                      Supply & Demand Worldwide Ltd.
                     </p>
                     <p className="text-foreground">
-                      <a href="https://wa.me/233533763700" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                      C 16 Sakumono Estate Junction Site 8
+                    </p>
+                    <p className="text-foreground">
+                      Tema, Greater Accra Region, Ghana
+                    </p>
+                    <p className="text-foreground mt-3">
+                      <a
+                        href="tel:+233555362208"
+                        className="text-primary hover:underline"
+                      >
+                        +233 555 362 208
+                      </a>
+                    </p>
+                    <p className="text-foreground">
+                      <a
+                        href="https://wa.me/233533763700"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
                         +233 533 763 700 (WhatsApp)
                       </a>
                     </p>
@@ -82,12 +111,21 @@ export default function Contact() {
                 <div>
                   <div className="flex items-center gap-4 mb-3">
                     <MapPin size={24} className="text-primary" />
-                    <h3 className="text-lg font-bold text-foreground">🇨🇳 China Office</h3>
+                    <h3 className="text-lg font-bold text-foreground">
+                      🇨🇳 China Office
+                    </h3>
                   </div>
                   <div className="ml-10 space-y-2">
-                    <p className="text-foreground">Hangzhou, Zhejiang Province</p>
+                    <p className="text-foreground">
+                      Hangzhou, Zhejiang Province
+                    </p>
                     <p className="text-foreground mt-3">
-                      <a href="tel:+8613516818572" className="text-primary hover:underline">+86 135 1681 8572</a>
+                      <a
+                        href="tel:+8613516818572"
+                        className="text-primary hover:underline"
+                      >
+                        +86 135 1681 8572
+                      </a>
                     </p>
                   </div>
                 </div>
@@ -98,7 +136,10 @@ export default function Contact() {
                     <h3 className="text-lg font-bold text-foreground">Email</h3>
                   </div>
                   <p className="text-foreground ml-10">
-                    <a href="mailto:vickymor4u@gmail.com" className="text-primary hover:underline">
+                    <a
+                      href="mailto:vickymor4u@gmail.com"
+                      className="text-primary hover:underline"
+                    >
                       vickymor4u@gmail.com
                     </a>
                   </p>
@@ -106,12 +147,15 @@ export default function Contact() {
               </div>
 
               <Card className="mt-12 p-6 bg-primary/5 border-primary">
-                <h3 className="font-bold text-foreground mb-3">Business Hours</h3>
+                <h3 className="font-bold text-foreground mb-3">
+                  Business Hours
+                </h3>
                 <p className="text-sm text-foreground mb-3">
                   Monday–Friday: 09:00–17:00 (GMT)
                 </p>
                 <p className="text-sm text-foreground">
-                  <strong>Response Time:</strong> Within 24 business hours. For urgent matters, contact us via WhatsApp.
+                  <strong>Response Time:</strong> Within 24 business hours. For
+                  urgent matters, contact us via WhatsApp.
                 </p>
               </Card>
             </div>
@@ -119,11 +163,15 @@ export default function Contact() {
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <Card className="p-8">
-                <h2 className="text-2xl font-bold text-foreground mb-6">Business Inquiry Form</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-6">
+                  Business Inquiry Form
+                </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">Company Name *</label>
+                      <label className="block text-sm font-semibold text-foreground mb-2">
+                        Company Name *
+                      </label>
                       <input
                         type="text"
                         name="companyName"
@@ -135,7 +183,9 @@ export default function Contact() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">Country / Market *</label>
+                      <label className="block text-sm font-semibold text-foreground mb-2">
+                        Country / Market *
+                      </label>
                       <input
                         type="text"
                         name="country"
@@ -150,7 +200,9 @@ export default function Contact() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">Contact Person *</label>
+                      <label className="block text-sm font-semibold text-foreground mb-2">
+                        Contact Person *
+                      </label>
                       <input
                         type="text"
                         name="contactPerson"
@@ -162,7 +214,9 @@ export default function Contact() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">Email Address *</label>
+                      <label className="block text-sm font-semibold text-foreground mb-2">
+                        Email Address *
+                      </label>
                       <input
                         type="email"
                         name="email"
@@ -177,7 +231,9 @@ export default function Contact() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">Products of Interest *</label>
+                      <label className="block text-sm font-semibold text-foreground mb-2">
+                        Products of Interest *
+                      </label>
                       <select
                         name="productsInterest"
                         value={formData.productsInterest}
@@ -186,15 +242,18 @@ export default function Contact() {
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="">Select products</option>
-                        <option value="fufu">Fufu Borga</option>
-                        <option value="gari">Gari Borga</option>
-                        <option value="kokonte">Kokonte Borga</option>
-                        <option value="banku">Banku Borga</option>
+                        {products.map(product => (
+                          <option key={product.slug} value={product.slug}>
+                            {product.name}
+                          </option>
+                        ))}
                         <option value="all">All Products</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">Estimated Order Volume *</label>
+                      <label className="block text-sm font-semibold text-foreground mb-2">
+                        Estimated Order Volume *
+                      </label>
                       <input
                         type="text"
                         name="orderVolume"
@@ -208,7 +267,9 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">Additional Message</label>
+                    <label className="block text-sm font-semibold text-foreground mb-2">
+                      Additional Message
+                    </label>
                     <textarea
                       name="message"
                       value={formData.message}
@@ -219,7 +280,11 @@ export default function Contact() {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
                     <Send size={20} className="mr-2" />
                     Submit Inquiry
                   </Button>
@@ -233,37 +298,47 @@ export default function Contact() {
       {/* Why Contact Us */}
       <section className="py-20 bg-secondary/5">
         <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-12">Why Get in Touch</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-12">
+            Why Get in Touch
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 title: "Product Samples",
-                description: "Request samples of any Borga product to evaluate quality and taste before placing orders.",
+                description:
+                  "Request samples of any BorgaFoods product to evaluate quality and taste before placing orders.",
               },
               {
                 title: "Detailed Specifications",
-                description: "Receive comprehensive product specifications, MOQ details, and pricing information.",
+                description:
+                  "Receive comprehensive product specifications, MOQ details, and pricing information.",
               },
               {
                 title: "Partnership Opportunities",
-                description: "Discuss exclusive distribution rights, private label options, and OEM customization.",
+                description:
+                  "Discuss exclusive distribution rights, private label options, and OEM customization.",
               },
               {
                 title: "Export Support",
-                description: "Learn about our export capabilities, logistics coordination, and compliance support.",
+                description:
+                  "Learn about our export capabilities, logistics coordination, and compliance support.",
               },
               {
                 title: "Market Consultation",
-                description: "Get insights on market trends, regulatory requirements, and buyer preferences.",
+                description:
+                  "Get insights on market trends, regulatory requirements, and buyer preferences.",
               },
               {
                 title: "Custom Solutions",
-                description: "Explore custom product formulations and packaging designs for your specific market.",
+                description:
+                  "Explore custom product formulations and packaging designs for your specific market.",
               },
             ].map((item, index) => (
               <Card key={index} className="p-6">
-                <h3 className="text-lg font-bold text-foreground mb-3">{item.title}</h3>
+                <h3 className="text-lg font-bold text-foreground mb-3">
+                  {item.title}
+                </h3>
                 <p className="text-foreground">{item.description}</p>
               </Card>
             ))}
@@ -274,7 +349,9 @@ export default function Contact() {
       {/* FAQ */}
       <section className="py-20">
         <div className="container max-w-3xl">
-          <h2 className="text-4xl font-bold text-foreground mb-12">Frequently Asked Questions</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-12">
+            Frequently Asked Questions
+          </h2>
 
           <div className="space-y-6">
             {[

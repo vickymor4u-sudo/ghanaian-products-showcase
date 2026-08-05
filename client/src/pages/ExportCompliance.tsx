@@ -207,7 +207,7 @@ export default function ExportCompliance() {
         <div className="container">
           <h2 className="text-4xl font-bold text-foreground mb-12">Complete Customization</h2>
           <p className="text-lg text-foreground mb-12 max-w-3xl">
-            All Borga products are available with complete flexibility on packaging, sizing, and order quantities. We customize based on your specific market and business needs.
+            All BorgaFoods products are available with complete flexibility on packaging, sizing, and order quantities. We customize based on your specific market and business needs.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

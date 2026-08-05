@@ -14,7 +14,7 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Supply & Demand Worldwide Ltd",
-        "alternateName": "Borga Foods",
+        "alternateName": "BorgaFoods",
         "url": "https://borgafoods.com",
         "logo": "https://borgafoods.com/logo.png",
         "description": "Ghana-focused food export company specializing in traditional West African staple foods for international markets.",
@@ -56,19 +56,23 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
         ]
       };
     } else if (type === 'product' && data) {
+      const isManufactured = data.supplyType === 'manufactured';
+
       schema = {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": data.name,
         "description": data.description,
-        "brand": {
-          "@type": "Brand",
-          "name": "Borga"
-        },
-        "manufacturer": {
-          "@type": "Organization",
-          "name": "Supply & Demand Worldwide Ltd"
-        },
+        ...(isManufactured && {
+          "brand": {
+            "@type": "Brand",
+            "name": data.brand
+          },
+          "manufacturer": {
+            "@type": "Organization",
+            "name": data.manufacturer
+          }
+        }),
         "countryOfOrigin": {
           "@type": "Country",
           "name": "Ghana"

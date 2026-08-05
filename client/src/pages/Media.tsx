@@ -123,7 +123,7 @@ export default function Media() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: "Fufu Borga", image: "/images/fufu-product.png" },
+              { name: "Fufu Flour", image: "/images/fufu-product.png" },
               { name: "Banku Borga", image: "/images/banku-product.png" },
               { name: "Gari & Kokonte", image: "/images/gari-kokonte.png" },
               { name: "Hero Background", image: "/images/hero-background.png" },
