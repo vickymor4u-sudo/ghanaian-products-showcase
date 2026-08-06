@@ -42,6 +42,8 @@ Completed implementation:
 - added page metadata, canonical URLs, sitemap entries, no-index handling for the 404 route, and safer structured data;
 - documented external mailbox, DNS, and future server-side email integration steps.
 
+Primary commit: `ef3b4444bd0d82282d81e3eef2c46b867a85ef0e`
+
 Phase 2 must not expose supplier identities or describe partner-sourced products as manufactured by BorgaFoods.
 
 ## Phase 3 — Request quotation workflow

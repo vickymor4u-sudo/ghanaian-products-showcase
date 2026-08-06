@@ -2,6 +2,24 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 6 August 2026 — Phase 2 export platform expansion
+
+Commit: `ef3b4444bd0d82282d81e3eef2c46b867a85ef0e`
+
+Completed changes:
+
+- added the `/export-solutions` and `/wholesale` routes using the existing design system;
+- positioned BorgaFoods as a Ghanaian food manufacturer first and an export sourcing partner second;
+- added manufacturer and export-selection product labels without exposing supplier information;
+- added reusable “Request Export Quote” calls to action across the relevant pages and navigation;
+- centralized `export@borgafoods.com` and replaced the non-operational fake-submit behavior with a transparent email-preparation workflow;
+- retained and revised `/export` as a requirements-led export and compliance information page;
+- added canonical URLs, new sitemap entries, updated structured data, and no-index handling for the 404 route;
+- documented the external mailbox, DNS, and future server-side email integration steps;
+- passed `pnpm check`, `pnpm build`, Prettier, product-integrity, sitemap, desktop-route, canonical, console-error, and mobile-navigation validation.
+
+Deployment status: not pushed or deployed; user authorization is required under `AI_TASK_PROTOCOL.md`.
+
 ## 6 August 2026 — AI project documentation system
 
 Commit: `1b172520f76a8471c0fa831e14b3806187904a61`
