@@ -182,6 +182,7 @@ describe("POST /api/export-quote", () => {
     expect(email.from).toBe("BorgaFoods Website <export@borgafoods.com>");
     expect(email.reply_to).toBe("buyer@example.com");
     expect(String(email.subject)).not.toMatch(/[\r\n]/);
+    expect(String(email.text)).toContain("Destination country: United Kingdom");
     expect(String(email.html)).toContain(
       "&lt;script&gt;alert(&#39;no&#39;)&lt;/script&gt;"
     );

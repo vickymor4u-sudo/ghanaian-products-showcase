@@ -31,10 +31,19 @@ const requiredText = (label: string, maximum: number) =>
     .string()
     .trim()
     .min(2, `${label} is required`)
-    .max(maximum, `${label} is too long`);
+    .max(maximum, `${label} is too long`)
+    .transform(value => value.replace(/\s+/g, " "));
 
 const optionalText = (maximum: number) =>
-  z.string().trim().max(maximum).optional().default("");
+  z
+    .string()
+    .trim()
+    .max(maximum)
+    .transform(value => value.replace(/\s+/g, " "))
+    .optional()
+    .default("");
+
+const optionalMessage = z.string().trim().max(2_000).optional().default("");
 
 export const exportQuoteSchema = z.object({
   submissionId: z.string().uuid(),
@@ -49,7 +58,7 @@ export const exportQuoteSchema = z.object({
   estimatedQuantity: requiredText("Estimated quantity", 100),
   destinationCountry: requiredText("Destination country", 100),
   destinationPort: optionalText(100),
-  message: optionalText(2_000),
+  message: optionalMessage,
   sourcePath: z.literal("/contact"),
   website: z.string().max(0).optional().default(""),
   turnstileToken: z.string().min(1).max(2_048),
