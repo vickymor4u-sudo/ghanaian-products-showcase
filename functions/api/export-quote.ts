@@ -1,0 +1,300 @@
+import { products, productTypeLabels } from "../../client/src/data/products";
+import {
+  EXPORT_ENQUIRY_EMAIL,
+  exportQuoteSchema,
+  packagingPreferenceLabels,
+  type ExportQuoteErrorCode,
+  type ExportQuoteSubmission,
+} from "../../shared/exportQuote";
+
+interface Environment {
+  RESEND_API_KEY?: string;
+  TURNSTILE_SECRET_KEY?: string;
+}
+
+interface PagesFunctionContext {
+  request: Request;
+  env: Environment;
+}
+
+interface TurnstileVerification {
+  success: boolean;
+  hostname?: string;
+  action?: string;
+}
+
+const MAX_REQUEST_BYTES = 12_000;
+const TURNSTILE_ACTION = "export_quote";
+const EXTRA_PRODUCT_LABELS: Record<string, string> = {
+  all: "All current BorgaFoods products",
+  other: "Other product or BorgaFoods Export Selection enquiry",
+};
+
+function jsonResponse(body: unknown, status: number) {
+  return Response.json(body, {
+    status,
+    headers: {
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
+}
+
+function errorResponse(code: ExportQuoteErrorCode, status: number) {
+  return jsonResponse({ ok: false, code }, status);
+}
+
+function isSameOrigin(request: Request) {
+  const origin = request.headers.get("Origin");
+  if (!origin) return false;
+
+  try {
+    return new URL(origin).origin === new URL(request.url).origin;
+  } catch {
+    return false;
+  }
+}
+
+function escapeHtml(value: string) {
+  return value.replace(
+    /[&<>'"]/g,
+    character =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;",
+      })[character] ?? character
+  );
+}
+
+function sanitizeEmailHeader(value: string) {
+  return value
+    .replace(/[\u0000-\u001f\u007f]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getProductDetails(productSelection: string) {
+  const product = products.find(item => item.slug === productSelection);
+  if (product) {
+    return {
+      label: product.name,
+      supply: productTypeLabels[product.supplyType],
+    };
+  }
+
+  const label = EXTRA_PRODUCT_LABELS[productSelection];
+  return label ? { label, supply: "Requirements to be reviewed" } : null;
+}
+
+function formatEmail(
+  submission: ExportQuoteSubmission,
+  requestId: string,
+  product: { label: string; supply: string }
+) {
+  const fields = [
+    ["Request ID", requestId],
+    ["Inquiry type", submission.inquiryType.replaceAll("_", " ")],
+    ["Company", submission.companyName],
+    ["Contact person", submission.contactPerson],
+    ["Company country", submission.country],
+    ["Reply email", submission.email],
+    ["Phone / WhatsApp", submission.phoneWhatsApp || "Not provided"],
+    ["Product selection", product.label],
+    ["Supply classification", product.supply],
+    [
+      "Packaging preference",
+      packagingPreferenceLabels[submission.packagingPreference],
+    ],
+    ["Estimated quantity", submission.estimatedQuantity],
+    ["Destination country", submission.destinationCountry],
+    ["Destination port", submission.destinationPort || "Not provided"],
+    ["Source", submission.sourcePath],
+  ] as const;
+
+  const text = [
+    "New BorgaFoods export quotation enquiry",
+    "",
+    ...fields.map(([label, value]) => `${label}: ${value}`),
+    "",
+    "Additional message:",
+    submission.message || "Not provided",
+  ].join("\n");
+
+  const htmlRows = fields
+    .map(
+      ([label, value]) =>
+        `<tr><th align="left" style="padding:6px 12px 6px 0">${escapeHtml(label)}</th><td style="padding:6px 0">${escapeHtml(value)}</td></tr>`
+    )
+    .join("");
+
+  const html = [
+    "<h2>New BorgaFoods export quotation enquiry</h2>",
+    `<table>${htmlRows}</table>`,
+    "<h3>Additional message</h3>",
+    `<p>${escapeHtml(submission.message || "Not provided").replaceAll("\n", "<br>")}</p>`,
+  ].join("");
+
+  return { text, html };
+}
+
+async function verifyTurnstile(
+  submission: ExportQuoteSubmission,
+  context: PagesFunctionContext
+) {
+  const response = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        secret: context.env.TURNSTILE_SECRET_KEY,
+        response: submission.turnstileToken,
+        remoteip: context.request.headers.get("CF-Connecting-IP") || undefined,
+        idempotency_key: submission.submissionId,
+      }),
+      signal: AbortSignal.timeout(8_000),
+    }
+  );
+
+  if (!response.ok) return false;
+
+  const verification = (await response.json()) as TurnstileVerification;
+  const requestHostname = new URL(context.request.url).hostname;
+
+  return (
+    verification.success &&
+    verification.hostname === requestHostname &&
+    verification.action === TURNSTILE_ACTION
+  );
+}
+
+async function sendQuotationEmail(
+  submission: ExportQuoteSubmission,
+  requestId: string,
+  product: { label: string; supply: string },
+  apiKey: string
+) {
+  const companyForSubject = sanitizeEmailHeader(submission.companyName);
+  const destinationForSubject = sanitizeEmailHeader(
+    submission.destinationCountry
+  );
+  const { text, html } = formatEmail(submission, requestId, product);
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "Idempotency-Key": `borgafoods-rfq-${submission.submissionId}`,
+    },
+    body: JSON.stringify({
+      from: `BorgaFoods Website <${EXPORT_ENQUIRY_EMAIL}>`,
+      to: [EXPORT_ENQUIRY_EMAIL],
+      reply_to: submission.email,
+      subject: `[RFQ] ${companyForSubject} — ${destinationForSubject} — ${requestId}`,
+      text,
+      html,
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+
+  if (!response.ok) return null;
+
+  const result = (await response.json()) as { id?: string };
+  return result.id || null;
+}
+
+export async function onRequest(context: PagesFunctionContext) {
+  if (context.request.method !== "POST") {
+    return errorResponse("invalid_method", 405);
+  }
+
+  if (!isSameOrigin(context.request)) {
+    return errorResponse("invalid_origin", 403);
+  }
+
+  if (
+    !context.request.headers.get("Content-Type")?.startsWith("application/json")
+  ) {
+    return errorResponse("invalid_request", 400);
+  }
+
+  const declaredSize = Number(context.request.headers.get("Content-Length"));
+  if (Number.isFinite(declaredSize) && declaredSize > MAX_REQUEST_BYTES) {
+    return errorResponse("invalid_request", 413);
+  }
+
+  let rawBody: string;
+  try {
+    rawBody = await context.request.text();
+  } catch {
+    return errorResponse("invalid_request", 400);
+  }
+
+  if (new TextEncoder().encode(rawBody).byteLength > MAX_REQUEST_BYTES) {
+    return errorResponse("invalid_request", 413);
+  }
+
+  let body: unknown;
+  try {
+    body = JSON.parse(rawBody);
+  } catch {
+    return errorResponse("invalid_request", 400);
+  }
+
+  const parsed = exportQuoteSchema.safeParse(body);
+  if (!parsed.success) {
+    return errorResponse("invalid_request", 400);
+  }
+
+  const product = getProductDetails(parsed.data.productSelection);
+  if (!product) {
+    return errorResponse("invalid_request", 400);
+  }
+
+  if (!context.env.TURNSTILE_SECRET_KEY || !context.env.RESEND_API_KEY) {
+    return errorResponse("service_unavailable", 503);
+  }
+
+  try {
+    if (!(await verifyTurnstile(parsed.data, context))) {
+      return errorResponse("verification_failed", 400);
+    }
+  } catch {
+    return errorResponse("service_unavailable", 503);
+  }
+
+  const requestId = `BF-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+
+  try {
+    const providerMessageId = await sendQuotationEmail(
+      parsed.data,
+      requestId,
+      product,
+      context.env.RESEND_API_KEY
+    );
+
+    if (!providerMessageId) {
+      console.error(
+        JSON.stringify({ event: "rfq_delivery_rejected", requestId })
+      );
+      return errorResponse("delivery_failed", 502);
+    }
+
+    console.info(
+      JSON.stringify({
+        event: "rfq_delivery_accepted",
+        requestId,
+        providerMessageId,
+      })
+    );
+
+    return jsonResponse({ ok: true, requestId }, 201);
+  } catch {
+    console.error(JSON.stringify({ event: "rfq_delivery_failed", requestId }));
+    return errorResponse("delivery_failed", 502);
+  }
+}

@@ -1,13 +1,36 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Spinner } from "@/components/ui/spinner";
+import TurnstileWidget from "@/components/TurnstileWidget";
+import { CheckCircle2, Mail, MapPin, Send } from "lucide-react";
+import { useRef, useState } from "react";
 import SEO from "@/components/SEO";
 import { products } from "@/data/products";
-import { createExportEnquiryMailto, EXPORT_ENQUIRY_EMAIL } from "@/config/site";
+import {
+  EXPORT_ENQUIRY_EMAIL,
+  EXPORT_QUOTE_API_PATH,
+  TURNSTILE_SITE_KEY,
+} from "@/config/site";
+import {
+  packagingPreferenceLabels,
+  type ExportQuoteResponse,
+  type ExportQuoteSubmission,
+} from "@shared/exportQuote";
 
-export default function Contact() {
-  const [formData, setFormData] = useState(() => ({
+type QuoteFormData = Omit<
+  ExportQuoteSubmission,
+  "submissionId" | "sourcePath" | "turnstileToken" | "website"
+>;
+
+interface SubmissionStatus {
+  type: "success" | "error";
+  message: string;
+  requestId?: string;
+}
+
+function createInitialFormData(): QuoteFormData {
+  return {
     inquiryType:
       new URLSearchParams(window.location.search).get("inquiry") ===
       "export-quote"
@@ -17,10 +40,44 @@ export default function Contact() {
     country: "",
     contactPerson: "",
     email: "",
-    productsInterest: "",
-    orderVolume: "",
+    phoneWhatsApp: "",
+    productSelection: "",
+    packagingPreference: "unsure",
+    estimatedQuantity: "",
+    destinationCountry: "",
+    destinationPort: "",
     message: "",
-  }));
+  };
+}
+
+function getSubmissionErrorMessage(response: ExportQuoteResponse | null) {
+  if (!response || response.ok) {
+    return `We could not send your enquiry. Please try again or email ${EXPORT_ENQUIRY_EMAIL}.`;
+  }
+
+  switch (response.code) {
+    case "invalid_request":
+      return "Please review the form fields and try again.";
+    case "verification_failed":
+      return "The security verification expired or was unsuccessful. Please complete it again.";
+    case "service_unavailable":
+    case "delivery_failed":
+      return `The enquiry service is temporarily unavailable. Please try again or email ${EXPORT_ENQUIRY_EMAIL}.`;
+    default:
+      return `We could not send your enquiry. Please try again or email ${EXPORT_ENQUIRY_EMAIL}.`;
+  }
+}
+
+export default function Contact() {
+  const [formData, setFormData] = useState(createInitialFormData);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] =
+    useState<SubmissionStatus | null>(null);
+  const [securityCheckError, setSecurityCheckError] = useState(false);
+  const [website, setWebsite] = useState("");
+  const submissionIdRef = useRef(crypto.randomUUID());
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -28,36 +85,72 @@ export default function Contact() {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(
+      prev => ({ ...prev, [name]: value }) as unknown as QuoteFormData
+    );
+    setSubmissionStatus(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const selectedProduct = products.find(
-      product => product.slug === formData.productsInterest
-    );
-    const productLabel =
-      formData.productsInterest === "all"
-        ? "All current products"
-        : selectedProduct?.name || formData.productsInterest;
-    const subject =
-      formData.inquiryType === "export_quote"
-        ? `Export quote request — ${formData.companyName}`
-        : `Business enquiry — ${formData.companyName}`;
-    const body = [
-      `Inquiry type: ${formData.inquiryType.replace("_", " ")}`,
-      `Company: ${formData.companyName}`,
-      `Country / market: ${formData.country}`,
-      `Contact person: ${formData.contactPerson}`,
-      `Reply email: ${formData.email}`,
-      `Products: ${productLabel}`,
-      `Estimated volume: ${formData.orderVolume}`,
-      "",
-      "Additional information:",
-      formData.message || "Not provided",
-    ].join("\n");
+    setSubmissionStatus(null);
 
-    window.location.href = createExportEnquiryMailto(subject, body);
+    if (!TURNSTILE_SITE_KEY || !turnstileToken) {
+      setSubmissionStatus({
+        type: "error",
+        message:
+          "Please complete the security verification before submitting your enquiry.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(EXPORT_QUOTE_API_PATH, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          submissionId: submissionIdRef.current,
+          sourcePath: "/contact",
+          website,
+          turnstileToken,
+        } satisfies ExportQuoteSubmission),
+      });
+
+      let responseBody: ExportQuoteResponse | null = null;
+      try {
+        responseBody = (await response.json()) as ExportQuoteResponse;
+      } catch {
+        responseBody = null;
+      }
+
+      if (response.ok && responseBody?.ok) {
+        setSubmissionStatus({
+          type: "success",
+          message:
+            "Your export enquiry has been received by BorgaFoods. Please keep the request ID for reference.",
+          requestId: responseBody.requestId,
+        });
+        setFormData(createInitialFormData());
+        setWebsite("");
+        submissionIdRef.current = crypto.randomUUID();
+      } else {
+        setSubmissionStatus({
+          type: "error",
+          message: getSubmissionErrorMessage(responseBody),
+        });
+      }
+    } catch {
+      setSubmissionStatus({
+        type: "error",
+        message: `We could not reach the enquiry service. Please try again or email ${EXPORT_ENQUIRY_EMAIL}.`,
+      });
+    } finally {
+      setIsSubmitting(false);
+      setTurnstileResetSignal(value => value + 1);
+    }
   };
 
   return (
@@ -188,12 +281,20 @@ export default function Contact() {
                     ? "Request Export Quote"
                     : "Business Inquiry Form"}
                 </h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                  noValidate={false}
+                >
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">
+                    <label
+                      htmlFor="inquiryType"
+                      className="block text-sm font-semibold text-foreground mb-2"
+                    >
                       Inquiry Type *
                     </label>
                     <select
+                      id="inquiryType"
                       name="inquiryType"
                       value={formData.inquiryType}
                       onChange={handleChange}
@@ -210,60 +311,84 @@ export default function Contact() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
+                      <label
+                        htmlFor="companyName"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
                         Company Name *
                       </label>
                       <input
+                        id="companyName"
                         type="text"
                         name="companyName"
                         value={formData.companyName}
                         onChange={handleChange}
                         required
+                        maxLength={120}
+                        autoComplete="organization"
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="Your company name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
-                        Country / Market *
+                      <label
+                        htmlFor="country"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
+                        Company Country *
                       </label>
                       <input
+                        id="country"
                         type="text"
                         name="country"
                         value={formData.country}
                         onChange={handleChange}
                         required
+                        maxLength={100}
+                        autoComplete="country-name"
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Your target market"
+                        placeholder="Where your company is based"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
+                      <label
+                        htmlFor="contactPerson"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
                         Contact Person *
                       </label>
                       <input
+                        id="contactPerson"
                         type="text"
                         name="contactPerson"
                         value={formData.contactPerson}
                         onChange={handleChange}
                         required
+                        maxLength={100}
+                        autoComplete="name"
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="Your name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
                         Email Address *
                       </label>
                       <input
+                        id="email"
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        maxLength={254}
+                        autoComplete="email"
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="your@email.com"
                       />
@@ -272,12 +397,57 @@ export default function Contact() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
-                        Products of Interest *
+                      <label
+                        htmlFor="phoneWhatsApp"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
+                        Phone / WhatsApp
+                      </label>
+                      <input
+                        id="phoneWhatsApp"
+                        type="tel"
+                        name="phoneWhatsApp"
+                        value={formData.phoneWhatsApp}
+                        onChange={handleChange}
+                        maxLength={50}
+                        autoComplete="tel"
+                        className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Include country code"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="destinationCountry"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
+                        Destination Country *
+                      </label>
+                      <input
+                        id="destinationCountry"
+                        type="text"
+                        name="destinationCountry"
+                        value={formData.destinationCountry}
+                        onChange={handleChange}
+                        required
+                        maxLength={100}
+                        className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Intended import market"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label
+                        htmlFor="productSelection"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
+                        Product Selection *
                       </label>
                       <select
-                        name="productsInterest"
-                        value={formData.productsInterest}
+                        id="productSelection"
+                        name="productSelection"
+                        value={formData.productSelection}
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
@@ -288,51 +458,201 @@ export default function Contact() {
                             {product.name}
                           </option>
                         ))}
-                        <option value="all">All Products</option>
+                        <option value="all">All current products</option>
+                        <option value="other">
+                          Other product or export selection
+                        </option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
-                        Estimated Order Volume *
+                      <label
+                        htmlFor="packagingPreference"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
+                        Packaging Preference *
                       </label>
-                      <input
-                        type="text"
-                        name="orderVolume"
-                        value={formData.orderVolume}
+                      <select
+                        id="packagingPreference"
+                        name="packagingPreference"
+                        value={formData.packagingPreference}
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="e.g., 5 metric tons"
+                      >
+                        {Object.entries(packagingPreferenceLabels).map(
+                          ([value, label]) => (
+                            <option key={value} value={value}>
+                              {label}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label
+                        htmlFor="estimatedQuantity"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
+                        Estimated Quantity *
+                      </label>
+                      <input
+                        id="estimatedQuantity"
+                        type="text"
+                        name="estimatedQuantity"
+                        value={formData.estimatedQuantity}
+                        onChange={handleChange}
+                        required
+                        maxLength={100}
+                        className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Quantity and unit"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="destinationPort"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
+                        Destination Port
+                      </label>
+                      <input
+                        id="destinationPort"
+                        type="text"
+                        name="destinationPort"
+                        value={formData.destinationPort}
+                        onChange={handleChange}
+                        maxLength={100}
+                        className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Optional port or city"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-semibold text-foreground mb-2"
+                    >
                       Additional Message
                     </label>
                     <textarea
+                      id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       rows={5}
+                      maxLength={2000}
                       className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="Tell us more about your business and requirements..."
                     />
                   </div>
 
+                  <div
+                    aria-hidden="true"
+                    className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden"
+                  >
+                    <label htmlFor="website">Website</label>
+                    <input
+                      id="website"
+                      name="website"
+                      type="text"
+                      value={website}
+                      onChange={event => setWebsite(event.target.value)}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
+
+                  {TURNSTILE_SITE_KEY ? (
+                    <div>
+                      <TurnstileWidget
+                        siteKey={TURNSTILE_SITE_KEY}
+                        resetSignal={turnstileResetSignal}
+                        onTokenChange={token => {
+                          setTurnstileToken(token);
+                          if (token) setSecurityCheckError(false);
+                        }}
+                        onError={() => setSecurityCheckError(true)}
+                      />
+                      {securityCheckError && (
+                        <p className="text-sm text-destructive mt-2">
+                          The security check could not load. Please refresh the
+                          page or email {EXPORT_ENQUIRY_EMAIL}.
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <Alert variant="destructive">
+                      <AlertTitle>
+                        Online enquiry temporarily unavailable
+                      </AlertTitle>
+                      <AlertDescription>
+                        Please email {EXPORT_ENQUIRY_EMAIL} while secure form
+                        verification is being configured.
+                      </AlertDescription>
+                    </Alert>
+                  )}
+
+                  {submissionStatus && (
+                    <Alert
+                      variant={
+                        submissionStatus.type === "error"
+                          ? "destructive"
+                          : "default"
+                      }
+                      className={
+                        submissionStatus.type === "success"
+                          ? "border-green-600 bg-green-50 text-green-950"
+                          : undefined
+                      }
+                    >
+                      {submissionStatus.type === "success" && <CheckCircle2 />}
+                      <AlertTitle>
+                        {submissionStatus.type === "success"
+                          ? "Enquiry received"
+                          : "Enquiry not sent"}
+                      </AlertTitle>
+                      <AlertDescription>
+                        <p>{submissionStatus.message}</p>
+                        {submissionStatus.requestId && (
+                          <p className="font-semibold mt-1">
+                            Request ID: {submissionStatus.requestId}
+                          </p>
+                        )}
+                      </AlertDescription>
+                    </Alert>
+                  )}
+
                   <Button
                     type="submit"
                     size="lg"
+                    disabled={
+                      isSubmitting || !TURNSTILE_SITE_KEY || !turnstileToken
+                    }
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   >
-                    <Send size={20} className="mr-2" />
-                    Prepare Email Enquiry
+                    {isSubmitting ? (
+                      <Spinner className="mr-2" />
+                    ) : (
+                      <Send size={20} className="mr-2" />
+                    )}
+                    {isSubmitting
+                      ? "Sending Enquiry..."
+                      : "Submit Export Enquiry"}
                   </Button>
                   <p className="text-sm text-muted-foreground text-center">
-                    This form prepares an email to {EXPORT_ENQUIRY_EMAIL} in
-                    your email application. It does not submit data to a website
-                    server.
+                    Your enquiry is sent securely to {EXPORT_ENQUIRY_EMAIL} for
+                    review. No automatic customer acknowledgement is sent. If
+                    the form is unavailable, you can{" "}
+                    <a
+                      href={`mailto:${EXPORT_ENQUIRY_EMAIL}`}
+                      className="text-primary hover:underline"
+                    >
+                      email us directly
+                    </a>
+                    .
                   </p>
                 </form>
               </Card>
