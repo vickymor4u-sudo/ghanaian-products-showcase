@@ -6,6 +6,8 @@ This file records completed, approved changes. Add new entries in reverse chrono
 
 Commit: `249494d35fccd455314967c0196b9b08eef5301a`
 
+Input-normalization hardening: `319a3c711ed5580489461c3094cd68f2eb8c5455`
+
 Completed changes:
 
 - replaced the Contact form's `mailto:` preparation with a same-origin `/api/export-quote` Cloudflare Pages Function;
