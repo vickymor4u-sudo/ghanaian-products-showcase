@@ -95,3 +95,18 @@ The central product model in `client/src/data/products.ts` is a discriminated un
 - supply type is mandatory and has no default.
 
 Future changes must preserve these constraints.
+
+## Export quotation workflow rules
+
+- The operational quotation mailbox is `export@borgafoods.com`.
+- Quotation submissions must be validated on the server and protected by server-verified Cloudflare Turnstile tokens.
+- Resend is the approved transactional provider for the quotation notification.
+- The first operational version must send one internal notification only. It must not send an automatic customer acknowledgement.
+- Phase 3 must not create a database, CRM record, or file store.
+- The website may report success only after the transactional provider accepts the internal notification.
+- Buyer input must be preserved when submission fails, and a direct `mailto:` fallback to `export@borgafoods.com` must remain available.
+- The email `From` address must be domain-aligned. The buyer's validated email belongs in `Reply-To`, not `From`.
+- Quotation payloads and emails may use public product names, slugs, and approved supply statements only. They must not request, store, or reveal supplier identity.
+- Turnstile and Resend secret keys must be stored only as Cloudflare encrypted secrets and must never use the `VITE_` prefix.
+- `VITE_TURNSTILE_SITE_KEY` is a public build-time value, not a secret.
+- Do not add customer acknowledgements, persistence, attachments, pricing, fixed MOQs, or automatic quotations without a separately approved phase.

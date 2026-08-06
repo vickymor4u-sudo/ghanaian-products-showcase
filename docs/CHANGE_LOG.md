@@ -2,6 +2,23 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 6 August 2026 — Phase 3 secure export quotation workflow
+
+Commit: `249494d35fccd455314967c0196b9b08eef5301a`
+
+Completed changes:
+
+- replaced the Contact form's `mailto:` preparation with a same-origin `/api/export-quote` Cloudflare Pages Function;
+- expanded quotation data to include the approved company, contact, phone/WhatsApp, product, packaging, quantity, destination, port, and message fields;
+- added a shared Zod schema, catalog-backed product validation, request IDs, Resend idempotency, safe HTML/text email formatting, and buyer `Reply-To` handling;
+- added Cloudflare Turnstile with mandatory server-side token, hostname, and action validation;
+- retained `export@borgafoods.com` as the operational mailbox and prevented customer auto-acknowledgements;
+- added no database, CRM, attachment storage, supplier fields, pricing, or automatic quotation logic;
+- added encrypted-secret requirements, a public site-key variable, `/api/*` Function routing, and a direct email fallback;
+- passed TypeScript, six endpoint tests, production build, formatting, static-output secret scan, desktop route tests, browser failure-state tests, console-error checks, and 390 px responsive validation.
+
+Deployment status: not pushed or deployed. Production activation requires Resend domain verification, a working `export@borgafoods.com` mailbox, a production Turnstile widget, Cloudflare encrypted secrets, the public site-key build variable, and verified preview delivery.
+
 ## 6 August 2026 — Phase 2 export platform expansion
 
 Commit: `ef3b4444bd0d82282d81e3eef2c46b867a85ef0e`

@@ -29,7 +29,7 @@ Primary commit: `787c1804b51ef7d5e658424874a4d05853feb185`
 
 ## Phase 2 — Export and distribution information
 
-Status: **Implemented locally; deployment pending authorization**
+Status: **Completed, deployed, and production verified**
 
 Completed implementation:
 
@@ -48,20 +48,24 @@ Phase 2 must not expose supplier identities or describe partner-sourced products
 
 ## Phase 3 — Request quotation workflow
 
-Status: **Planned**
+Status: **Implemented and committed; production configuration and deployment verification pending**
 
-Planned scope:
+Completed implementation:
 
-- create a real request-for-quotation workflow;
-- connect product, wholesale, export, and future private-label inquiries;
-- implement server-side validation;
-- add spam protection and rate limiting;
-- integrate an approved business email service;
-- provide reliable success and failure states;
-- define inquiry routing, acknowledgment, privacy, and data-retention procedures;
-- optionally add approved CRM or database storage.
+- added the same-origin `/api/export-quote` Cloudflare Pages Function;
+- added a shared Zod schema for browser and server quotation data;
+- expanded the form with company, contact, market, phone/WhatsApp, product, packaging, quantity, destination, port, and message fields;
+- added Cloudflare Turnstile with mandatory server-side token, hostname, and action verification;
+- integrated one internal Resend notification to `export@borgafoods.com` with the buyer address in `Reply-To`;
+- added provider idempotency, request IDs, body limits, origin checks, input escaping, safe errors, and a honeypot;
+- added buyer-visible submitting, success, verification, failure, and email-fallback states;
+- kept the first release stateless with no database, CRM, attachments, or automatic customer acknowledgement;
+- restricted Pages Function invocation to `/api/*`;
+- added automated endpoint tests and expanded TypeScript checking to server files.
 
-The current Contact form is not an operational submission channel and must not be treated as one.
+Primary implementation commit: `249494d35fccd455314967c0196b9b08eef5301a`
+
+Production remains gated on Resend domain verification, the operational mailbox, a production Turnstile widget, Cloudflare encrypted secrets, a public Turnstile site-key build variable, rate-limiting configuration, approved privacy/retention handling, preview delivery testing, deployment of the intended commit, and a verified live mailbox delivery. Until those checks pass, the server-backed Contact form must not be described as operational.
 
 ## Phase 4 — Private label and customer tools
 

@@ -52,6 +52,7 @@ At minimum, run:
 
 ```text
 pnpm check
+pnpm test
 pnpm build
 ```
 
