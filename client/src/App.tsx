@@ -9,16 +9,19 @@ import Products from "./pages/Products";
 import ExportCompliance from "./pages/ExportCompliance";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import ExportSolutions from "./pages/ExportSolutions";
+import Wholesale from "./pages/Wholesale";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
-
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/products"} component={Products} />
+      <Route path={"/export-solutions"} component={ExportSolutions} />
+      <Route path={"/wholesale"} component={Wholesale} />
       <Route path={"/export"} component={ExportCompliance} />
       <Route path={"/about"} component={About} />
       <Route path={"/contact"} component={Contact} />

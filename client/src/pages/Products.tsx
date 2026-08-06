@@ -1,9 +1,12 @@
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Download, Mail, Star } from "lucide-react";
-import { Link } from "wouter";
+import { Star } from "lucide-react";
 import SEO from "@/components/SEO";
-import { products, supplyTypeLabels } from "@/data/products";
+import ExportQuoteButton from "@/components/ExportQuoteButton";
+import {
+  products,
+  productSupplyStatements,
+  productTypeLabels,
+} from "@/data/products";
 
 export default function Products() {
   const productNames = products.map(product => product.name).join(", ");
@@ -12,7 +15,7 @@ export default function Products() {
     <div className="min-h-screen bg-background">
       <SEO
         title="BorgaFoods Products - Premium Ghanaian Staple Foods | borgafoods.com"
-        description={`Explore our BorgaFoods product line: ${productNames}. Premium Ghanaian staple foods with flexible packaging and order quantities for international distributors.`}
+        description={`Explore BorgaFoods ${productNames} for wholesale and export enquiries from international distributors, retailers, and food-service buyers.`}
         keywords={`${productNames}, Ghana fufu export, cassava flour wholesale, plantain flour, fermented corn flour`}
       />
       <section className="py-16 bg-gradient-to-br from-primary/5 to-background border-b border-border">
@@ -24,9 +27,9 @@ export default function Products() {
             </h1>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            All our products are exclusively under the BorgaFoods brand. We supply
-            premium Ghanaian staple foods with complete flexibility on packaging
-            sizes, formats, and order quantities.
+            Our current product range is manufactured by BorgaFoods Processing.
+            Packaging, wholesale, and export requirements are reviewed for each
+            buyer enquiry.
           </p>
         </div>
       </section>
@@ -36,19 +39,19 @@ export default function Products() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "One Brand, Endless Flexibility",
+                title: "Manufactured Range",
                 description:
-                  "All products are BorgaFoods. We customize packaging sizes, formats, and quantities to match your distribution strategy.",
+                  "Each current catalog product is identified as manufactured by BorgaFoods Processing.",
               },
               {
-                title: "Your Packaging, Your Size",
+                title: "Retail & Bulk Formats",
                 description:
-                  "Need 250g sachets? 10kg bulk bags? Custom carton sizes? We accommodate your preferred packaging specifications.",
+                  "Available retail and bulk packaging options are listed with each product for buyer review.",
               },
               {
-                title: "Flexible Order Quantities",
+                title: "Wholesale & Export Enquiries",
                 description:
-                  "Whether you're testing a new market or scaling up, we work with flexible MOQs tailored to your business stage.",
+                  "Product, packaging, volume, destination, and shipment needs are confirmed during quotation.",
               },
             ].map((item, index) => (
               <Card key={index} className="p-6 border-primary/20">
@@ -77,7 +80,7 @@ export default function Products() {
                   <div className="flex items-center gap-2 mb-2">
                     <Star size={20} className="text-primary fill-primary" />
                     <span className="text-sm font-bold text-primary">
-                      BorgaFoods Brand
+                      {productTypeLabels[product.supplyType]}
                     </span>
                   </div>
                   <h2 className="text-4xl font-bold text-foreground mb-4">
@@ -104,12 +107,10 @@ export default function Products() {
                     </ul>
                   </div>
 
-                  <Link href="/contact">
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                      <Mail size={20} className="mr-2" />
-                      Discuss Custom Packaging
-                    </Button>
-                  </Link>
+                  <ExportQuoteButton
+                    size="default"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  />
                 </div>
 
                 <div className={index % 2 === 1 ? "lg:order-1" : ""}>
@@ -134,7 +135,9 @@ export default function Products() {
                             }
                           : {}),
                         Category: product.category,
-                        "Supply Type": supplyTypeLabels[product.supplyType],
+                        "Product Type": productTypeLabels[product.supplyType],
+                        "Supply Statement":
+                          productSupplyStatements[product.supplyType],
                         "Standard Retail Sizes": `${product.packagingSizes.join(", ")} (customizable)`,
                         "Bulk Options": product.bulkPackagingSizes.join(", "),
                         "Shelf Life": product.shelfLife,
@@ -173,9 +176,9 @@ export default function Products() {
             Flexible Packaging & Sizing
           </h2>
           <p className="text-lg text-foreground mb-12 max-w-3xl">
-            The standard sizes listed above are our baseline offerings. However,
-            we understand that different markets have different needs. We are
-            fully flexible on:
+            Standard retail and bulk formats are listed with each product.
+            Additional packaging and volume requirements can be reviewed as part
+            of an export quotation.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
@@ -185,12 +188,12 @@ export default function Products() {
               </h3>
               <ul className="space-y-4">
                 {[
-                  "Custom net weight options (any size you need)",
-                  "Different packaging materials (pouches, boxes, cans, etc.)",
-                  "Custom carton configurations",
-                  "Branded packaging with your design",
-                  "Multi-language labeling",
-                  "Regulatory compliance for destination markets",
+                  "Requested net weight and pack format",
+                  "Packaging material preferences",
+                  "Carton and case configuration",
+                  "Label-language requirements",
+                  "Destination-market information",
+                  "Availability confirmed during quotation",
                 ].map(item => (
                   <li
                     key={item}
@@ -209,12 +212,12 @@ export default function Products() {
               </h3>
               <ul className="space-y-4">
                 {[
-                  "No fixed minimum order quantities",
-                  "Flexible MOQs based on your business needs",
-                  "Smaller orders for market testing",
-                  "Larger bulk orders with volume pricing",
-                  "Scalable supply as your market grows",
-                  "Consistent quality at any order size",
+                  "Estimated initial order volume",
+                  "Market-testing requirements",
+                  "Wholesale and bulk demand",
+                  "Storage and distribution context",
+                  "Container and shipment planning",
+                  "Commercial terms confirmed in quotation",
                 ].map(item => (
                   <li
                     key={item}
@@ -273,18 +276,18 @@ export default function Products() {
                 One Brand, One Standard
               </h3>
               <p className="text-foreground">
-                Whether it's 500g or 50kg, every BorgaFoods product meets the same
-                rigorous quality standards and export specifications.
+                The catalog identifies every current product as BorgaFoods brand
+                and manufactured by BorgaFoods Processing.
               </p>
             </Card>
 
             <Card className="p-8">
               <h3 className="text-xl font-bold text-primary mb-4">
-                Compliance Ready
+                Requirements Review
               </h3>
               <p className="text-foreground">
-                All BorgaFoods products meet Ghana FDA compliance standards and are
-                suitable for export to international markets.
+                Documentation and destination-market requirements are reviewed
+                for each product and buyer enquiry before quotation.
               </p>
             </Card>
 
@@ -293,8 +296,8 @@ export default function Products() {
                 Shelf Stability
               </h3>
               <p className="text-foreground">
-                Products are processed with attention to shelf life and
-                stability, suitable for long-distance export and storage.
+                Product-specific shelf-life and storage information is presented
+                with each item for wholesale and export planning.
               </p>
             </Card>
           </div>
@@ -310,14 +313,7 @@ export default function Products() {
             Contact us to discuss your custom packaging requirements, order
             quantities, and market needs.
           </p>
-          <Link href="/contact">
-            <Button
-              size="lg"
-              className="bg-primary-foreground hover:bg-primary-foreground/90 text-primary"
-            >
-              Get in Touch
-            </Button>
-          </Link>
+          <ExportQuoteButton className="bg-primary-foreground hover:bg-primary-foreground/90 text-primary" />
         </div>
       </section>
     </div>

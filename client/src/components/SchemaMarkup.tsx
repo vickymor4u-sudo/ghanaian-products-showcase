@@ -1,108 +1,99 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
+import { EXPORT_ENQUIRY_EMAIL, SITE_ORIGIN } from "@/config/site";
+import type { Product } from "@/data/products";
 
 interface SchemaMarkupProps {
-  type: 'organization' | 'product';
-  data?: any;
+  type: "organization" | "product";
+  data?: Product;
 }
 
 export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
   useEffect(() => {
     let schema: any = {};
-    
-    if (type === 'organization') {
+
+    if (type === "organization") {
       schema = {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "Supply & Demand Worldwide Ltd",
-        "alternateName": "BorgaFoods",
-        "url": "https://borgafoods.com",
-        "logo": "https://borgafoods.com/logo.png",
-        "description": "Ghana-focused food export company specializing in traditional West African staple foods for international markets.",
-        "foundingDate": "2013",
-        "address": [
+        name: "Supply & Demand Worldwide Ltd",
+        alternateName: "BorgaFoods",
+        url: SITE_ORIGIN,
+        description:
+          "Ghanaian food manufacturer and export partner supplying BorgaFoods staples and selected Ghanaian export products to international B2B buyers.",
+        foundingDate: "2013",
+        address: [
           {
             "@type": "PostalAddress",
-            "streetAddress": "C 16 Sakumono Estate Junction Site 8",
-            "addressLocality": "Tema",
-            "addressRegion": "Greater Accra",
-            "addressCountry": "GH"
+            streetAddress: "C 16 Sakumono Estate Junction Site 8",
+            addressLocality: "Tema",
+            addressRegion: "Greater Accra",
+            addressCountry: "GH",
           },
           {
             "@type": "PostalAddress",
-            "addressLocality": "Hangzhou",
-            "addressRegion": "Zhejiang",
-            "addressCountry": "CN"
-          }
+            addressLocality: "Hangzhou",
+            addressRegion: "Zhejiang",
+            addressCountry: "CN",
+          },
         ],
-        "contactPoint": [
+        contactPoint: [
           {
             "@type": "ContactPoint",
-            "telephone": "+233-555-362-208",
-            "contactType": "sales",
-            "areaServed": ["GH", "AF", "AS", "ME"],
-            "availableLanguage": ["English"]
+            telephone: "+233-555-362-208",
+            contactType: "sales",
+            areaServed: ["GH", "AF", "AS", "ME"],
+            availableLanguage: ["English"],
           },
           {
             "@type": "ContactPoint",
-            "telephone": "+86-135-1681-8572",
-            "contactType": "sales",
-            "areaServed": ["CN", "AS"],
-            "availableLanguage": ["English", "Chinese"]
-          }
+            telephone: "+86-135-1681-8572",
+            contactType: "sales",
+            areaServed: ["CN", "AS"],
+            availableLanguage: ["English", "Chinese"],
+          },
         ],
-        "email": "vickymor4u@gmail.com",
-        "sameAs": [
-          "https://borgafoods.com"
-        ]
+        email: EXPORT_ENQUIRY_EMAIL,
+        sameAs: [SITE_ORIGIN],
       };
-    } else if (type === 'product' && data) {
-      const isManufactured = data.supplyType === 'manufactured';
+    } else if (type === "product" && data) {
+      const isManufactured = data.supplyType === "manufactured";
 
       schema = {
         "@context": "https://schema.org",
         "@type": "Product",
-        "name": data.name,
-        "description": data.description,
+        name: data.name,
+        description: data.description,
         ...(isManufactured && {
-          "brand": {
+          brand: {
             "@type": "Brand",
-            "name": data.brand
+            name: data.brand,
           },
-          "manufacturer": {
+          manufacturer: {
             "@type": "Organization",
-            "name": data.manufacturer
-          }
+            name: data.manufacturer,
+          },
         }),
-        "countryOfOrigin": {
+        countryOfOrigin: {
           "@type": "Country",
-          "name": "Ghana"
+          name: data.countryOfOrigin,
         },
-        "image": data.image,
-        "offers": {
-          "@type": "Offer",
-          "availability": "https://schema.org/InStock",
-          "priceCurrency": "USD",
-          "seller": {
-            "@type": "Organization",
-            "name": "Supply & Demand Worldwide Ltd"
-          }
-        }
+        image: data.images.map(image => `${SITE_ORIGIN}${image}`),
       };
     }
-    
+
     // Create or update script tag
     const scriptId = `schema-${type}`;
     let scriptTag = document.getElementById(scriptId) as HTMLScriptElement;
-    
+
     if (!scriptTag) {
-      scriptTag = document.createElement('script');
+      scriptTag = document.createElement("script");
       scriptTag.id = scriptId;
-      scriptTag.type = 'application/ld+json';
+      scriptTag.type = "application/ld+json";
       document.head.appendChild(scriptTag);
     }
-    
+
     scriptTag.textContent = JSON.stringify(schema);
-    
+
     return () => {
       // Cleanup on unmount
       const tag = document.getElementById(scriptId);
@@ -111,6 +102,6 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
       }
     };
   }, [type, data]);
-  
+
   return null;
 }

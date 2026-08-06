@@ -121,6 +121,8 @@ The existing website must be extended rather than replaced. It is a static, clie
 
 - `/`
 - `/products`
+- `/export-solutions`
+- `/wholesale`
 - `/export`
 - `/about`
 - `/contact`
@@ -146,7 +148,7 @@ The product catalog is centralized in `client/src/data/products.ts`. Home, Produ
 - Cloudflare build system: Version 3
 - Latest verified Cloudflare runtime: Node.js 22.16.0 with effective pnpm 10.4.1
 
-There is currently no CMS, database, API, Cloudflare Pages Function, or operational email integration in the repository. The current Contact form does not transmit or store inquiries.
+There is currently no CMS, database, API, Cloudflare Pages Function, or server-side email integration in the repository. The Contact form prepares a buyer-reviewed email to `export@borgafoods.com` in the visitor's email application; it does not transmit or store inquiries on the website. Mailbox and DNS activation requirements are recorded in `EMAIL_CONFIGURATION.md`.
 
 ## Related documentation
 
@@ -154,3 +156,4 @@ There is currently no CMS, database, API, Cloudflare Pages Function, or operatio
 - `WEBSITE_ROADMAP.md`: approved development sequence
 - `CHANGE_LOG.md`: completed project changes and commits
 - `AI_TASK_PROTOCOL.md`: mandatory working protocol for future AI agents
+- `EMAIL_CONFIGURATION.md`: public export email, external setup, and future integration requirements

@@ -4,15 +4,16 @@ import { ArrowRight, Zap, Package, TrendingUp } from "lucide-react";
 import { Link } from "wouter";
 import SEO from "@/components/SEO";
 import SchemaMarkup from "@/components/SchemaMarkup";
+import ExportQuoteButton from "@/components/ExportQuoteButton";
 import { products } from "@/data/products";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="borgafoods.com - Premium Ghanaian Staple Foods for Export"
-        description="Export-ready fufu, gari, kokonte, and banku products sourced and processed in Ghana. Supply & Demand Worldwide Ltd serves distributors, wholesalers, and food importers across Africa, Asia, the Middle East, and beyond."
-        keywords="Ghana food export, fufu wholesale, gari export, kokonte, banku, African food distributor, West African staples, BorgaFoods products, Ghana food supplier"
+        title="BorgaFoods | Ghanaian Food Manufacturer & Export Partner"
+        description="BorgaFoods manufactures Ghanaian staples and coordinates selected export products for distributors, wholesalers, importers, retailers, and food-service buyers."
+        keywords="Ghanaian food manufacturer, Ghana food export, fufu wholesale, gari export, kokonte, banku, African grocery distributor, BorgaFoods"
       />
       <SchemaMarkup type="organization" />
       {/* Hero Section */}
@@ -27,36 +28,30 @@ export default function Home() {
             </div>
 
             <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Premium Ghanaian Staple Foods for International Markets
+              Ghanaian Food Manufacturing and Export Supply
             </h1>
 
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-2xl">
-              Export-ready fufu, gari, kokonte, and banku products sourced and
-              processed in Ghana for global distribution.
+              BorgaFoods manufactures Ghanaian staple foods and supports a
+              broader export assortment through selected Ghanaian production
+              partners.
             </p>
 
             <p className="text-lg text-foreground mb-12 max-w-2xl">
-              Serving distributors, wholesalers, and food importers across
-              Africa, Asia, the Middle East, and beyond.
+              Built for conversations with international distributors,
+              wholesalers, importers, retailers, restaurants, and food-service
+              buyers.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                >
-                  Request Product Catalog
-                  <ArrowRight size={20} className="ml-2" />
-                </Button>
-              </Link>
-              <Link href="/contact">
+              <ExportQuoteButton className="bg-primary hover:bg-primary/90 text-primary-foreground" />
+              <Link href="/export-solutions">
                 <Button
                   size="lg"
                   variant="outline"
                   className="border-primary text-primary hover:bg-primary/5"
                 >
-                  Become a Distribution Partner
+                  Explore Export Solutions
                 </Button>
               </Link>
             </div>
@@ -73,21 +68,18 @@ export default function Home() {
             </h2>
             <p className="text-lg text-foreground mb-6 leading-relaxed">
               <strong>Supply & Demand Worldwide Ltd</strong> is a Ghana-focused
-              food export company specializing in traditional West African
-              staple foods adapted for modern international markets.
+              Ghanaian food and export business supporting international B2B
+              buyers.
             </p>
             <p className="text-lg text-foreground mb-6 leading-relaxed">
-              Through our flagship brand—<strong>BorgaFoods</strong>—we supply
-              consistent, export-standard products to partners seeking reliable
-              African food products for diaspora and emerging consumer markets.
+              Through <strong>BorgaFoods Processing</strong>, we manufacture our
+              current range of gari, cassava flour, fufu flour, kokonte, and
+              Banku Borga.
             </p>
             <p className="text-lg text-foreground leading-relaxed">
-              We operate across two strategic regions: <strong>Ghana</strong>{" "}
-              (sourcing, processing coordination, and export origin) and{" "}
-              <strong>China</strong> (market intelligence, distribution
-              experience, and international trade operations). This structure
-              allows us to bridge African production with international market
-              expectations.
+              We also coordinate approved export selections—selected from
+              trusted Ghanaian production partners—without presenting those
+              products as BorgaFoods manufacturing.
             </p>
           </div>
         </div>
@@ -100,9 +92,8 @@ export default function Home() {
             The BorgaFoods Brand
           </h2>
           <p className="text-xl text-muted-foreground mb-12 max-w-2xl">
-            All our products are exclusively under the BorgaFoods brand. We supply
-            premium quality with complete flexibility on packaging, sizing, and
-            order quantities.
+            Our current manufactured range is produced by BorgaFoods Processing
+            for wholesale and export enquiries.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 mb-12">
@@ -149,27 +140,27 @@ export default function Home() {
             {[
               {
                 icon: Package,
-                title: "One Brand, Endless Flexibility",
+                title: "BorgaFoods Manufacturing",
                 description:
-                  "All products are BorgaFoods. We customize packaging sizes, formats, and quantities to match your distribution strategy.",
+                  "A clearly identified range of Ghanaian staples manufactured by BorgaFoods Processing.",
               },
               {
                 icon: Zap,
-                title: "Flexible Minimum Order Quantities",
+                title: "BorgaFoods Export Selection",
                 description:
-                  "No fixed MOQs. We work with you to find the right order size for your business stage and market strategy.",
+                  "Selected from trusted Ghanaian production partners and kept distinct from our manufactured range.",
               },
               {
                 icon: TrendingUp,
-                title: "Export-Focused Production",
+                title: "Container Supply Planning",
                 description:
-                  "Our operations are structured specifically for international trade with proven experience serving Asian and global markets.",
+                  "Product mix, bulk requirements, packaging, documentation, and shipment needs are reviewed per enquiry.",
               },
               {
                 icon: ArrowRight,
-                title: "Long-Term Partnerships",
+                title: "B2B Buyer Coordination",
                 description:
-                  "We focus on repeat supply, consistency, and trust. We grow with our partners, not ahead of them.",
+                  "A focused contact point for distributors, importers, wholesalers, retailers, and food-service buyers.",
               },
             ].map((item, index) => {
               const Icon = item.icon;
@@ -207,30 +198,30 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "Ghana-Sourced & Processed",
+                title: "Manufacturer First",
                 items: [
-                  "Direct access to quality raw materials",
-                  "Controlled production standards",
-                  "Transparent supply chain",
-                  "Export-ready from day one",
+                  "Five current manufactured products",
+                  "BorgaFoods brand",
+                  "BorgaFoods Processing manufacturer",
+                  "Ghana country of origin",
                 ],
               },
               {
-                title: "Complete Customization",
+                title: "Export Selection Second",
                 items: [
-                  "Custom packaging sizes",
-                  "Flexible order quantities",
-                  "Private label options",
-                  "OEM capabilities",
+                  "Trusted Ghanaian production partners",
+                  "Clear supply-type separation",
+                  "No public supplier disclosure",
+                  "Availability confirmed per enquiry",
                 ],
               },
               {
-                title: "International Experience",
+                title: "Export Conversation",
                 items: [
-                  "Proven Asia market presence",
-                  "Export documentation expertise",
-                  "Logistics coordination",
-                  "Regulatory compliance support",
+                  "Product and market requirements",
+                  "Wholesale and bulk formats",
+                  "Container supply planning",
+                  "Documentation coordination",
                 ],
               },
             ].map((section, index) => (
@@ -289,9 +280,9 @@ export default function Home() {
                 number: products.length.toString(),
                 label: "Premium BorgaFoods Products",
               },
-              { number: "100%", label: "Ghana-Sourced & Processed" },
-              { number: "Flexible", label: "Custom Packaging Options" },
-              { number: "Global", label: "Export Destinations" },
+              { number: "2", label: "Clearly Defined Supply Models" },
+              { number: "Ghana", label: "Manufacturing & Sourcing Origin" },
+              { number: "B2B", label: "Wholesale & Export Focus" },
             ].map((stat, index) => (
               <Card key={index} className="p-8 text-center">
                 <p className="text-5xl font-bold text-primary mb-2">
@@ -325,15 +316,7 @@ export default function Home() {
                 View Products
               </Button>
             </Link>
-            <Link href="/contact">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                Contact Us
-                <ArrowRight size={20} className="ml-2" />
-              </Button>
-            </Link>
+            <ExportQuoteButton className="bg-primary hover:bg-primary/90 text-primary-foreground" />
           </div>
         </div>
       </section>

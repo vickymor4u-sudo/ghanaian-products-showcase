@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import ExportQuoteButton from "@/components/ExportQuoteButton";
 
 /**
  * Navigation Component
@@ -15,6 +15,8 @@ export default function Navigation() {
   const navItems = [
     { label: "Home", href: "/" },
     { label: "Products", href: "/products" },
+    { label: "Export Solutions", href: "/export-solutions" },
+    { label: "Wholesale", href: "/wholesale" },
     { label: "Export & Compliance", href: "/export" },
     { label: "About Us", href: "/about" },
     { label: "Contact", href: "/contact" },
@@ -24,19 +26,26 @@ export default function Navigation() {
     <header className="sticky top-0 z-50 bg-background border-b border-border">
       <nav className="container flex items-center justify-between py-4">
         {/* Logo/Brand */}
-        <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <a
+          href="/"
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+        >
           <div className="w-10 h-10 bg-primary rounded flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-lg">S&D</span>
+            <span className="text-primary-foreground font-bold text-lg">
+              S&D
+            </span>
           </div>
           <div>
-            <h1 className="text-lg font-bold text-foreground">Supply & Demand</h1>
+            <h1 className="text-lg font-bold text-foreground">
+              Supply & Demand
+            </h1>
             <p className="text-xs text-muted-foreground">Export Solutions</p>
           </div>
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
+        <div className="hidden lg:flex items-center gap-5">
+          {navItems.map(item => (
             <a
               key={item.label}
               href={item.href}
@@ -48,18 +57,17 @@ export default function Navigation() {
         </div>
 
         {/* CTA Button */}
-        <div className="hidden md:block">
-          <Button
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+        <div className="hidden lg:block">
+          <ExportQuoteButton
             size="sm"
-          >
-            Request Catalog
-          </Button>
+            showArrow={false}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          />
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2 hover:bg-secondary rounded transition-colors"
+          className="lg:hidden p-2 hover:bg-secondary rounded transition-colors"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
@@ -69,9 +77,9 @@ export default function Navigation() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden border-t border-border bg-background">
+        <div className="lg:hidden border-t border-border bg-background">
           <div className="container py-4 flex flex-col gap-4">
-            {navItems.map((item) => (
+            {navItems.map(item => (
               <a
                 key={item.label}
                 href={item.href}
@@ -81,9 +89,12 @@ export default function Navigation() {
                 {item.label}
               </a>
             ))}
-            <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-2">
-              Request Catalog
-            </Button>
+            <div onClick={() => setIsOpen(false)}>
+              <ExportQuoteButton
+                showArrow={false}
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-2"
+              />
+            </div>
           </div>
         </div>
       )}

@@ -32,8 +32,13 @@ export interface PartnerSourcedProduct extends ProductBase {
 
 export type Product = ManufacturedProduct | PartnerSourcedProduct;
 
-export const supplyTypeLabels: Record<SupplyType, string> = {
-  manufactured: "Manufactured",
+export const productTypeLabels: Record<SupplyType, string> = {
+  manufactured: "Manufactured by BorgaFoods",
+  partner_sourced: "BorgaFoods Export Selection",
+};
+
+export const productSupplyStatements: Record<SupplyType, string> = {
+  manufactured: "Manufactured by BorgaFoods Processing",
   partner_sourced: "Selected from trusted Ghanaian production partners",
 };
 

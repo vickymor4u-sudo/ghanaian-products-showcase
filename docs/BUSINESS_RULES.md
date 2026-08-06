@@ -10,13 +10,13 @@ This file records approved business decisions that must be preserved across futu
 
 The approved BorgaFoods-manufactured products are:
 
-| Product | Supply type | Brand | Manufacturer | Current category |
-|---|---|---|---|---|
-| Gari | `manufactured` | BorgaFoods | BorgaFoods Processing | Cassava Products |
-| Cassava Flour | `manufactured` | BorgaFoods | BorgaFoods Processing | Cassava Products |
-| Fufu Flour | `manufactured` | BorgaFoods | BorgaFoods Processing | Traditional Flour Blends |
-| Kokonte | `manufactured` | BorgaFoods | BorgaFoods Processing | Cassava Products |
-| Banku Borga | `manufactured` | BorgaFoods | BorgaFoods Processing | Traditional Ghanaian Staples |
+| Product       | Supply type    | Brand      | Manufacturer          | Current category             |
+| ------------- | -------------- | ---------- | --------------------- | ---------------------------- |
+| Gari          | `manufactured` | BorgaFoods | BorgaFoods Processing | Cassava Products             |
+| Cassava Flour | `manufactured` | BorgaFoods | BorgaFoods Processing | Cassava Products             |
+| Fufu Flour    | `manufactured` | BorgaFoods | BorgaFoods Processing | Traditional Flour Blends     |
+| Kokonte       | `manufactured` | BorgaFoods | BorgaFoods Processing | Cassava Products             |
+| Banku Borga   | `manufactured` | BorgaFoods | BorgaFoods Processing | Traditional Ghanaian Staples |
 
 Rules:
 
@@ -74,6 +74,9 @@ The public client-side product catalog must not store supplier names, supplier b
 
 - Clearly distinguish BorgaFoods-manufactured products from partner-sourced products.
 - Use “Manufactured” only for approved products made by BorgaFoods Processing.
+- Use “Manufactured by BorgaFoods” as the public product-type label for manufactured products.
+- Use “Manufactured by BorgaFoods Processing” as the supporting manufactured-product statement.
+- Use “BorgaFoods Export Selection” as the public product-type label for partner-sourced products.
 - Use exactly “Selected from trusted Ghanaian production partners” for partner-sourced products unless a new phrase is approved.
 - Do not publish supplier identity or wording that allows a supplier to be inferred.
 - Do not present planned capabilities as operational capabilities.

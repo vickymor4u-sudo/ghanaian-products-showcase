@@ -29,16 +29,18 @@ Primary commit: `787c1804b51ef7d5e658424874a4d05853feb185`
 
 ## Phase 2 — Export and distribution information
 
-Status: **Planned**
+Status: **Implemented locally; deployment pending authorization**
 
-Planned scope:
+Completed implementation:
 
-- evolve the existing `/export` route into the Export Solutions page;
-- add a Wholesale section using the current design system;
-- add distributor information and partnership guidance;
-- explain the difference between manufactured and partner-sourced supply;
-- document sourcing, quality coordination, consolidation, labeling, export documentation, and logistics workflows;
-- add appropriate calls to action without implementing the quotation backend prematurely.
+- added `/export-solutions` for manufacturer-first export positioning, partner sourcing, container supply, and the five-step export process;
+- added `/wholesale` for distributors, African grocery retailers, wholesalers, restaurants, and food-service buyers;
+- retained `/export` and revised it as the requirements-led export and compliance information page;
+- added reusable “Request Export Quote” calls to action across Home, Products, Export Solutions, Wholesale, Export & Compliance, and navigation;
+- added the approved manufactured and export-selection product presentation labels;
+- centralized the public export email and added a transparent email-preparation enquiry workflow without a server, CRM, or database;
+- added page metadata, canonical URLs, sitemap entries, no-index handling for the 404 route, and safer structured data;
+- documented external mailbox, DNS, and future server-side email integration steps.
 
 Phase 2 must not expose supplier identities or describe partner-sourced products as manufactured by BorgaFoods.
 

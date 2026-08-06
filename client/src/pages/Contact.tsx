@@ -4,9 +4,15 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import SEO from "@/components/SEO";
 import { products } from "@/data/products";
+import { createExportEnquiryMailto, EXPORT_ENQUIRY_EMAIL } from "@/config/site";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => ({
+    inquiryType:
+      new URLSearchParams(window.location.search).get("inquiry") ===
+      "export-quote"
+        ? "export_quote"
+        : "general",
     companyName: "",
     country: "",
     contactPerson: "",
@@ -14,7 +20,7 @@ export default function Contact() {
     productsInterest: "",
     orderVolume: "",
     message: "",
-  });
+  }));
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -27,24 +33,38 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Thank you for your inquiry. We will contact you shortly.");
-    setFormData({
-      companyName: "",
-      country: "",
-      contactPerson: "",
-      email: "",
-      productsInterest: "",
-      orderVolume: "",
-      message: "",
-    });
+    const selectedProduct = products.find(
+      product => product.slug === formData.productsInterest
+    );
+    const productLabel =
+      formData.productsInterest === "all"
+        ? "All current products"
+        : selectedProduct?.name || formData.productsInterest;
+    const subject =
+      formData.inquiryType === "export_quote"
+        ? `Export quote request — ${formData.companyName}`
+        : `Business enquiry — ${formData.companyName}`;
+    const body = [
+      `Inquiry type: ${formData.inquiryType.replace("_", " ")}`,
+      `Company: ${formData.companyName}`,
+      `Country / market: ${formData.country}`,
+      `Contact person: ${formData.contactPerson}`,
+      `Reply email: ${formData.email}`,
+      `Products: ${productLabel}`,
+      `Estimated volume: ${formData.orderVolume}`,
+      "",
+      "Additional information:",
+      formData.message || "Not provided",
+    ].join("\n");
+
+    window.location.href = createExportEnquiryMailto(subject, body);
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Contact Us - Get in Touch | borgafoods.com"
-        description="Contact Supply & Demand Worldwide Ltd for BorgaFoods product inquiries. Ghana office: +233 555 362 208 | China office: +86 135 1681 8572 | Email: vickymor4u@gmail.com"
+        title="Export & Wholesale Enquiries | BorgaFoods"
+        description={`Contact BorgaFoods for export quotations, wholesale supply, distributor partnerships, and Ghanaian product enquiries at ${EXPORT_ENQUIRY_EMAIL}.`}
         keywords="contact BorgaFoods, Ghana food exporter contact, wholesale inquiry, distributor contact, food import inquiry"
       />
       <section className="py-16 bg-gradient-to-br from-primary/5 to-background border-b border-border">
@@ -137,10 +157,10 @@ export default function Contact() {
                   </div>
                   <p className="text-foreground ml-10">
                     <a
-                      href="mailto:vickymor4u@gmail.com"
+                      href={`mailto:${EXPORT_ENQUIRY_EMAIL}`}
                       className="text-primary hover:underline"
                     >
-                      vickymor4u@gmail.com
+                      {EXPORT_ENQUIRY_EMAIL}
                     </a>
                   </p>
                 </div>
@@ -154,19 +174,40 @@ export default function Contact() {
                   Monday–Friday: 09:00–17:00 (GMT)
                 </p>
                 <p className="text-sm text-foreground">
-                  <strong>Response Time:</strong> Within 24 business hours. For
-                  urgent matters, contact us via WhatsApp.
+                  Export enquiries are reviewed according to product, market,
+                  packaging, volume, and destination requirements.
                 </p>
               </Card>
             </div>
 
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <Card className="p-8">
+              <Card id="business-inquiry" className="p-8">
                 <h2 className="text-2xl font-bold text-foreground mb-6">
-                  Business Inquiry Form
+                  {formData.inquiryType === "export_quote"
+                    ? "Request Export Quote"
+                    : "Business Inquiry Form"}
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">
+                      Inquiry Type *
+                    </label>
+                    <select
+                      name="inquiryType"
+                      value={formData.inquiryType}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                      <option value="general">General business inquiry</option>
+                      <option value="export_quote">Export quotation</option>
+                      <option value="wholesale">Wholesale supply</option>
+                      <option value="distribution">
+                        Distributor partnership
+                      </option>
+                    </select>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-foreground mb-2">
@@ -286,8 +327,13 @@ export default function Contact() {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   >
                     <Send size={20} className="mr-2" />
-                    Submit Inquiry
+                    Prepare Email Enquiry
                   </Button>
+                  <p className="text-sm text-muted-foreground text-center">
+                    This form prepares an email to {EXPORT_ENQUIRY_EMAIL} in
+                    your email application. It does not submit data to a website
+                    server.
+                  </p>
                 </form>
               </Card>
             </div>
@@ -305,19 +351,19 @@ export default function Contact() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "Product Samples",
+                title: "Export Quotations",
                 description:
-                  "Request samples of any BorgaFoods product to evaluate quality and taste before placing orders.",
+                  "Share product, packaging, volume, market, and destination requirements for quotation review.",
               },
               {
-                title: "Detailed Specifications",
+                title: "Wholesale Supply",
                 description:
-                  "Receive comprehensive product specifications, MOQ details, and pricing information.",
+                  "Discuss current BorgaFoods manufactured products, available formats, and bulk requirements.",
               },
               {
                 title: "Partnership Opportunities",
                 description:
-                  "Discuss exclusive distribution rights, private label options, and OEM customization.",
+                  "Discuss your market, sales channels, product priorities, and distribution plans.",
               },
               {
                 title: "Export Support",
@@ -325,14 +371,14 @@ export default function Contact() {
                   "Learn about our export capabilities, logistics coordination, and compliance support.",
               },
               {
-                title: "Market Consultation",
+                title: "Export Selection",
                 description:
-                  "Get insights on market trends, regulatory requirements, and buyer preferences.",
+                  "Ask about approved categories selected from trusted Ghanaian production partners.",
               },
               {
-                title: "Custom Solutions",
+                title: "Container Enquiries",
                 description:
-                  "Explore custom product formulations and packaging designs for your specific market.",
+                  "Review eligible product mixes, bulk needs, documentation, and shipment planning.",
               },
             ].map((item, index) => (
               <Card key={index} className="p-6">
@@ -361,23 +407,23 @@ export default function Contact() {
               },
               {
                 q: "How long does production take?",
-                a: "Lead time is 2–4 weeks after order confirmation and deposit. Exact timelines depend on order size and customization requirements.",
+                a: "Lead time is confirmed per quotation because it depends on product, volume, packaging, sourcing, documentation, and logistics.",
               },
               {
-                q: "Do you offer private label services?",
-                a: "Yes, we offer comprehensive OEM and private label services including custom packaging and branding.",
+                q: "Can I request wholesale or bulk packaging?",
+                a: "Yes. Available retail and bulk formats are listed on the Products page, and additional requirements can be reviewed during quotation.",
               },
               {
-                q: "What are your payment terms?",
-                a: "Standard payment terms: 30% deposit, 70% balance before shipment or against shipping documents. We accept T/T (Bank Transfer) and L/C for qualified buyers.",
+                q: "Can I request a mixed container?",
+                a: "Mixed container requirements can be reviewed for eligible manufactured products and approved export selections. Availability is confirmed per enquiry.",
               },
               {
                 q: "Can you customize products for my market?",
-                a: "Yes, we can customize packaging, labeling, product formulations, and more to meet destination market requirements.",
+                a: "Packaging and labeling requirements can be reviewed against product availability and destination-market information before quotation.",
               },
               {
                 q: "How do I request product samples?",
-                a: "Email us at vickymor4u@gmail.com or message via WhatsApp +233 533 763 700 to request samples.",
+                a: `Email ${EXPORT_ENQUIRY_EMAIL} or use the enquiry form above to describe the products and market you are evaluating.`,
               },
             ].map((item, index) => (
               <Card key={index} className="p-6">
