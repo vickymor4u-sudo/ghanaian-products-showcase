@@ -3,13 +3,15 @@ import { Star } from "lucide-react";
 import SEO from "@/components/SEO";
 import ExportQuoteButton from "@/components/ExportQuoteButton";
 import {
-  products,
+  currentPublicCatalogueProducts,
   productSupplyStatements,
   productTypeLabels,
 } from "@/data/products";
 
 export default function Products() {
-  const productNames = products.map(product => product.name).join(", ");
+  const productNames = currentPublicCatalogueProducts
+    .map(product => product.name)
+    .join(", ");
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,9 +29,9 @@ export default function Products() {
             </h1>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            Our current product range is manufactured by BorgaFoods Processing.
-            Packaging, wholesale, and export requirements are reviewed for each
-            buyer enquiry.
+            Our catalogue distinguishes BorgaFoods-manufactured products from
+            approved export selections. Packaging, wholesale, and export
+            requirements are reviewed for each buyer enquiry.
           </p>
         </div>
       </section>
@@ -41,7 +43,7 @@ export default function Products() {
               {
                 title: "Manufactured Range",
                 description:
-                  "Each current catalog product is identified as manufactured by BorgaFoods Processing.",
+                  "BorgaFoods-manufactured products are clearly identified as made by BorgaFoods Processing.",
               },
               {
                 title: "Retail & Bulk Formats",
@@ -68,10 +70,10 @@ export default function Products() {
       <section className="py-20">
         <div className="container">
           <h2 className="text-4xl font-bold text-foreground mb-16">
-            Our BorgaFoods Products
+            Our Product Catalogue
           </h2>
           <div className="space-y-20">
-            {products.map((product, index) => (
+            {currentPublicCatalogueProducts.map((product, index) => (
               <div
                 key={product.name}
                 className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
@@ -276,8 +278,9 @@ export default function Products() {
                 One Brand, One Standard
               </h3>
               <p className="text-foreground">
-                The catalog identifies every current product as BorgaFoods brand
-                and manufactured by BorgaFoods Processing.
+                BorgaFoods-manufactured products are identified as BorgaFoods
+                brand and manufactured by BorgaFoods Processing. Approved export
+                selections remain visibly distinct.
               </p>
             </Card>
 

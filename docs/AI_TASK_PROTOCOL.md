@@ -16,6 +16,11 @@ Before planning or modifying code, read these files completely:
 4. `docs/CHANGE_LOG.md`
 5. `docs/AI_TASK_PROTOCOL.md`
 
+For Phase 4 product, private-label, or customer-tool work, also read:
+
+6. `docs/PRODUCT_CAPABILITY_MODEL.md`
+7. `docs/PRODUCT_CLASSIFICATION_REVIEW.md`
+
 Then inspect the current repository state, relevant source files, recent commits, and any repository-level agent instructions.
 
 Do not rely on old conversation memory when repository documentation or current code provides newer evidence.

@@ -1,4 +1,12 @@
 export type SupplyType = "manufactured" | "partner_sourced";
+export type PublicDisplayStatus =
+  | "approved_current_catalog"
+  | "internal_approval_required";
+export type SourceAlignment =
+  | "aligned"
+  | "needs_validation"
+  | "canonical_catalog_only"
+  | "source_only_partner_selection";
 
 interface ProductBase {
   slug: string;
@@ -16,6 +24,8 @@ interface ProductBase {
   images: readonly string[];
   wholesaleAvailable: boolean;
   variants: readonly string[];
+  publicDisplayStatus: PublicDisplayStatus;
+  sourceAlignment: SourceAlignment;
 }
 
 export interface ManufacturedProduct extends ProductBase {
@@ -32,6 +42,8 @@ export interface PartnerSourcedProduct extends ProductBase {
 
 export type Product = ManufacturedProduct | PartnerSourcedProduct;
 
+type CatalogIntegrityProduct = Product & Record<string, unknown>;
+
 export const productTypeLabels: Record<SupplyType, string> = {
   manufactured: "Manufactured by BorgaFoods",
   partner_sourced: "BorgaFoods Export Selection",
@@ -42,7 +54,60 @@ export const productSupplyStatements: Record<SupplyType, string> = {
   partner_sourced: "Selected from trusted Ghanaian production partners",
 };
 
-export const products = [
+const hasOwnProperty = (value: object, property: string) =>
+  Object.prototype.hasOwnProperty.call(value, property);
+
+export function assertProductCatalogIntegrity(
+  catalog: readonly Product[]
+): void {
+  const slugs = new Set<string>();
+
+  for (const product of catalog) {
+    const record = product as CatalogIntegrityProduct;
+    const rawRecord = product as unknown as Record<string, unknown>;
+
+    if (!product.slug || slugs.has(product.slug)) {
+      throw new Error(
+        `Product catalog contains an invalid or duplicate slug: ${product.slug}`
+      );
+    }
+    slugs.add(product.slug);
+
+    if (
+      rawRecord.supplyType !== "manufactured" &&
+      rawRecord.supplyType !== "partner_sourced"
+    ) {
+      throw new Error(`Product ${product.slug} is missing a supply type.`);
+    }
+
+    if (
+      product.supplyType === "partner_sourced" &&
+      (hasOwnProperty(record, "brand") ||
+        hasOwnProperty(record, "manufacturer"))
+    ) {
+      throw new Error(
+        `Partner-sourced product ${product.slug} must not expose a public brand or manufacturer.`
+      );
+    }
+
+    if (
+      product.supplyType === "manufactured" &&
+      (!product.brand || !product.manufacturer)
+    ) {
+      throw new Error(
+        `Manufactured product ${product.slug} must include its public brand and manufacturer.`
+      );
+    }
+
+    if (!product.publicDisplayStatus || !product.sourceAlignment) {
+      throw new Error(
+        `Product ${product.slug} is missing capability-model visibility data.`
+      );
+    }
+  }
+}
+
+export const products: readonly Product[] = [
   {
     slug: "fufu-borga",
     name: "Fufu Flour",
@@ -62,6 +127,8 @@ export const products = [
     exportAvailable: true,
     images: ["/images/fufu-borga.png", "/images/fufu-product.png"],
     wholesaleAvailable: true,
+    publicDisplayStatus: "approved_current_catalog",
+    sourceAlignment: "needs_validation",
     variants: [
       "Plantain-based fufu flour",
       "Cassava-plantain blends",
@@ -87,6 +154,8 @@ export const products = [
     exportAvailable: true,
     images: ["/images/gari-borga.png"],
     wholesaleAvailable: true,
+    publicDisplayStatus: "approved_current_catalog",
+    sourceAlignment: "aligned",
     variants: ["Fine grain", "Medium grain", "Coarse grain"],
   },
   {
@@ -108,6 +177,8 @@ export const products = [
     exportAvailable: true,
     images: ["/images/kokonte-borga.png"],
     wholesaleAvailable: true,
+    publicDisplayStatus: "approved_current_catalog",
+    sourceAlignment: "canonical_catalog_only",
     variants: [
       "Standard mix",
       "High plantain blend",
@@ -133,6 +204,8 @@ export const products = [
     exportAvailable: true,
     images: ["/images/banku-borga.png", "/images/banku-product.png"],
     wholesaleAvailable: true,
+    publicDisplayStatus: "approved_current_catalog",
+    sourceAlignment: "canonical_catalog_only",
     variants: ["Standard mix", "High corn blend", "High cassava blend"],
   },
   {
@@ -154,6 +227,8 @@ export const products = [
     exportAvailable: true,
     images: ["/images/cassava-flour.png"],
     wholesaleAvailable: true,
+    publicDisplayStatus: "approved_current_catalog",
+    sourceAlignment: "aligned",
     variants: [
       "Fine milled",
       "For fufu preparation",
@@ -161,3 +236,25 @@ export const products = [
     ],
   },
 ] as const satisfies readonly Product[];
+
+assertProductCatalogIntegrity(products);
+
+export const currentPublicCatalogueProducts = products.filter(
+  product => product.publicDisplayStatus === "approved_current_catalog"
+);
+
+export const publicManufacturedProducts = currentPublicCatalogueProducts.filter(
+  product => product.supplyType === "manufactured"
+);
+
+export const publicPartnerSourcedProducts =
+  currentPublicCatalogueProducts.filter(
+    product => product.supplyType === "partner_sourced"
+  );
+
+export const phase4ExpansionProducts = currentPublicCatalogueProducts.filter(
+  product => product.sourceAlignment !== "needs_validation"
+);
+
+// The existing Fufu Flour RFQ path remains unchanged until PCR-001 is resolved.
+export const rfqEligibleProducts = currentPublicCatalogueProducts;

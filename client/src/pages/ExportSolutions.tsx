@@ -12,11 +12,9 @@ import ExportQuoteButton from "@/components/ExportQuoteButton";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { products } from "@/data/products";
+import { publicManufacturedProducts } from "@/data/products";
 
-const manufacturedProducts = products.filter(
-  product => product.supplyType === "manufactured"
-);
+const manufacturedProducts = publicManufacturedProducts;
 
 const exportProcess = [
   {

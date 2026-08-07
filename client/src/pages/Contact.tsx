@@ -6,7 +6,7 @@ import TurnstileWidget from "@/components/TurnstileWidget";
 import { CheckCircle2, Mail, MapPin, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import SEO from "@/components/SEO";
-import { products } from "@/data/products";
+import { rfqEligibleProducts } from "@/data/products";
 import {
   EXPORT_ENQUIRY_EMAIL,
   EXPORT_QUOTE_API_PATH,
@@ -453,7 +453,7 @@ export default function Contact() {
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="">Select products</option>
-                        {products.map(product => (
+                        {rfqEligibleProducts.map(product => (
                           <option key={product.slug} value={product.slug}>
                             {product.name}
                           </option>

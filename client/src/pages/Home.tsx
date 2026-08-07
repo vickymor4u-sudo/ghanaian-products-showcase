@@ -5,7 +5,7 @@ import { Link } from "wouter";
 import SEO from "@/components/SEO";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import ExportQuoteButton from "@/components/ExportQuoteButton";
-import { products } from "@/data/products";
+import { publicManufacturedProducts } from "@/data/products";
 
 export default function Home() {
   return (
@@ -97,7 +97,7 @@ export default function Home() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 mb-12">
-            {products.map(product => (
+            {publicManufacturedProducts.map(product => (
               <Card
                 key={product.name}
                 className="group p-6 text-center border-border/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
@@ -277,7 +277,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
               {
-                number: products.length.toString(),
+                number: publicManufacturedProducts.length.toString(),
                 label: "Premium BorgaFoods Products",
               },
               { number: "2", label: "Clearly Defined Supply Models" },

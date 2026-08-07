@@ -71,9 +71,28 @@ Production readiness was approved on 7 August 2026. Cloudflare production deploy
 
 ## Phase 4 — Private label and customer tools
 
-Status: **Planning proposal prepared; implementation requires review and approval**
+Status: **Phase 4A implemented locally; Phase 4B and 4C remain planning-only**
 
 Review proposal: [`PHASE_4_PLANNING_PROPOSAL.md`](./PHASE_4_PLANNING_PROPOSAL.md)
+
+Planning foundation: [`PRODUCT_CAPABILITY_MODEL.md`](./PRODUCT_CAPABILITY_MODEL.md)
+
+Open classification gate: [`PRODUCT_CLASSIFICATION_REVIEW.md`](./PRODUCT_CLASSIFICATION_REVIEW.md). The listed items must not be added to new public Phase 4 content until business validation is recorded.
+
+### Phase 4A — Export catalogue expansion
+
+Status: **Implemented locally; not deployed**
+
+Completed implementation:
+
+- added capability-derived visibility, source-alignment, current-public, Phase 4 expansion, and RFQ selectors to the single typed product catalog;
+- kept Fufu Flour in the existing public catalog and existing RFQ path while excluding it from the new Phase 4 expansion selector until PCR-001 is resolved;
+- kept Red Palm Oil out of all public catalog, metadata, and RFQ data;
+- wired Home, Products, Export Solutions, Contact, and the quotation Function to the relevant derived catalog selectors;
+- added a build-blocking catalog verification step that rejects a partner-sourced record exposing public brand or manufacturer fields;
+- added catalog control tests alongside the existing quotation tests.
+
+No partner-sourced product has been newly published because the capability model contains no partner record with public-display approval. No private-label claim or workflow was added.
 
 Potential implementation scope after approval:
 

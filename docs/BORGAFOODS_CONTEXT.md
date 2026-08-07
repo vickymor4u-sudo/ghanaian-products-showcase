@@ -165,3 +165,5 @@ There is no CMS, database, CRM, or customer portal in the repository. The quotat
 - `AI_TASK_PROTOCOL.md`: mandatory working protocol for future AI agents
 - `EMAIL_CONFIGURATION.md`: public export email, external setup, and future integration requirements
 - `PHASE_4_PLANNING_PROPOSAL.md`: Phase 4 review proposal; not implementation authorization
+- `PRODUCT_CAPABILITY_MODEL.md`: frozen Phase 4 product-capability structure and change controls
+- `PRODUCT_CLASSIFICATION_REVIEW.md`: internal-only product classifications awaiting business validation

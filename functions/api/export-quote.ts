@@ -1,4 +1,7 @@
-import { products, productTypeLabels } from "../../client/src/data/products";
+import {
+  productTypeLabels,
+  rfqEligibleProducts,
+} from "../../client/src/data/products";
 import {
   exportQuoteSchema,
   packagingPreferenceLabels,
@@ -93,7 +96,9 @@ function getConfiguredEmail(value?: string) {
 }
 
 function getProductDetails(productSelection: string) {
-  const product = products.find(item => item.slug === productSelection);
+  const product = rfqEligibleProducts.find(
+    item => item.slug === productSelection
+  );
   if (product) {
     return {
       label: product.name,

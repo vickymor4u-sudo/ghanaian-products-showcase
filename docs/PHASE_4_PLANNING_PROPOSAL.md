@@ -1,8 +1,14 @@
 # Phase 4 Planning Proposal — Private Label and Customer Tools
 
-Status: **Proposal for review only. This document does not authorize implementation.**
+Status: **Planning proposal only. The model structure is frozen; website implementation remains unapproved.**
 
 Prepared: 7 August 2026
+
+## Approved planning foundation
+
+Phase 4 planning must use the frozen product-capability structure in [`PRODUCT_CAPABILITY_MODEL.md`](./PRODUCT_CAPABILITY_MODEL.md). It must not create alternate product classifications, private-label states, or public capability fields.
+
+The only outstanding classification review items are recorded in [`PRODUCT_CLASSIFICATION_REVIEW.md`](./PRODUCT_CLASSIFICATION_REVIEW.md). They are excluded from new public Phase 4 content until business validation is complete.
 
 ## Objective
 
@@ -73,14 +79,15 @@ Use Phase 4 to define evidence-based requirements for future tools such as secur
 
 ## Dependencies and approvals required
 
-1. Confirm which BorgaFoods-manufactured products are private-label/OEM eligible.
+1. Confirm which BorgaFoods-manufactured products are private-label/OEM eligible using the frozen model's `requires_business_approval` state; none is automatically eligible.
 2. Confirm the approved capability statements for packaging, artwork, labeling, samples, production review, export documentation, and shipment support.
 3. Approve any public process wording that could be interpreted as a commercial, regulatory, quality, or timing commitment.
 4. Confirm the desired placement: dedicated route or integrated section.
 5. Approve the final private-label enquiry fields and validation rules.
 6. Define operational ownership of private-label enquiries and response expectations.
 7. Confirm whether any destination-market legal or regulatory review is needed before publication.
-8. Keep Phase 3 operational controls and supplier-confidentiality rules unchanged unless a separate change is approved.
+8. Resolve the two classification-review items before either product is added to new public Phase 4 content or private-label messaging.
+9. Keep Phase 3 operational controls and supplier-confidentiality rules unchanged unless a separate change is approved.
 
 ## Recommended approval gate
 
