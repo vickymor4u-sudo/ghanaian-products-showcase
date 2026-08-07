@@ -13,7 +13,17 @@ import {
   TURNSTILE_SITE_KEY,
 } from "@/config/site";
 import {
+  buyerCategories,
+  buyerCategoryLabels,
+  type InquiryType,
+  isQualificationInquiry,
+  orderFrequencies,
+  orderFrequencyLabels,
   packagingPreferenceLabels,
+  requirementsTimelineLabels,
+  requirementsTimelines,
+  salesChannelLabels,
+  salesChannels,
   type ExportQuoteResponse,
   type ExportQuoteSubmission,
 } from "@shared/exportQuote";
@@ -30,12 +40,19 @@ interface SubmissionStatus {
 }
 
 function createInitialFormData(): QuoteFormData {
+  const inquiryTypeByQuery: Record<string, InquiryType> = {
+    "export-quote": "export_quote",
+    wholesale: "wholesale",
+    distribution: "distribution",
+  };
+  const inquiryType =
+    inquiryTypeByQuery[
+      new URLSearchParams(window.location.search).get("inquiry") ?? ""
+    ] ?? "general";
+
   return {
-    inquiryType:
-      new URLSearchParams(window.location.search).get("inquiry") ===
-      "export-quote"
-        ? "export_quote"
-        : "general",
+    inquiryType,
+    buyerCategory: "",
     companyName: "",
     country: "",
     contactPerson: "",
@@ -46,7 +63,12 @@ function createInitialFormData(): QuoteFormData {
     estimatedQuantity: "",
     destinationCountry: "",
     destinationPort: "",
+    intendedSalesChannel: "",
+    targetMarket: "",
+    expectedOrderFrequency: "",
+    requirementsTimeline: "",
     message: "",
+    privacyConsent: false,
   };
 }
 
@@ -85,9 +107,28 @@ export default function Contact() {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData(
-      prev => ({ ...prev, [name]: value }) as unknown as QuoteFormData
-    );
+    setFormData(prev => {
+      const next = {
+        ...prev,
+        [name]: value,
+      } as unknown as QuoteFormData;
+
+      if (
+        name === "inquiryType" &&
+        !isQualificationInquiry(value as InquiryType)
+      ) {
+        return {
+          ...next,
+          buyerCategory: "",
+          intendedSalesChannel: "",
+          targetMarket: "",
+          expectedOrderFrequency: "",
+          requirementsTimeline: "",
+        };
+      }
+
+      return next;
+    });
     setSubmissionStatus(null);
   };
 
@@ -130,7 +171,7 @@ export default function Contact() {
         setSubmissionStatus({
           type: "success",
           message:
-            "Your export enquiry has been received by BorgaFoods. Please keep the request ID for reference.",
+            "Your enquiry has been received by BorgaFoods. Please keep the request ID for reference.",
           requestId: responseBody.requestId,
         });
         setFormData(createInitialFormData());
@@ -152,6 +193,22 @@ export default function Contact() {
       setTurnstileResetSignal(value => value + 1);
     }
   };
+
+  const isQualificationForm = isQualificationInquiry(formData.inquiryType);
+  const formTitle =
+    formData.inquiryType === "export_quote"
+      ? "Request Export Quote"
+      : formData.inquiryType === "wholesale"
+        ? "Request Wholesale Supply"
+        : formData.inquiryType === "distribution"
+          ? "Discuss Distribution"
+          : "Business Inquiry Form";
+  const submitLabel =
+    formData.inquiryType === "wholesale"
+      ? "Submit Wholesale Enquiry"
+      : formData.inquiryType === "distribution"
+        ? "Submit Distribution Enquiry"
+        : "Submit Export Enquiry";
 
   return (
     <div className="min-h-screen bg-background">
@@ -277,9 +334,7 @@ export default function Contact() {
             <div className="lg:col-span-2">
               <Card id="business-inquiry" className="p-8">
                 <h2 className="text-2xl font-bold text-foreground mb-6">
-                  {formData.inquiryType === "export_quote"
-                    ? "Request Export Quote"
-                    : "Business Inquiry Form"}
+                  {formTitle}
                 </h2>
                 <form
                   onSubmit={handleSubmit}
@@ -309,6 +364,44 @@ export default function Contact() {
                       </option>
                     </select>
                   </div>
+
+                  {isQualificationForm && (
+                    <div className="rounded-lg border border-primary/20 bg-primary/5 p-5 space-y-4">
+                      <div>
+                        <h3 className="font-bold text-foreground">
+                          Wholesale or Distribution Context
+                        </h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          These details help us review your requirements. They
+                          do not confirm product availability, pricing, or a
+                          distributor appointment.
+                        </p>
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="buyerCategory"
+                          className="block text-sm font-semibold text-foreground mb-2"
+                        >
+                          Buyer Category *
+                        </label>
+                        <select
+                          id="buyerCategory"
+                          name="buyerCategory"
+                          value={formData.buyerCategory}
+                          onChange={handleChange}
+                          required={isQualificationForm}
+                          className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                          <option value="">Select your business type</option>
+                          {buyerCategories.map(value => (
+                            <option key={value} value={value}>
+                              {buyerCategoryLabels[value]}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  )}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label
@@ -351,6 +444,51 @@ export default function Contact() {
                       />
                     </div>
                   </div>
+
+                  {isQualificationForm && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label
+                          htmlFor="intendedSalesChannel"
+                          className="block text-sm font-semibold text-foreground mb-2"
+                        >
+                          Intended Sales Channel
+                        </label>
+                        <select
+                          id="intendedSalesChannel"
+                          name="intendedSalesChannel"
+                          value={formData.intendedSalesChannel}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                          <option value="">Select if known</option>
+                          {salesChannels.map(value => (
+                            <option key={value} value={value}>
+                              {salesChannelLabels[value]}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="targetMarket"
+                          className="block text-sm font-semibold text-foreground mb-2"
+                        >
+                          Target Market or Region
+                        </label>
+                        <input
+                          id="targetMarket"
+                          type="text"
+                          name="targetMarket"
+                          value={formData.targetMarket}
+                          onChange={handleChange}
+                          maxLength={120}
+                          className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                          placeholder="Optional market or region"
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -496,7 +634,9 @@ export default function Contact() {
                         htmlFor="estimatedQuantity"
                         className="block text-sm font-semibold text-foreground mb-2"
                       >
-                        Estimated Quantity *
+                        {isQualificationForm
+                          ? "Expected Order Volume *"
+                          : "Estimated Quantity *"}
                       </label>
                       <input
                         id="estimatedQuantity"
@@ -530,12 +670,63 @@ export default function Contact() {
                     </div>
                   </div>
 
+                  {isQualificationForm && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label
+                          htmlFor="expectedOrderFrequency"
+                          className="block text-sm font-semibold text-foreground mb-2"
+                        >
+                          Expected Order Frequency
+                        </label>
+                        <select
+                          id="expectedOrderFrequency"
+                          name="expectedOrderFrequency"
+                          value={formData.expectedOrderFrequency}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                          <option value="">Select if known</option>
+                          {orderFrequencies.map(value => (
+                            <option key={value} value={value}>
+                              {orderFrequencyLabels[value]}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="requirementsTimeline"
+                          className="block text-sm font-semibold text-foreground mb-2"
+                        >
+                          Expected Timing
+                        </label>
+                        <select
+                          id="requirementsTimeline"
+                          name="requirementsTimeline"
+                          value={formData.requirementsTimeline}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                          <option value="">Select if known</option>
+                          {requirementsTimelines.map(value => (
+                            <option key={value} value={value}>
+                              {requirementsTimelineLabels[value]}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  )}
+
                   <div>
                     <label
                       htmlFor="message"
                       className="block text-sm font-semibold text-foreground mb-2"
                     >
-                      Additional Message
+                      {isQualificationForm
+                        ? "Business Requirements"
+                        : "Additional Message"}
                     </label>
                     <textarea
                       id="message"
@@ -545,8 +736,38 @@ export default function Contact() {
                       rows={5}
                       maxLength={2000}
                       className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                      placeholder="Tell us more about your business and requirements..."
+                      placeholder={
+                        isQualificationForm
+                          ? "Tell us about your product, packaging, market, and business requirements..."
+                          : "Tell us more about your business and requirements..."
+                      }
                     />
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <input
+                      id="privacyConsent"
+                      name="privacyConsent"
+                      type="checkbox"
+                      checked={formData.privacyConsent}
+                      onChange={event => {
+                        setFormData(prev => ({
+                          ...prev,
+                          privacyConsent: event.target.checked,
+                        }));
+                        setSubmissionStatus(null);
+                      }}
+                      required
+                      className="mt-1 h-4 w-4 accent-primary"
+                    />
+                    <label
+                      htmlFor="privacyConsent"
+                      className="text-sm text-muted-foreground"
+                    >
+                      I have read the privacy notice below and consent to
+                      BorgaFoods using this information to review and respond to
+                      my enquiry.
+                    </label>
                   </div>
 
                   <div
@@ -638,9 +859,7 @@ export default function Contact() {
                     ) : (
                       <Send size={20} className="mr-2" />
                     )}
-                    {isSubmitting
-                      ? "Sending Enquiry..."
-                      : "Submit Export Enquiry"}
+                    {isSubmitting ? "Sending Enquiry..." : submitLabel}
                   </Button>
                   <p className="text-sm text-muted-foreground">
                     By submitting this form, you consent to BorgaFoods using the

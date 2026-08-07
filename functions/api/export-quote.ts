@@ -3,8 +3,13 @@ import {
   rfqEligibleProducts,
 } from "../../client/src/data/products";
 import {
+  buyerCategoryLabels,
   exportQuoteSchema,
+  isQualificationInquiry,
+  orderFrequencyLabels,
   packagingPreferenceLabels,
+  requirementsTimelineLabels,
+  salesChannelLabels,
   type ExportQuoteErrorCode,
   type ExportQuoteSubmission,
 } from "../../shared/exportQuote";
@@ -110,12 +115,52 @@ function getProductDetails(productSelection: string) {
   return label ? { label, supply: "Requirements to be reviewed" } : null;
 }
 
+function getOptionalLabel<T extends string>(
+  labels: Record<T, string>,
+  value: string
+) {
+  return value && Object.hasOwn(labels, value)
+    ? labels[value as T]
+    : "Not provided";
+}
+
+function getQualificationFields(submission: ExportQuoteSubmission) {
+  if (!isQualificationInquiry(submission.inquiryType)) return [];
+
+  return [
+    [
+      "Buyer category",
+      getOptionalLabel(buyerCategoryLabels, submission.buyerCategory),
+    ],
+    [
+      "Intended sales channel",
+      getOptionalLabel(salesChannelLabels, submission.intendedSalesChannel),
+    ],
+    ["Target market or region", submission.targetMarket || "Not provided"],
+    [
+      "Expected order frequency",
+      getOptionalLabel(orderFrequencyLabels, submission.expectedOrderFrequency),
+    ],
+    [
+      "Expected timing",
+      getOptionalLabel(
+        requirementsTimelineLabels,
+        submission.requirementsTimeline
+      ),
+    ],
+  ] as const;
+}
+
 function formatEmail(
   submission: ExportQuoteSubmission,
   requestId: string,
   product: { label: string; supply: string }
 ) {
-  const fields = [
+  const qualificationFields = getQualificationFields(submission);
+  const messageLabel = isQualificationInquiry(submission.inquiryType)
+    ? "Business requirements"
+    : "Additional message";
+  const fields: readonly (readonly [string, string])[] = [
     ["Request ID", requestId],
     ["Inquiry type", submission.inquiryType.replaceAll("_", " ")],
     ["Company", submission.companyName],
@@ -132,15 +177,17 @@ function formatEmail(
     ["Estimated quantity", submission.estimatedQuantity],
     ["Destination country", submission.destinationCountry],
     ["Destination port", submission.destinationPort || "Not provided"],
+    ...qualificationFields,
+    ["Privacy acknowledgement", "Confirmed"],
     ["Source", submission.sourcePath],
-  ] as const;
+  ];
 
   const text = [
-    "New BorgaFoods export quotation enquiry",
+    "New BorgaFoods RFQ enquiry",
     "",
     ...fields.map(([label, value]) => `${label}: ${value}`),
     "",
-    "Additional message:",
+    `${messageLabel}:`,
     submission.message || "Not provided",
   ].join("\n");
 
@@ -152,9 +199,9 @@ function formatEmail(
     .join("");
 
   const html = [
-    "<h2>New BorgaFoods export quotation enquiry</h2>",
+    "<h2>New BorgaFoods RFQ enquiry</h2>",
     `<table>${htmlRows}</table>`,
-    "<h3>Additional message</h3>",
+    `<h3>${escapeHtml(messageLabel)}</h3>`,
     `<p>${escapeHtml(submission.message || "Not provided").replaceAll("\n", "<br>")}</p>`,
   ].join("");
 

@@ -4,6 +4,7 @@ import {
   currentPublicCatalogueProducts,
   phase4ExpansionProducts,
   products,
+  rfqEligibleProducts,
   type Product,
 } from "../client/src/data/products";
 
@@ -16,6 +17,20 @@ describe("product catalog capability controls", () => {
     ).toBe(true);
     expect(
       phase4ExpansionProducts.some(product => product.slug === "fufu-borga")
+    ).toBe(false);
+    expect(
+      rfqEligibleProducts.some(product => product.slug === "fufu-borga")
+    ).toBe(true);
+  });
+
+  it("keeps Red Palm Oil out of the public catalog and RFQ selector", () => {
+    expect(
+      currentPublicCatalogueProducts.some(product =>
+        /red palm oil/i.test(product.name)
+      )
+    ).toBe(false);
+    expect(
+      rfqEligibleProducts.some(product => /red palm oil/i.test(product.name))
     ).toBe(false);
   });
 

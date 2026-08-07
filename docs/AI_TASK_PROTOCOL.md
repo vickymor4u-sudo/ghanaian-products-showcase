@@ -20,6 +20,14 @@ For Phase 4 product, private-label, or customer-tool work, also read:
 
 6. `docs/PRODUCT_CAPABILITY_MODEL.md`
 7. `docs/PRODUCT_CLASSIFICATION_REVIEW.md`
+8. `docs/PUBLIC_PRODUCT_PRESENTATION_RULES.md`
+
+For Phase 4B wholesale or distributor work, also read:
+
+9. `docs/PHASE_4B_IMPLEMENTATION_BLUEPRINT.md`
+10. `docs/PHASE_4B_QUALIFICATION_RULES.md`
+11. `docs/PHASE_4B_RFQ_FIELD_MAPPING.md`
+12. `docs/PHASE_4B_EMAIL_NOTIFICATION_MAPPING.md`
 
 Then inspect the current repository state, relevant source files, recent commits, and any repository-level agent instructions.
 
@@ -31,6 +39,8 @@ Do not rely on old conversation memory when repository documentation or current 
 - Reuse existing components, routes, design tokens, and layout patterns.
 - Keep product content in the central catalog.
 - Do not duplicate product records across pages.
+- Keep wholesale and distributor qualification inside the existing Contact form, shared RFQ schema, and `/api/export-quote` Function. Do not add a parallel form, endpoint, CRM, or database without approval.
+- Treat buyer qualification as manual internal context only. Never expose lead labels or automate acceptance, rejection, pricing, quotation, appointment, exclusivity, or supply decisions.
 - Do not introduce a CMS, database, framework migration, or server architecture without approval.
 - Do not change Cloudflare settings, environment variables, domains, or deployment configuration unless the task explicitly authorizes it.
 

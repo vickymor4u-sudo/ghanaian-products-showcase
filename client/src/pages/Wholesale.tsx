@@ -33,7 +33,11 @@ export default function Wholesale() {
               retailers, restaurants, and food-service buyers seeking structured
               wholesale and export supply.
             </p>
-            <ExportQuoteButton className="bg-primary hover:bg-primary/90 text-primary-foreground" />
+            <ExportQuoteButton
+              inquiryType="wholesale"
+              label="Request Wholesale Supply"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            />
           </div>
         </div>
       </section>
@@ -181,7 +185,11 @@ export default function Wholesale() {
             Provide your market, products, estimated volume, and packaging
             requirements to begin an export quotation enquiry.
           </p>
-          <ExportQuoteButton className="bg-primary-foreground hover:bg-primary-foreground/90 text-primary" />
+          <ExportQuoteButton
+            inquiryType="distribution"
+            label="Discuss Distribution"
+            className="bg-primary-foreground hover:bg-primary-foreground/90 text-primary"
+          />
         </div>
       </section>
     </div>

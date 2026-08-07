@@ -1,6 +1,6 @@
 # BorgaFoods Business Rules
 
-Last updated: 6 August 2026
+Last updated: 7 August 2026
 
 ## Purpose
 
@@ -117,3 +117,13 @@ Future changes must preserve these constraints.
 - The initial production launch may operate without a separate Cloudflare rate-limiting rule while DNS and Cloudflare zone control are unavailable. During this approved temporary deferral, server-verified Turnstile, the honeypot, validation, origin checks, body limits, and request controls must remain enabled.
 - Endpoint rate limiting must be reconsidered when DNS and Cloudflare zone control are restored.
 - Do not add customer acknowledgements, persistence, attachments, pricing, fixed MOQs, or automatic quotations without a separately approved phase.
+
+## Wholesale and distributor qualification rules
+
+- Wholesale and distributor enquiries must use the existing Contact form, shared quotation schema, and `/api/export-quote` Function. Do not create a second enquiry system.
+- `wholesale` and `distribution` are controlled enquiry intents. They are discussion contexts only and must not imply a distributor appointment, exclusivity, territory right, trading-account approval, allocation, stock, MOQ, pricing, payment term, or supply commitment.
+- The approved buyer categories are `importer`, `distributor`, `wholesaler`, `retail`, `food_service`, and `other`. A buyer category is required for wholesale and distributor enquiries and describes the buyer's stated context only.
+- Sales channel, target market, expected order frequency, and expected timing may be collected as optional, controlled or bounded qualification context. The existing company, contact, destination, packaging, quantity, and message fields remain the common RFQ base.
+- Qualification information is validated server-side, included only in the single internal notification, and reviewed manually. It must not produce automated scoring, acceptance, rejection, quotation, or customer acknowledgement.
+- Internal notifications may include server-derived public product name and supply classification plus validated buyer context. They must never include supplier information, partner brand/manufacturer data, source records, pricing, internal audit fields, review-gate status, private-label eligibility, or secret/operational configuration.
+- Fufu Flour remains in its existing public/RFQ presentation only; no new Phase 4B capability or classification behavior may be added until PCR-001 is resolved. Red Palm Oil remains excluded from every public and RFQ path until PCR-002 is resolved.

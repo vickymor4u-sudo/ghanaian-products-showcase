@@ -71,7 +71,7 @@ Production readiness was approved on 7 August 2026. Cloudflare production deploy
 
 ## Phase 4 — Private label and customer tools
 
-Status: **Phase 4A deployed and production verified; Phase 4B and 4C remain planning-only**
+Status: **Phase 4A deployed and production verified; Phase 4B implemented locally and pending deployment verification; Phase 4C remains planning-only**
 
 Review proposal: [`PHASE_4_PLANNING_PROPOSAL.md`](./PHASE_4_PLANNING_PROPOSAL.md)
 
@@ -107,6 +107,21 @@ Potential implementation scope after approval:
 Partner-sourced products must not be marked private-label or OEM eligible unless the capability is explicitly confirmed.
 
 Phase 4 must not begin from this roadmap entry alone. It requires an approved scope, confirmed eligible products and capabilities, and any required legal or regulatory decisions.
+
+### Phase 4B — Wholesale and distributor qualification
+
+Status: **Implemented locally; deployment verification pending**
+
+Completed implementation:
+
+- extended the existing Contact/RFQ workflow with controlled buyer category, optional sales channel, target market, expected order frequency, expected timing, and an explicit privacy acknowledgement;
+- preserved the existing company, contact, country, product, packaging, quantity, destination, message, Turnstile, honeypot, origin, request-size, idempotency, and buyer `Reply-To` controls;
+- added wholesale and distributor CTA preselection while retaining the single Contact route and `/api/export-quote` Function;
+- added validated qualification context to the single internal Resend notification without a CRM, database, automatic quotation, acknowledgement, pricing, or product expansion;
+- kept Fufu Flour in its existing RFQ behavior, excluded Red Palm Oil, and retained the partner brand/manufacturer confidentiality build guard; and
+- recorded the field and internal-email mappings as implementation references.
+
+Before deployment, verify the existing production Resend and Turnstile settings, run full build/test/catalog/confidentiality checks, and perform route, responsive, and live-delivery verification. Phase 4C remains out of scope until separately approved.
 
 ## Cross-phase work
 

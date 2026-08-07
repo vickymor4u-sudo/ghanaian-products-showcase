@@ -4,6 +4,7 @@ import { onRequest } from "./export-quote";
 const validSubmission = {
   submissionId: "9a5758c6-cfe7-4a7b-88b9-fc101673a1a1",
   inquiryType: "export_quote",
+  buyerCategory: "",
   companyName: "Accra Foods Import Ltd",
   contactPerson: "Ama Buyer",
   country: "United Kingdom",
@@ -14,7 +15,12 @@ const validSubmission = {
   estimatedQuantity: "5 metric tons",
   destinationCountry: "United Kingdom",
   destinationPort: "Tilbury",
+  intendedSalesChannel: "",
+  targetMarket: "",
+  expectedOrderFrequency: "",
+  requirementsTimeline: "",
   message: "Please confirm available retail formats.",
+  privacyConsent: true,
   sourcePath: "/contact",
   website: "",
   turnstileToken: "valid-turnstile-token",
@@ -76,6 +82,38 @@ describe("POST /api/export-quote", () => {
     );
 
     expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("requires a buyer category for wholesale and distributor enquiries", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await onRequest(
+      createContext({
+        ...validSubmission,
+        inquiryType: "wholesale",
+        buyerCategory: "",
+      })
+    );
+
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects missing privacy acknowledgement and unexpected fields", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const missingConsent = await onRequest(
+      createContext({ ...validSubmission, privacyConsent: false })
+    );
+    const unexpectedField = await onRequest(
+      createContext({ ...validSubmission, internalPricing: "secret" })
+    );
+
+    expect(missingConsent.status).toBe(400);
+    expect(unexpectedField.status).toBe(400);
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
@@ -143,7 +181,7 @@ describe("POST /api/export-quote", () => {
     });
   });
 
-  it("sends one internal notification with a request ID and no supplier data", async () => {
+  it("sends one internal notification with qualification context and no supplier data", async () => {
     const fetchMock = vi
       .fn()
       .mockResolvedValueOnce(
@@ -160,6 +198,12 @@ describe("POST /api/export-quote", () => {
     const response = await onRequest(
       createContext({
         ...validSubmission,
+        inquiryType: "distribution",
+        buyerCategory: "distributor",
+        intendedSalesChannel: "retail",
+        targetMarket: "United Kingdom and Ireland",
+        expectedOrderFrequency: "quarterly",
+        requirementsTimeline: "planning_ahead",
         destinationCountry: "United\nKingdom",
         message: "Use <script>alert('no')</script> as plain text.",
       })
@@ -190,11 +234,20 @@ describe("POST /api/export-quote", () => {
     expect(email.reply_to).toBe("buyer@example.com");
     expect(String(email.subject)).not.toMatch(/[\r\n]/);
     expect(String(email.text)).toContain("Destination country: United Kingdom");
+    expect(String(email.text)).toContain("Buyer category: Distributor");
+    expect(String(email.text)).toContain(
+      "Intended sales channel: Retail stores or supermarkets"
+    );
+    expect(String(email.text)).toContain("Expected timing: Planning ahead");
+    expect(String(email.text)).toContain("Privacy acknowledgement: Confirmed");
+    expect(String(email.text)).toContain("Business requirements:");
     expect(String(email.html)).toContain(
       "&lt;script&gt;alert(&#39;no&#39;)&lt;/script&gt;"
     );
     expect(String(email.html)).not.toContain("<script>");
-    expect(String(email.text)).not.toMatch(/supplier name|supplier brand/i);
+    expect(String(email.text)).not.toMatch(
+      /supplier name|supplier brand|source alignment|internal pricing/i
+    );
     expect(headers["Idempotency-Key"]).toBe(
       `borgafoods-rfq-${validSubmission.submissionId}`
     );
