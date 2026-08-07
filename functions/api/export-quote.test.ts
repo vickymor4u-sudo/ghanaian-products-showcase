@@ -40,6 +40,8 @@ function createContext(
       body: method === "GET" ? undefined : JSON.stringify(body),
     }),
     env: {
+      EXPORT_QUOTE_FROM_EMAIL: "sender@example.com",
+      EXPORT_QUOTE_NOTIFICATION_EMAIL: "internal@example.com",
       TURNSTILE_SECRET_KEY: "turnstile-secret",
       RESEND_API_KEY: "resend-secret",
       ...options.env,
@@ -80,7 +82,12 @@ describe("POST /api/export-quote", () => {
   it("fails closed when encrypted secrets are unavailable", async () => {
     const response = await onRequest(
       createContext(validSubmission, {
-        env: { TURNSTILE_SECRET_KEY: "", RESEND_API_KEY: "" },
+        env: {
+          EXPORT_QUOTE_FROM_EMAIL: "",
+          EXPORT_QUOTE_NOTIFICATION_EMAIL: "",
+          TURNSTILE_SECRET_KEY: "",
+          RESEND_API_KEY: "",
+        },
       })
     );
 
@@ -178,8 +185,8 @@ describe("POST /api/export-quote", () => {
     const headers = resendOptions.headers as Record<string, string>;
 
     expect(resendUrl).toBe("https://api.resend.com/emails");
-    expect(email.to).toEqual(["export@borgafoods.com"]);
-    expect(email.from).toBe("BorgaFoods Website <export@borgafoods.com>");
+    expect(email.to).toEqual(["internal@example.com"]);
+    expect(email.from).toBe("BorgaFoods Export Quote <sender@example.com>");
     expect(email.reply_to).toBe("buyer@example.com");
     expect(String(email.subject)).not.toMatch(/[\r\n]/);
     expect(String(email.text)).toContain("Destination country: United Kingdom");

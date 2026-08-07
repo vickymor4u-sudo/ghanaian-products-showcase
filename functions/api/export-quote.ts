@@ -1,6 +1,5 @@
 import { products, productTypeLabels } from "../../client/src/data/products";
 import {
-  EXPORT_ENQUIRY_EMAIL,
   exportQuoteSchema,
   packagingPreferenceLabels,
   type ExportQuoteErrorCode,
@@ -8,6 +7,8 @@ import {
 } from "../../shared/exportQuote";
 
 interface Environment {
+  EXPORT_QUOTE_FROM_EMAIL?: string;
+  EXPORT_QUOTE_NOTIFICATION_EMAIL?: string;
   RESEND_API_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
 }
@@ -74,6 +75,21 @@ function sanitizeEmailHeader(value: string) {
     .replace(/[\u0000-\u001f\u007f]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function getConfiguredEmail(value?: string) {
+  const normalized = value?.trim();
+
+  if (
+    !normalized ||
+    normalized.length > 254 ||
+    /[\r\n\u0000-\u001f\u007f]/.test(normalized) ||
+    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(normalized)
+  ) {
+    return null;
+  }
+
+  return normalized;
 }
 
 function getProductDetails(productSelection: string) {
@@ -175,7 +191,9 @@ async function sendQuotationEmail(
   submission: ExportQuoteSubmission,
   requestId: string,
   product: { label: string; supply: string },
-  apiKey: string
+  apiKey: string,
+  fromEmail: string,
+  notificationEmail: string
 ) {
   const companyForSubject = sanitizeEmailHeader(submission.companyName);
   const destinationForSubject = sanitizeEmailHeader(
@@ -191,8 +209,8 @@ async function sendQuotationEmail(
       "Idempotency-Key": `borgafoods-rfq-${submission.submissionId}`,
     },
     body: JSON.stringify({
-      from: `BorgaFoods Website <${EXPORT_ENQUIRY_EMAIL}>`,
-      to: [EXPORT_ENQUIRY_EMAIL],
+      from: `BorgaFoods Export Quote <${fromEmail}>`,
+      to: [notificationEmail],
       reply_to: submission.email,
       subject: `[RFQ] ${companyForSubject} — ${destinationForSubject} — ${requestId}`,
       text,
@@ -255,7 +273,17 @@ export async function onRequest(context: PagesFunctionContext) {
     return errorResponse("invalid_request", 400);
   }
 
-  if (!context.env.TURNSTILE_SECRET_KEY || !context.env.RESEND_API_KEY) {
+  const fromEmail = getConfiguredEmail(context.env.EXPORT_QUOTE_FROM_EMAIL);
+  const notificationEmail = getConfiguredEmail(
+    context.env.EXPORT_QUOTE_NOTIFICATION_EMAIL
+  );
+
+  if (
+    !context.env.TURNSTILE_SECRET_KEY ||
+    !context.env.RESEND_API_KEY ||
+    !fromEmail ||
+    !notificationEmail
+  ) {
     return errorResponse("service_unavailable", 503);
   }
 
@@ -274,7 +302,9 @@ export async function onRequest(context: PagesFunctionContext) {
       parsed.data,
       requestId,
       product,
-      context.env.RESEND_API_KEY
+      context.env.RESEND_API_KEY,
+      fromEmail,
+      notificationEmail
     );
 
     if (!providerMessageId) {

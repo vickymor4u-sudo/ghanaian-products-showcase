@@ -56,7 +56,7 @@ Completed implementation:
 - added a shared Zod schema for browser and server quotation data;
 - expanded the form with company, contact, market, phone/WhatsApp, product, packaging, quantity, destination, port, and message fields;
 - added Cloudflare Turnstile with mandatory server-side token, hostname, and action verification;
-- integrated one internal Resend notification to `export@borgafoods.com` with the buyer address in `Reply-To`;
+- integrated one internal Resend notification with a server-only configurable recipient and sender, keeping `export@borgafoods.com` public and the buyer address in `Reply-To`;
 - added provider idempotency, request IDs, body limits, origin checks, input escaping, safe errors, and a honeypot;
 - added buyer-visible submitting, success, verification, failure, and email-fallback states;
 - kept the first release stateless with no database, CRM, attachments, or automatic customer acknowledgement;
@@ -65,7 +65,7 @@ Completed implementation:
 
 Primary implementation commit: `249494d35fccd455314967c0196b9b08eef5301a`
 
-Production remains gated on Resend domain verification, the operational mailbox, a production Turnstile widget, Cloudflare encrypted secrets, a public Turnstile site-key build variable, rate-limiting configuration, approved privacy/retention handling, preview delivery testing, deployment of the intended commit, and a verified live mailbox delivery. Until those checks pass, the server-backed Contact form must not be described as operational.
+Production remains gated on an authorized Resend sender, the approved temporary notification-recipient configuration, the Resend API key, rate-limiting configuration, approved privacy/retention handling, preview delivery testing, deployment of the intended commit, and verified live mailbox delivery. The intended future mailbox remains `export@borgafoods.com`; the temporary Gmail fallback is server-only while domain DNS access is unavailable. Until those checks pass, the server-backed Contact form must not be described as operational.
 
 ## Phase 4 — Private label and customer tools
 

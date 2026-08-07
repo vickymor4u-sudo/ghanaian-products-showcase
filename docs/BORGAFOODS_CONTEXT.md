@@ -130,7 +130,7 @@ The existing website must be extended rather than replaced. It is a static, clie
 
 The product catalog is centralized in `client/src/data/products.ts`. Home, Products, product-related SEO content, and the Contact product selector consume this catalog.
 
-Phase 3 adds a same-project Cloudflare Pages Function at `/api/export-quote`. The Contact form uses a shared Zod request schema, Cloudflare Turnstile verification, and Resend to deliver one internal quotation notification to `export@borgafoods.com`. The workflow does not create a database, CRM record, attachment store, or automatic customer acknowledgement.
+Phase 3 adds a same-project Cloudflare Pages Function at `/api/export-quote`. The Contact form uses a shared Zod request schema, Cloudflare Turnstile verification, and Resend to deliver one internal quotation notification to a server-only configured recipient. `export@borgafoods.com` remains the intended production mailbox and public identity; while domain DNS access is unavailable, the approved personal Gmail address is a temporary internal fallback that must never be browser-delivered or customer-facing. The workflow does not create a database, CRM record, attachment store, or automatic customer acknowledgement.
 
 The Phase 3 code is committed but must not be described as operational until the production Turnstile widget, encrypted secrets, Resend domain, mailbox delivery, and Cloudflare deployment have been verified.
 

@@ -98,14 +98,17 @@ Future changes must preserve these constraints.
 
 ## Export quotation workflow rules
 
-- The operational quotation mailbox is `export@borgafoods.com`.
+- The intended production quotation mailbox and public enquiry address is `export@borgafoods.com`.
+- Until BorgaFoods regains the required domain DNS access, the approved personal Gmail address may be used only as a temporary, server-side operational recipient.
+- The temporary recipient must never appear in website pages, browser-delivered code, public metadata, structured data, customer-facing messages, or email fallback links.
+- The notification recipient and provider-authorized sender address must be supplied through server-only Cloudflare configuration. Switching delivery back to `export@borgafoods.com` must require configuration changes only.
 - Quotation submissions must be validated on the server and protected by server-verified Cloudflare Turnstile tokens.
 - Resend is the approved transactional provider for the quotation notification.
 - The first operational version must send one internal notification only. It must not send an automatic customer acknowledgement.
 - Phase 3 must not create a database, CRM record, or file store.
 - The website may report success only after the transactional provider accepts the internal notification.
 - Buyer input must be preserved when submission fails, and a direct `mailto:` fallback to `export@borgafoods.com` must remain available.
-- The email `From` address must be domain-aligned. The buyer's validated email belongs in `Reply-To`, not `From`.
+- The email display identity is `BorgaFoods Export Quote`. The configured `From` address must be authorized by Resend; after domain verification it must be domain-aligned. The buyer's validated email belongs in `Reply-To`, not `From`.
 - Quotation payloads and emails may use public product names, slugs, and approved supply statements only. They must not request, store, or reveal supplier identity.
 - Turnstile and Resend secret keys must be stored only as Cloudflare encrypted secrets and must never use the `VITE_` prefix.
 - `VITE_TURNSTILE_SITE_KEY` is a public build-time value, not a secret.
