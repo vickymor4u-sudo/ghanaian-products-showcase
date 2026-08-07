@@ -2,6 +2,25 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 7 August 2026 — Phase 4A export catalogue controls
+
+Implementation commit: `b3ee1c1e83afe15c343c5e0af8e2ffd1c43cd00e`
+
+Completed changes:
+
+- added capability-model-derived public-display and source-alignment controls to the centralized typed product catalog;
+- added derived current-public, manufactured, partner-sourced, Phase 4 expansion, and RFQ selectors without creating a second product system;
+- retained Fufu Flour in its existing public catalog and RFQ experience while excluding it from the new Phase 4 expansion selector until PCR-001 is resolved;
+- kept Red Palm Oil out of all public catalog, metadata, and RFQ data;
+- updated Home, Products, Export Solutions, Contact, and the quotation Function to use the relevant derived selector;
+- added a mandatory catalog verification step to the production build that fails if any partner-sourced record exposes a public brand or manufacturer field;
+- added catalog tests for the Fufu review gate and partner brand/manufacturer confidentiality rule;
+- recorded the frozen capability model, review gate, Phase 4 blueprint, execution roadmap, and public product-presentation rules as permanent project documentation.
+
+Validation: catalog verification passed with 5 current public records and 4 Phase 4 expansion-eligible records; TypeScript check passed; all 9 Vitest tests passed; production build passed; affected desktop and 390 px mobile route smoke tests passed with no browser console errors; no Red Palm Oil, supplier identifiers, or personal Gmail address appeared in the production build.
+
+Deployment status: committed locally only. No push or Cloudflare deployment was requested or performed.
+
 ## 7 August 2026 — Phase 3 production readiness
 
 Privacy-notice commit: `cdbbed56221d38fde372804bc4d90161eec8f05f`
