@@ -1,6 +1,6 @@
 # BorgaFoods Project Context
 
-Last updated: 6 August 2026
+Last updated: 7 August 2026
 
 ## Purpose of this document
 
@@ -132,7 +132,7 @@ The product catalog is centralized in `client/src/data/products.ts`. Home, Produ
 
 Phase 3 adds a same-project Cloudflare Pages Function at `/api/export-quote`. The Contact form uses a shared Zod request schema, Cloudflare Turnstile verification, and Resend to deliver one internal quotation notification to a server-only configured recipient. `export@borgafoods.com` remains the intended production mailbox and public identity; while domain DNS access is unavailable, the approved personal Gmail address is a temporary internal fallback that must never be browser-delivered or customer-facing. The workflow does not create a database, CRM record, attachment store, or automatic customer acknowledgement.
 
-The Phase 3 code is committed but must not be described as operational until the production Turnstile widget, encrypted secrets, Resend domain, mailbox delivery, and Cloudflare deployment have been verified.
+Phase 3 is completed and production verified. The verified production workflow accepts an enquiry only after server-side validation and Turnstile verification, then sends one internal notification with the buyer's validated address in `Reply-To`. The temporary sender and recipient remain configuration-only until BorgaFoods regains domain DNS control. The approved 24-month enquiry-retention rule and temporary rate-limit deferral are recorded in `BUSINESS_RULES.md` and `EMAIL_CONFIGURATION.md`.
 
 ## Current technology stack
 
@@ -164,3 +164,4 @@ There is no CMS, database, CRM, or customer portal in the repository. The quotat
 - `CHANGE_LOG.md`: completed project changes and commits
 - `AI_TASK_PROTOCOL.md`: mandatory working protocol for future AI agents
 - `EMAIL_CONFIGURATION.md`: public export email, external setup, and future integration requirements
+- `PHASE_4_PLANNING_PROPOSAL.md`: Phase 4 review proposal; not implementation authorization

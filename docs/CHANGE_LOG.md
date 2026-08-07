@@ -8,6 +8,8 @@ Privacy-notice commit: `cdbbed56221d38fde372804bc4d90161eec8f05f`
 
 Readiness deployment commit: `3ef938f5b9d97bc450a9e37546b4f6eb109f2aaa`
 
+Production-verification documentation commit: `5547248bb847b6ed033c1944b484793f37832d57`
+
 Completed changes:
 
 - added the approved quotation-form consent notice and the 24-month maximum retention statement;

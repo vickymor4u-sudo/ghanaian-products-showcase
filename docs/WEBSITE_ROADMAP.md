@@ -1,6 +1,6 @@
 # BorgaFoods Website Roadmap
 
-Last updated: 6 August 2026
+Last updated: 7 August 2026
 
 ## Roadmap principles
 
@@ -71,9 +71,11 @@ Production readiness was approved on 7 August 2026. Cloudflare production deploy
 
 ## Phase 4 — Private label and customer tools
 
-Status: **Planned**
+Status: **Planning proposal prepared; implementation requires review and approval**
 
-Planned scope:
+Review proposal: [`PHASE_4_PLANNING_PROPOSAL.md`](./PHASE_4_PLANNING_PROPOSAL.md)
+
+Potential implementation scope after approval:
 
 - add a Private Label/OEM section for eligible products;
 - document packaging, artwork, labeling, samples, approval, production, and compliance steps;
@@ -82,6 +84,8 @@ Planned scope:
 - consider secure document exchange, quote tracking, order updates, or customer portals only after requirements and access controls are approved.
 
 Partner-sourced products must not be marked private-label or OEM eligible unless the capability is explicitly confirmed.
+
+Phase 4 must not begin from this roadmap entry alone. It requires an approved scope, confirmed eligible products and capabilities, and any required legal or regulatory decisions.
 
 ## Cross-phase work
 
