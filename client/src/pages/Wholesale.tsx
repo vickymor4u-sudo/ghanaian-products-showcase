@@ -134,6 +134,36 @@ export default function Wholesale() {
 
       <section className="py-20">
         <div className="container">
+          <Card className="max-w-4xl mx-auto p-8 md:p-10 border-primary/30">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4">
+              Private-label Discovery
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5">
+              Discuss Selected Product Opportunities
+            </h2>
+            <p className="text-lg text-foreground leading-relaxed mb-6">
+              BorgaFoods supports private-label discussions for selected
+              products. Private-label opportunities are reviewed individually
+              based on product specifications, packaging requirements, order
+              volume, and production feasibility.
+            </p>
+            <p className="text-foreground leading-relaxed mb-8">
+              Each enquiry is reviewed manually. Packaging, specifications,
+              production feasibility, regulatory requirements, and commercial
+              terms are confirmed before any acceptance; submitting an enquiry
+              does not create a customer commitment.
+            </p>
+            <ExportQuoteButton
+              inquiryType="private_label"
+              label="Start Private-label Discussion"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            />
+          </Card>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="container">
           <div className="max-w-3xl mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-5">
               Distributor Partnerships

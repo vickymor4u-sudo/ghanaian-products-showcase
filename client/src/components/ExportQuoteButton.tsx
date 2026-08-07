@@ -8,7 +8,7 @@ interface ExportQuoteButtonProps {
   size?: "default" | "sm" | "lg" | "icon";
   variant?: "default" | "outline" | "secondary" | "ghost" | "link";
   showArrow?: boolean;
-  inquiryType?: "export_quote" | "wholesale" | "distribution";
+  inquiryType?: "export_quote" | "wholesale" | "distribution" | "private_label";
   label?: string;
 }
 

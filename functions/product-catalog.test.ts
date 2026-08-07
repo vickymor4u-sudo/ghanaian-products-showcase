@@ -3,6 +3,7 @@ import {
   assertProductCatalogIntegrity,
   currentPublicCatalogueProducts,
   phase4ExpansionProducts,
+  privateLabelDiscoveryProducts,
   products,
   rfqEligibleProducts,
   type Product,
@@ -34,6 +35,17 @@ describe("product catalog capability controls", () => {
     ).toBe(false);
   });
 
+  it("allows private-label discovery only for the approved Fufu Borga record", () => {
+    expect(privateLabelDiscoveryProducts.map(product => product.slug)).toEqual([
+      "fufu-borga",
+    ]);
+    expect(
+      privateLabelDiscoveryProducts.every(
+        product => product.supplyType === "manufactured"
+      )
+    ).toBe(true);
+  });
+
   it("does not expose brand or manufacturer fields for partner-sourced products", () => {
     for (const product of products) {
       if (product.supplyType === "partner_sourced") {
@@ -53,6 +65,21 @@ describe("product catalog capability controls", () => {
 
     expect(() => assertProductCatalogIntegrity([invalidPartner])).toThrow(
       /must not expose a public brand or manufacturer/
+    );
+  });
+
+  it("fails catalog validation when a partner-sourced record is approved for private-label discovery", () => {
+    const invalidPartner = {
+      ...products[0],
+      slug: "invalid-private-label-partner",
+      supplyType: "partner_sourced",
+      privateLabelDiscoveryApproved: true,
+    } as unknown as Product;
+    delete (invalidPartner as unknown as Record<string, unknown>).brand;
+    delete (invalidPartner as unknown as Record<string, unknown>).manufacturer;
+
+    expect(() => assertProductCatalogIntegrity([invalidPartner])).toThrow(
+      /Only manufactured products may be approved for private-label discovery/
     );
   });
 });

@@ -40,6 +40,7 @@ Do not rely on old conversation memory when repository documentation or current 
 - Keep product content in the central catalog.
 - Do not duplicate product records across pages.
 - Keep wholesale and distributor qualification inside the existing Contact form, shared RFQ schema, and `/api/export-quote` Function. Do not add a parallel form, endpoint, CRM, or database without approval.
+- Keep private-label discovery inside the same Contact form, shared RFQ schema, and `/api/export-quote` Function. Derive private-label product choices from the central catalog's explicit product-level approval; never infer eligibility from manufacture, export, wholesale, or partner status.
 - Treat buyer qualification as manual internal context only. Never expose lead labels or automate acceptance, rejection, pricing, quotation, appointment, exclusivity, or supply decisions.
 - Do not introduce a CMS, database, framework migration, or server architecture without approval.
 - Do not change Cloudflare settings, environment variables, domains, or deployment configuration unless the task explicitly authorizes it.
@@ -58,6 +59,7 @@ Do not rely on old conversation memory when repository documentation or current 
 - Require an explicit supply type for every product.
 - Never default a product to manufactured.
 - Never expose partner supplier identity in browser-delivered content or metadata.
+- Treat private-label discovery as a manual-review discussion only. Do not publish a private-label, OEM, packaging, labeling, regulatory, MOQ, pricing, lead-time, capacity, or production commitment unless the exact product-level capability and wording are approved.
 - Do not invent claims, certifications, specifications, pricing, MOQs, lead times, or partnerships.
 - Flag missing business decisions instead of silently guessing when the choice would change public meaning.
 

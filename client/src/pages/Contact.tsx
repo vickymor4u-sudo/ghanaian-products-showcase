@@ -6,17 +6,23 @@ import TurnstileWidget from "@/components/TurnstileWidget";
 import { CheckCircle2, Mail, MapPin, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import SEO from "@/components/SEO";
-import { rfqEligibleProducts } from "@/data/products";
+import {
+  privateLabelDiscoveryProducts,
+  rfqEligibleProducts,
+} from "@/data/products";
 import {
   EXPORT_ENQUIRY_EMAIL,
   EXPORT_QUOTE_API_PATH,
   TURNSTILE_SITE_KEY,
 } from "@/config/site";
 import {
+  artworkReadinesses,
+  artworkReadinessLabels,
   buyerCategories,
   buyerCategoryLabels,
   type InquiryType,
   isQualificationInquiry,
+  isPrivateLabelInquiry,
   orderFrequencies,
   orderFrequencyLabels,
   packagingPreferenceLabels,
@@ -44,6 +50,7 @@ function createInitialFormData(): QuoteFormData {
     "export-quote": "export_quote",
     wholesale: "wholesale",
     distribution: "distribution",
+    "private-label": "private_label",
   };
   const inquiryType =
     inquiryTypeByQuery[
@@ -67,6 +74,8 @@ function createInitialFormData(): QuoteFormData {
     targetMarket: "",
     expectedOrderFrequency: "",
     requirementsTimeline: "",
+    artworkReadiness: "",
+    labelingRequirements: "",
     message: "",
     privacyConsent: false,
   };
@@ -113,10 +122,26 @@ export default function Contact() {
         [name]: value,
       } as unknown as QuoteFormData;
 
-      if (
-        name === "inquiryType" &&
-        !isQualificationInquiry(value as InquiryType)
-      ) {
+      if (name === "inquiryType") {
+        const inquiryType = value as InquiryType;
+
+        if (isQualificationInquiry(inquiryType)) {
+          return {
+            ...next,
+            artworkReadiness: "",
+            labelingRequirements: "",
+          };
+        }
+
+        if (isPrivateLabelInquiry(inquiryType)) {
+          return {
+            ...next,
+            buyerCategory: "",
+            expectedOrderFrequency: "",
+            productSelection: "",
+          };
+        }
+
         return {
           ...next,
           buyerCategory: "",
@@ -124,6 +149,8 @@ export default function Contact() {
           targetMarket: "",
           expectedOrderFrequency: "",
           requirementsTimeline: "",
+          artworkReadiness: "",
+          labelingRequirements: "",
         };
       }
 
@@ -195,6 +222,11 @@ export default function Contact() {
   };
 
   const isQualificationForm = isQualificationInquiry(formData.inquiryType);
+  const isPrivateLabelForm = isPrivateLabelInquiry(formData.inquiryType);
+  const showsMarketContext = isQualificationForm || isPrivateLabelForm;
+  const selectableProducts = isPrivateLabelForm
+    ? privateLabelDiscoveryProducts
+    : rfqEligibleProducts;
   const formTitle =
     formData.inquiryType === "export_quote"
       ? "Request Export Quote"
@@ -202,13 +234,17 @@ export default function Contact() {
         ? "Request Wholesale Supply"
         : formData.inquiryType === "distribution"
           ? "Discuss Distribution"
-          : "Business Inquiry Form";
+          : formData.inquiryType === "private_label"
+            ? "Private-label Discovery"
+            : "Business Inquiry Form";
   const submitLabel =
     formData.inquiryType === "wholesale"
       ? "Submit Wholesale Enquiry"
       : formData.inquiryType === "distribution"
         ? "Submit Distribution Enquiry"
-        : "Submit Export Enquiry";
+        : formData.inquiryType === "private_label"
+          ? "Submit Private-label Enquiry"
+          : "Submit Export Enquiry";
 
   return (
     <div className="min-h-screen bg-background">
@@ -362,8 +398,32 @@ export default function Contact() {
                       <option value="distribution">
                         Distributor partnership
                       </option>
+                      <option value="private_label">
+                        Private-label discovery
+                      </option>
                     </select>
                   </div>
+
+                  {isPrivateLabelForm && (
+                    <div className="rounded-lg border border-primary/20 bg-primary/5 p-5 space-y-2">
+                      <h3 className="font-bold text-foreground">
+                        Private-label Discovery
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        BorgaFoods supports private-label discussions for
+                        selected products. Private-label opportunities are
+                        reviewed individually based on product specifications,
+                        packaging requirements, order volume, and production
+                        feasibility.
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        An enquiry does not create a production or customer
+                        commitment. MOQ, packaging, specifications, production
+                        feasibility, and regulatory requirements are confirmed
+                        only through manual review.
+                      </p>
+                    </div>
+                  )}
 
                   {isQualificationForm && (
                     <div className="rounded-lg border border-primary/20 bg-primary/5 p-5 space-y-4">
@@ -445,7 +505,7 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  {isQualificationForm && (
+                  {showsMarketContext && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label
@@ -591,15 +651,19 @@ export default function Contact() {
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="">Select products</option>
-                        {rfqEligibleProducts.map(product => (
+                        {selectableProducts.map(product => (
                           <option key={product.slug} value={product.slug}>
                             {product.name}
                           </option>
                         ))}
-                        <option value="all">All current products</option>
-                        <option value="other">
-                          Other product or export selection
-                        </option>
+                        {!isPrivateLabelForm && (
+                          <option value="all">All current products</option>
+                        )}
+                        {!isPrivateLabelForm && (
+                          <option value="other">
+                            Other product or export selection
+                          </option>
+                        )}
                       </select>
                     </div>
                     <div>
@@ -719,14 +783,86 @@ export default function Contact() {
                     </div>
                   )}
 
+                  {isPrivateLabelForm && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label
+                          htmlFor="artworkReadiness"
+                          className="block text-sm font-semibold text-foreground mb-2"
+                        >
+                          Artwork or Label Readiness
+                        </label>
+                        <select
+                          id="artworkReadiness"
+                          name="artworkReadiness"
+                          value={formData.artworkReadiness}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                          <option value="">Select if known</option>
+                          {artworkReadinesses.map(value => (
+                            <option key={value} value={value}>
+                              {artworkReadinessLabels[value]}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="requirementsTimeline"
+                          className="block text-sm font-semibold text-foreground mb-2"
+                        >
+                          Indicative Launch Timing
+                        </label>
+                        <select
+                          id="requirementsTimeline"
+                          name="requirementsTimeline"
+                          value={formData.requirementsTimeline}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                          <option value="">Select if known</option>
+                          {requirementsTimelines.map(value => (
+                            <option key={value} value={value}>
+                              {requirementsTimelineLabels[value]}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  )}
+
+                  {isPrivateLabelForm && (
+                    <div>
+                      <label
+                        htmlFor="labelingRequirements"
+                        className="block text-sm font-semibold text-foreground mb-2"
+                      >
+                        Labeling or Language Requirements
+                      </label>
+                      <textarea
+                        id="labelingRequirements"
+                        name="labelingRequirements"
+                        value={formData.labelingRequirements}
+                        onChange={handleChange}
+                        rows={3}
+                        maxLength={500}
+                        className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Optional requirements for manual review"
+                      />
+                    </div>
+                  )}
+
                   <div>
                     <label
                       htmlFor="message"
                       className="block text-sm font-semibold text-foreground mb-2"
                     >
-                      {isQualificationForm
-                        ? "Business Requirements"
-                        : "Additional Message"}
+                      {isPrivateLabelForm
+                        ? "Product Specifications and Requirements *"
+                        : isQualificationForm
+                          ? "Business Requirements"
+                          : "Additional Message"}
                     </label>
                     <textarea
                       id="message"
@@ -735,11 +871,14 @@ export default function Contact() {
                       onChange={handleChange}
                       rows={5}
                       maxLength={2000}
+                      required={isPrivateLabelForm}
                       className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder={
-                        isQualificationForm
-                          ? "Tell us about your product, packaging, market, and business requirements..."
-                          : "Tell us more about your business and requirements..."
+                        isPrivateLabelForm
+                          ? "Describe the product specifications, packaging, market, and any regulatory considerations for manual review..."
+                          : isQualificationForm
+                            ? "Tell us about your product, packaging, market, and business requirements..."
+                            : "Tell us more about your business and requirements..."
                       }
                     />
                   </div>

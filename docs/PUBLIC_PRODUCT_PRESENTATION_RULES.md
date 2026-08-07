@@ -47,12 +47,12 @@ Never describe a partner-sourced item as manufactured, processed, produced, owne
 
 A product marked as requiring validation, confirmation, approval, or classification review is excluded from new Phase 4 public content until the relevant decision is recorded in the central catalog and frozen capability model.
 
-| Review item | Mandatory handling |
-| --- | --- |
-| Fufu Flour (PCR-001) | Do not create new Phase 4 packaging, export, classification, structured-data, enquiry-selection, or private-label messaging from the unresolved source record. |
-| Red Palm Oil (PCR-002) | Keep internal only. Do not list publicly, include in schema or buyer selectors, describe as manufactured, or show private-label eligibility. |
+| Review item            | Mandatory handling                                                                                                                                             |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fufu Flour (PCR-001)   | Do not create new Phase 4 packaging, export, classification, or structured-data content from the unresolved source record. A narrow, recorded exception permits the existing `fufu-borga` record in private-label discovery only. |
+| Red Palm Oil (PCR-002) | Keep internal only. Do not list publicly, include in schema or buyer selectors, describe as manufactured, or show private-label eligibility.                   |
 
-No unresolved product may be introduced through a category page, export collection, site search, card, image gallery, product metadata, sitemap entry, quotation option, email template, or AI-generated response.
+No unresolved product may be introduced through a category page, export collection, site search, card, image gallery, product metadata, sitemap entry, quotation option, email template, or AI-generated response, except for the recorded `fufu-borga` private-label discovery path described below.
 
 ## 4. Private-label/OEM wording restrictions
 
@@ -60,10 +60,12 @@ Private-label/OEM is an enquiry-led capability discussion, not a public promise.
 
 - A manufactured product with `requires_business_approval` is not automatically eligible and must not be presented as eligible.
 - A partner-sourced product with `not_eligible_by_default` must be excluded from private-label/OEM content and selection lists.
-- Only an explicitly approved manufactured Product ID may appear in a private-label enquiry path.
-- Approved copy must say that product, packaging, artwork, labeling, market requirements, volumes, timing, documentation, and commercial terms are reviewed per enquiry.
+- Only an explicitly approved manufactured Product ID may appear in a private-label enquiry path. The current approved Product ID is `fufu-borga` (Fufu Borga) only.
+- Approved public wording is: “BorgaFoods supports private-label discussions for selected products. Private-label opportunities are reviewed individually based on product specifications, packaging requirements, order volume, and production feasibility.”
+- The private-label path must state that every enquiry is manually reviewed; MOQ, packaging, specifications, production feasibility, and regulatory requirements are confirmed before acceptance; and submitting an enquiry creates no customer commitment.
+- The BorgaFoods management/export team is the internal owner for manual review.
 
-Do not claim or imply that BorgaFoods can provide private label, OEM, customized packaging, artwork support, labeling support, samples, regulatory support, production capacity, pricing, MOQ, lead time, or launch timing without an approved product-level capability and approved wording.
+Do not claim or imply that BorgaFoods can provide private label, OEM, customized packaging, artwork support, labeling support, samples, regulatory support, production capacity, pricing, MOQ, lead time, or launch timing without an approved product-level capability and approved wording. The Fufu Borga discovery approval is not such a capability promise.
 
 ## 5. Supplier confidentiality rules
 

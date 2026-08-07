@@ -71,7 +71,7 @@ Production readiness was approved on 7 August 2026. Cloudflare production deploy
 
 ## Phase 4 — Private label and customer tools
 
-Status: **Phase 4A deployed and production verified; Phase 4B implemented locally and pending deployment verification; Phase 4C remains planning-only**
+Status: **Phase 4A and 4B deployed and production verified; Phase 4C implemented locally and pending deployment verification**
 
 Review proposal: [`PHASE_4_PLANNING_PROPOSAL.md`](./PHASE_4_PLANNING_PROPOSAL.md)
 
@@ -92,7 +92,7 @@ Completed implementation:
 - added a build-blocking catalog verification step that rejects a partner-sourced record exposing public brand or manufacturer fields;
 - added catalog control tests alongside the existing quotation tests.
 
-No partner-sourced product has been newly published because the capability model contains no partner record with public-display approval. No private-label claim or workflow was added.
+No partner-sourced product has been newly published because the capability model contains no partner record with public-display approval.
 
 Production deployment `5eb7632b-674e-45f5-8691-2de40e81edd9` succeeded from GitHub `main` on 7 August 2026. The production build executed the mandatory catalog verification (5 current public products; 4 Phase 4 expansion-eligible products). The affected public routes, current Fufu Flour presentation, Red Palm Oil exclusion, supplier confidentiality controls, and existing RFQ form/Function behavior were verified live.
 
@@ -121,7 +121,23 @@ Completed implementation:
 - kept Fufu Flour in its existing RFQ behavior, excluded Red Palm Oil, and retained the partner brand/manufacturer confidentiality build guard; and
 - recorded the field and internal-email mappings as implementation references.
 
-Before deployment, verify the existing production Resend and Turnstile settings, run full build/test/catalog/confidentiality checks, and perform route, responsive, and live-delivery verification. Phase 4C remains out of scope until separately approved.
+Before deployment, verify the existing production Resend and Turnstile settings, run full build/test/catalog/confidentiality checks, and perform route, responsive, and live-delivery verification.
+
+### Phase 4C — Private-label discovery
+
+Status: **Implemented locally; deployment verification pending**
+
+Completed implementation:
+
+- recorded `fufu-borga` (Fufu Borga) as the sole approved private-label discovery product; all other manufactured records require further approval, while partner-sourced products and Red Palm Oil remain excluded;
+- added a controlled `private_label` intent to the existing Contact form, shared RFQ schema, and `/api/export-quote` Function;
+- derived the client selector and server allowlist from the central typed product catalog, so manipulated submissions for every other product are rejected;
+- added only approved, requirements-led discovery wording to the existing Wholesale and Contact experiences;
+- collected optional market, sales-channel, artwork/label-readiness, labeling/language, and timing context, with product specifications and requirements required for a private-label request;
+- retained Turnstile, honeypot, origin/body controls, Resend, a single internal notification, buyer `Reply-To`, consent, no automatic acknowledgement, no CRM/database, and supplier confidentiality; and
+- documented the manual-review condition: BorgaFoods management/export team confirms MOQ, packaging, specifications, production feasibility, and regulatory requirements before any acceptance.
+
+Before deployment, verify existing Resend and Turnstile settings; run type, test, catalog, confidentiality, route, responsive, and email-delivery checks; and confirm the live private-label flow accepts only Fufu Borga without creating a customer or production commitment.
 
 ## Cross-phase work
 

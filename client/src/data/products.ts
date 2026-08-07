@@ -26,6 +26,11 @@ interface ProductBase {
   variants: readonly string[];
   publicDisplayStatus: PublicDisplayStatus;
   sourceAlignment: SourceAlignment;
+  /**
+   * Public-safe, product-level approval for a manual private-label discovery
+   * discussion. Absence means the product is not selectable for that flow.
+   */
+  privateLabelDiscoveryApproved?: true;
 }
 
 export interface ManufacturedProduct extends ProductBase {
@@ -104,6 +109,15 @@ export function assertProductCatalogIntegrity(
         `Product ${product.slug} is missing capability-model visibility data.`
       );
     }
+
+    if (
+      product.privateLabelDiscoveryApproved &&
+      product.supplyType !== "manufactured"
+    ) {
+      throw new Error(
+        `Only manufactured products may be approved for private-label discovery: ${product.slug}`
+      );
+    }
   }
 }
 
@@ -129,6 +143,7 @@ export const products: readonly Product[] = [
     wholesaleAvailable: true,
     publicDisplayStatus: "approved_current_catalog",
     sourceAlignment: "needs_validation",
+    privateLabelDiscoveryApproved: true,
     variants: [
       "Plantain-based fufu flour",
       "Cassava-plantain blends",
@@ -256,5 +271,13 @@ export const phase4ExpansionProducts = currentPublicCatalogueProducts.filter(
   product => product.sourceAlignment !== "needs_validation"
 );
 
-// The existing Fufu Flour RFQ path remains unchanged until PCR-001 is resolved.
+export const privateLabelDiscoveryProducts =
+  currentPublicCatalogueProducts.filter(
+    product =>
+      product.supplyType === "manufactured" &&
+      product.privateLabelDiscoveryApproved === true
+  );
+
+// Existing RFQ behavior remains unchanged; private-label discovery has its own
+// narrower, product-level selector above.
 export const rfqEligibleProducts = currentPublicCatalogueProducts;

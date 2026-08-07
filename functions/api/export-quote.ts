@@ -1,11 +1,14 @@
 import {
+  privateLabelDiscoveryProducts,
   productTypeLabels,
   rfqEligibleProducts,
 } from "../../client/src/data/products";
 import {
+  artworkReadinessLabels,
   buyerCategoryLabels,
   exportQuoteSchema,
   isQualificationInquiry,
+  isPrivateLabelInquiry,
   orderFrequencyLabels,
   packagingPreferenceLabels,
   requirementsTimelineLabels,
@@ -100,10 +103,14 @@ function getConfiguredEmail(value?: string) {
   return normalized;
 }
 
-function getProductDetails(productSelection: string) {
-  const product = rfqEligibleProducts.find(
-    item => item.slug === productSelection
-  );
+function getProductDetails(
+  productSelection: string,
+  inquiryType: ExportQuoteSubmission["inquiryType"]
+) {
+  const eligibleProducts = isPrivateLabelInquiry(inquiryType)
+    ? privateLabelDiscoveryProducts
+    : rfqEligibleProducts;
+  const product = eligibleProducts.find(item => item.slug === productSelection);
   if (product) {
     return {
       label: product.name,
@@ -111,7 +118,9 @@ function getProductDetails(productSelection: string) {
     };
   }
 
-  const label = EXTRA_PRODUCT_LABELS[productSelection];
+  const label = isPrivateLabelInquiry(inquiryType)
+    ? undefined
+    : EXTRA_PRODUCT_LABELS[productSelection];
   return label ? { label, supply: "Requirements to be reviewed" } : null;
 }
 
@@ -151,15 +160,45 @@ function getQualificationFields(submission: ExportQuoteSubmission) {
   ] as const;
 }
 
+function getPrivateLabelFields(submission: ExportQuoteSubmission) {
+  if (!isPrivateLabelInquiry(submission.inquiryType)) return [];
+
+  return [
+    [
+      "Intended sales channel",
+      getOptionalLabel(salesChannelLabels, submission.intendedSalesChannel),
+    ],
+    ["Target market or region", submission.targetMarket || "Not provided"],
+    [
+      "Artwork or label readiness",
+      getOptionalLabel(artworkReadinessLabels, submission.artworkReadiness),
+    ],
+    [
+      "Labeling or language requirements",
+      submission.labelingRequirements || "Not provided",
+    ],
+    [
+      "Indicative launch timing",
+      getOptionalLabel(
+        requirementsTimelineLabels,
+        submission.requirementsTimeline
+      ),
+    ],
+  ] as const;
+}
+
 function formatEmail(
   submission: ExportQuoteSubmission,
   requestId: string,
   product: { label: string; supply: string }
 ) {
   const qualificationFields = getQualificationFields(submission);
-  const messageLabel = isQualificationInquiry(submission.inquiryType)
-    ? "Business requirements"
-    : "Additional message";
+  const privateLabelFields = getPrivateLabelFields(submission);
+  const messageLabel = isPrivateLabelInquiry(submission.inquiryType)
+    ? "Product specifications and requirements"
+    : isQualificationInquiry(submission.inquiryType)
+      ? "Business requirements"
+      : "Additional message";
   const fields: readonly (readonly [string, string])[] = [
     ["Request ID", requestId],
     ["Inquiry type", submission.inquiryType.replaceAll("_", " ")],
@@ -178,6 +217,7 @@ function formatEmail(
     ["Destination country", submission.destinationCountry],
     ["Destination port", submission.destinationPort || "Not provided"],
     ...qualificationFields,
+    ...privateLabelFields,
     ["Privacy acknowledgement", "Confirmed"],
     ["Source", submission.sourcePath],
   ];
@@ -320,7 +360,10 @@ export async function onRequest(context: PagesFunctionContext) {
     return errorResponse("invalid_request", 400);
   }
 
-  const product = getProductDetails(parsed.data.productSelection);
+  const product = getProductDetails(
+    parsed.data.productSelection,
+    parsed.data.inquiryType
+  );
   if (!product) {
     return errorResponse("invalid_request", 400);
   }

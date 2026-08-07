@@ -1,6 +1,6 @@
 # Phase 4 Implementation Blueprint — Capability-Model Driven
 
-Status: **Blueprint only. It does not authorize website implementation, publication, or product expansion.**
+Status: **Phase 4C reference updated with the approved Fufu Borga private-label discovery decision.**
 
 Prepared: 7 August 2026
 
@@ -10,7 +10,7 @@ This blueprint uses only the frozen fields and controls in [`PRODUCT_CAPABILITY_
 
 The two records in [`PRODUCT_CLASSIFICATION_REVIEW.md`](./PRODUCT_CLASSIFICATION_REVIEW.md) are hard-gated:
 
-- Fufu Flour must not receive new Phase 4 packaging, private-label, or classification messaging until its source/brand decision is recorded.
+- Fufu Flour remains restricted from new Phase 4 packaging, export, and classification messaging. The existing `fufu-borga` manufactured catalog record has a narrow, recorded private-label discovery approval only.
 - Red Palm Oil must not be added to public product discovery, structured data, buyer-facing selection lists, manufacturing claims, or private-label messaging until its supply classification is recorded.
 
 No Phase 4 implementation may bypass `Public Display Status`, `Supply Type`, `Private Label Eligibility`, or the supplier-confidentiality rules.
@@ -19,12 +19,12 @@ No Phase 4 implementation may bypass `Public Display Status`, `Supply Type`, `Pr
 
 ### Authoritative data roles
 
-| Layer | Role | Allowed data |
-| --- | --- | --- |
-| Capability model | Internal governance and eligibility reference | All frozen capability fields; restricted source and commercial fields remain internal. |
-| Central website catalog | Public page and form source | Only public-safe, approved records derived from the capability model. |
-| Presentation components | Render product cards, labels, details, and calls to action | Product name, approved category, origin, approved packaging, availability, image, supply label, and approved supply statement. |
-| Quotation workflow | Validates buyer-selected public product identifiers and emails the internal team | Approved public product identifiers, supply label, and buyer-submitted enquiry information only. |
+| Layer                   | Role                                                                             | Allowed data                                                                                                                   |
+| ----------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Capability model        | Internal governance and eligibility reference                                    | All frozen capability fields; restricted source and commercial fields remain internal.                                         |
+| Central website catalog | Public page and form source                                                      | Only public-safe, approved records derived from the capability model.                                                          |
+| Presentation components | Render product cards, labels, details, and calls to action                       | Product name, approved category, origin, approved packaging, availability, image, supply label, and approved supply statement. |
+| Quotation workflow      | Validates buyer-selected public product identifiers and emails the internal team | Approved public product identifiers, supply label, and buyer-submitted enquiry information only.                               |
 
 The capability model is not browser-delivered. A future implementation should create a deliberately narrow public projection rather than exposing an internal workbook, source data, or an unrestricted capability object.
 
@@ -38,7 +38,7 @@ For a product with `Supply Type: manufactured` and permitted `Public Display Sta
 - show brand and manufacturer only where the approved manufactured record authorizes them;
 - present private-label as an enquiry-led discussion only when its eligibility has changed from `requires_business_approval` to an explicitly approved public capability.
 
-The current model does not make any manufactured product automatically private-label eligible. Until a business decision is recorded, the public experience must not promise OEM, private-label, customized packaging, artwork, labeling, samples, quantities, timings, certifications, or destination-market suitability.
+No manufactured product is automatically private-label eligible. The current approved exception is `fufu-borga` (Fufu Borga) for manual discovery only; it must not promise OEM, customized packaging, artwork, labeling, samples, quantities, timings, certifications, or destination-market suitability.
 
 ### Partner-sourced product presentation
 
@@ -54,8 +54,8 @@ For a product with `Supply Type: partner_sourced`, permitted `Public Display Sta
 
 The implementation should reuse the existing typed supply-label maps instead of hand-writing supply statements in pages. A public projection must omit all restricted fields by design.
 
-| Public-safe | Never browser-delivered or customer-facing |
-| --- | --- |
+| Public-safe                                                                                                                  | Never browser-delivered or customer-facing                                                                                                                                                             |
+| ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Product name, category, approved origin, approved packaging, availability status, public type label, public supply statement | Supplier name, supplier brand, supplier contact details, supplier locations, source-record references, pricing, commercial terms, capacity, confidential images or filenames, and internal audit notes |
 
 Controls to retain:
@@ -90,12 +90,12 @@ If any condition fails, the record remains internal only and is excluded from th
 
 ### Public-display approval categories
 
-| Product group | Phase 4 treatment | Approval required before new display |
-| --- | --- | --- |
-| Existing BorgaFoods manufactured range | Preserve existing approved display; do not make new private-label claims by default. | Product-level private-label capability and any new packaging, compliance, or marketing claim. |
-| Fufu Flour | Keep the review gate intact; no new Phase 4 presentation or private-label material. | Resolution of PCR-001. |
-| Partner-sourced selections in the master capability model | Internal only by default. | Product-level public-display approval, approved product image/wording, availability review, and confidentiality review. |
-| Red Palm Oil | Internal only. | Resolution of PCR-002, then public-display approval. |
+| Product group                                             | Phase 4 treatment                                                                                                                                    | Approval required before new display                                                                                    |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Existing BorgaFoods manufactured range                    | Preserve existing approved display; do not make new private-label claims by default.                                                                 | Product-level private-label capability and any new packaging, compliance, or marketing claim.                           |
+| Fufu Flour                                                | Preserve existing presentation. Permit the existing `fufu-borga` record only in the controlled private-label discovery selector and discussion path. | No additional packaging, export, classification, or private-label claim without a further recorded decision.            |
+| Partner-sourced selections in the master capability model | Internal only by default.                                                                                                                            | Product-level public-display approval, approved product image/wording, availability review, and confidentiality review. |
+| Red Palm Oil                                              | Internal only.                                                                                                                                       | Resolution of PCR-002, then public-display approval.                                                                    |
 
 ### Catalogue implementation sequence after approval
 
@@ -122,7 +122,7 @@ Approved private-label information
         → manual capability, compliance, and commercial response
 ```
 
-The initial journey is discovery and qualification, not an automated private-label offer. The page or integrated section should explain that eligibility, packaging, artwork, labeling, samples, production, documentation, quantities, timing, and commercial terms are reviewed per enquiry.
+The initial journey is discovery and qualification, not an automated private-label offer. The integrated Wholesale and Contact sections state that opportunities are reviewed individually based on product specifications, packaging requirements, order volume, and production feasibility. MOQ, packaging, specifications, production feasibility, and regulatory requirements are confirmed manually before acceptance.
 
 ### Required enquiry fields
 
@@ -159,7 +159,7 @@ No uploads, artwork files, certifications, sensitive personal information, payme
 - A private-label selection must resolve to a public manufactured product with an explicit business-approved private-label state.
 - `requires_business_approval` means the option is not public or selectable for private-label enquiries yet; it is an internal approval state, not an offer.
 - `partner_sourced` plus `not_eligible_by_default` must be rejected for private-label enquiries.
-- Products under `PRODUCT_CLASSIFICATION_REVIEW.md` must be rejected or hidden from the private-label flow.
+- Products under `PRODUCT_CLASSIFICATION_REVIEW.md` must be rejected or hidden from the private-label flow unless a narrow product-level exception is recorded. The sole current exception is `fufu-borga`.
 - The interface must use requirements-led wording and never imply acceptance, pricing, MOQ, lead time, sample availability, artwork support, or market compliance.
 
 ## 4. RFQ workflow extension
@@ -168,11 +168,11 @@ No uploads, artwork files, certifications, sensitive personal information, payme
 
 Extend the existing `/api/export-quote` workflow rather than create a second form system or outbound email path. Introduce a controlled `inquiryType` value with these allowed intents:
 
-| Enquiry intent | Purpose | Product validation |
-| --- | --- | --- |
-| `export_quote` | Export product and shipment enquiry | Current public catalog and approved export-selection identifiers only. |
-| `wholesale` | Distributor, retailer, food-service, or bulk-supply enquiry | Current public catalog and approved export-selection identifiers only. |
-| `private_label` | Discovery request for an explicitly approved manufactured private-label product | Approved private-label product identifiers only; partner and review-gated items rejected. |
+| Enquiry intent  | Purpose                                                                         | Product validation                                                                          |
+| --------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `export_quote`  | Export product and shipment enquiry                                             | Current public catalog and approved export-selection identifiers only.                      |
+| `wholesale`     | Distributor, retailer, food-service, or bulk-supply enquiry                     | Current public catalog and approved export-selection identifiers only.                      |
+| `private_label` | Discovery request for an explicitly approved manufactured private-label product | `fufu-borga` only; all partner-sourced, internal-only, and unapproved product IDs rejected. |
 
 The single endpoint should continue to:
 
@@ -211,29 +211,24 @@ Future AI Control Center
 
 ### Recommended boundaries
 
-| System | Recommended responsibility | Constraint |
-| --- | --- | --- |
-| Capability model | Internal product governance, approval status, internal packaging/source/audit reference. | No browser delivery; change-controlled. |
-| Website catalog | Minimal public projection used by pages, SEO, and forms. | Contains only approved public-safe fields. |
-| Export catalogue | A filtered view of website-catalog records that have export-display approval. | Does not expose internal packaging, pricing, or source data. |
-| Quotation workflow | Validated enquiry intake and internal email notification. | Accepts only published and intent-eligible product IDs. |
-| Future AI Control Center | Internal decision support for approvals, review gates, and operational triage. | Requires separate security, access-control, data-retention, and integration approval. |
+| System                   | Recommended responsibility                                                               | Constraint                                                                            |
+| ------------------------ | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Capability model         | Internal product governance, approval status, internal packaging/source/audit reference. | No browser delivery; change-controlled.                                               |
+| Website catalog          | Minimal public projection used by pages, SEO, and forms.                                 | Contains only approved public-safe fields.                                            |
+| Export catalogue         | A filtered view of website-catalog records that have export-display approval.            | Does not expose internal packaging, pricing, or source data.                          |
+| Quotation workflow       | Validated enquiry intake and internal email notification.                                | Accepts only published and intent-eligible product IDs.                               |
+| Future AI Control Center | Internal decision support for approvals, review gates, and operational triage.           | Requires separate security, access-control, data-retention, and integration approval. |
 
 Do not make the spreadsheet a runtime dependency. When implementation is approved, maintain a reviewed, typed public projection in the repository and retain the workbook as an internal governance artifact.
 
 ## 6. Business decisions required before implementation
 
-1. Resolve PCR-001: Fufu Flour source/brand classification.
-2. Resolve PCR-002: Red Palm Oil supply classification.
-3. Identify the exact manufactured products, if any, that are approved for public private-label/OEM discovery. The current capability model approves none automatically.
-4. Approve the public private-label process wording for packaging, artwork, labeling, samples, production review, documentation, and shipment support.
-5. Decide whether private-label discovery belongs on a dedicated route or an integrated section of existing export/wholesale/contact experiences. This blueprint does not add a route.
-6. Approve the final private-label-specific enquiry fields, field limits, mandatory/optional status, and buyer-facing consent wording if it changes.
-7. Confirm who owns operational response to private-label enquiries and the expected follow-up process.
-8. Approve any public claims about export availability, wholesale availability, packaging, shelf life, certification, compliance, or destination-market support for each new product.
-9. Confirm the approved product images and metadata for each newly public partner-sourced selection, ensuring no supplier identification can be inferred.
-10. Decide when endpoint rate limiting and domain-aligned mail delivery will be revisited after DNS and Cloudflare zone control are restored.
-11. Define the business case, authorized users, and security model before any AI Control Center, portal, file exchange, quotation tracking, or order-status capability is built.
+1. Resolve PCR-002: Red Palm Oil supply classification before any public or RFQ use.
+2. Record a product-level approval before adding any product beyond `fufu-borga` to private-label discovery.
+3. Approve any public claims about export availability, wholesale availability, packaging, shelf life, certification, compliance, or destination-market support for each new product.
+4. Confirm the approved product images and metadata for each newly public partner-sourced selection, ensuring no supplier identification can be inferred.
+5. Decide when endpoint rate limiting and domain-aligned mail delivery will be revisited after DNS and Cloudflare zone control are restored.
+6. Define the business case, authorized users, and security model before any AI Control Center, portal, file exchange, quotation tracking, or order-status capability is built.
 
 ## Implementation approval checklist
 

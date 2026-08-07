@@ -1,6 +1,6 @@
 # Phase 4 Execution Roadmap — Capability-Model Controlled
 
-Status: **Planning only. No phase below authorizes code, routes, public product expansion, or new claims.**
+Status: **Phase 4A and 4B production verified; Phase 4C implemented locally and pending deployment verification.**
 
 Prepared: 7 August 2026
 
@@ -10,9 +10,9 @@ This roadmap follows the frozen [`PRODUCT_CAPABILITY_MODEL.md`](./PRODUCT_CAPABI
 
 The review gate in [`PRODUCT_CLASSIFICATION_REVIEW.md`](./PRODUCT_CLASSIFICATION_REVIEW.md) applies to every phase:
 
-- Fufu Flour cannot receive new Phase 4 packaging, export, classification, or private-label messaging before PCR-001 is resolved.
+- Fufu Flour remains excluded from new Phase 4 packaging, export, and classification content. A recorded, narrow exception permits the existing `fufu-borga` record in private-label discovery only.
 - Red Palm Oil remains internal only and cannot appear in public discovery, schema, buyer-facing selections, manufacturing claims, or private-label messaging before PCR-002 is resolved.
-- No product is private-label eligible until an explicit business decision changes its current model status.
+- No product is private-label eligible unless an explicit business decision records its product-level discovery approval. `fufu-borga` is currently the sole approved exception.
 
 ## Sequence and approval gates
 
@@ -70,12 +70,12 @@ Restricted source packaging, pricing, supplier identity, supplier brand, and int
 
 ### Risks
 
-| Risk | Control |
-| --- | --- |
-| Partner item appears manufactured by BorgaFoods | Centralized supply labels and exact approved partner statement. |
-| Supplier confidentiality leak | Public projection omits restricted fields; scan pages, schema, metadata, images, and emails. |
-| Unverified availability or specifications | Publish only approved product-level capability fields; use confirmation-led wording. |
-| Bulk importing unreviewed source data | Add products individually after the publication check. |
+| Risk                                            | Control                                                                                      |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Partner item appears manufactured by BorgaFoods | Centralized supply labels and exact approved partner statement.                              |
+| Supplier confidentiality leak                   | Public projection omits restricted fields; scan pages, schema, metadata, images, and emails. |
+| Unverified availability or specifications       | Publish only approved product-level capability fields; use confirmation-led wording.         |
+| Bulk importing unreviewed source data           | Add products individually after the publication check.                                       |
 
 ### Dependencies
 
@@ -121,12 +121,12 @@ No separate wholesale portal, login, database, pricing table, account area, or d
 
 ### Risks
 
-| Risk | Control |
-| --- | --- |
-| Buyers interpret the form as an application or supply guarantee | Requirements-led content; no approval, allocation, or exclusivity language. |
-| Low-quality or spam enquiries | Retain server-side validation, Turnstile, honeypot, origin checks, limits, and idempotency. |
-| Overcollection of buyer data | Collect only fields needed for qualification; no sensitive data or uploads. |
-| A partner product is offered without approval | Use approved catalog identifiers only; keep review-gated/internal products out of selectors. |
+| Risk                                                            | Control                                                                                      |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Buyers interpret the form as an application or supply guarantee | Requirements-led content; no approval, allocation, or exclusivity language.                  |
+| Low-quality or spam enquiries                                   | Retain server-side validation, Turnstile, honeypot, origin checks, limits, and idempotency.  |
+| Overcollection of buyer data                                    | Collect only fields needed for qualification; no sensitive data or uploads.                  |
+| A partner product is offered without approval                   | Use approved catalog identifiers only; keep review-gated/internal products out of selectors. |
 
 ### Dependencies
 
@@ -136,6 +136,8 @@ No separate wholesale portal, login, database, pricing table, account area, or d
 4. Existing Phase 3 secrets, Turnstile, Resend delivery, consent, and server controls remain operational.
 
 ## Phase 4C — Private-label discovery workflow
+
+Status: **Implemented locally; pending deployment verification**
 
 ### Business objective
 
@@ -147,16 +149,24 @@ Allow qualified buyers to start a private-label/OEM discussion for explicitly ap
 - The process sets expectations that packaging, artwork, labels, market needs, volume, timing, documentation, and commercial terms require confirmation.
 - BorgaFoods receives the information needed to determine whether a follow-up is appropriate.
 
+### Approved implementation decisions
+
+- The only approved private-label discovery Product ID is `fufu-borga` (Fufu Borga), an existing BorgaFoods-manufactured catalog record.
+- Private-label discovery is manual review only. No enquiry creates an OEM, production, packaging, regulatory, commercial, or customer commitment.
+- The BorgaFoods management/export team owns manual review. MOQ, packaging, specifications, production feasibility, and regulatory requirements require confirmation before acceptance.
+- The existing Contact/RFQ path is the approved placement; no new route, CRM, database, customer account, automatic quotation, or automatic acknowledgement is introduced.
+- All partner-sourced products remain excluded by default. Red Palm Oil remains excluded. All other manufactured products remain unavailable for private-label discovery until explicitly approved.
+
 ### Required data
 
-- A business-approved list of eligible manufactured Product IDs; the frozen model currently provides no automatic eligibility.
-- Approved public process wording for packaging, artwork, labeling, samples, production review, documentation, and shipment support.
-- Base quotation fields plus, if approved: intended sales channel, target market, preferred packaging, artwork/label readiness, labeling/language requirements, indicative launch timing, and additional requirements.
-- A denylist derived from partner-sourced products and all review-gated products.
+- The recorded `fufu-borga` private-label discovery approval in the central catalog; no other product is eligible.
+- Approved discovery wording and manual-review conditions for product specifications, packaging requirements, order volume, production feasibility, MOQ, and regulatory requirements.
+- Base quotation fields plus intended sales channel, target market, preferred packaging, artwork/label readiness, labeling/language requirements, indicative launch timing, and product requirements.
+- A server-derived private-label allowlist that excludes all records without explicit private-label discovery approval.
 
 ### Website changes required after approval
 
-- Add a private-label discovery section in the approved placement only; the route decision remains open.
+- Add a private-label discovery section to the existing Wholesale page and an entry point within the existing Contact form; no new route is introduced.
 - Present only explicitly approved manufactured products and requirements-led process language.
 - Provide a clear private-label enquiry entry point using the existing Contact/RFQ experience.
 - Keep partner-sourced products out of private-label content and selection lists.
@@ -167,26 +177,23 @@ The initial release excludes uploads, artwork storage, sample orders, automatic 
 
 - Add or activate a controlled `private_label` enquiry intent in the existing shared schema and `/api/export-quote` endpoint.
 - Validate the selected Product ID against the approved manufactured private-label allowlist.
-- Reject partner-sourced, internal-only, and review-gated products server-side even if a client request is manipulated.
+- Reject partner-sourced, internal-only, and every product without explicit private-label discovery approval server-side even if a client request is manipulated.
 - Add approved qualification fields to the single internal notification; buyer email remains `Reply-To` and no customer acknowledgement is sent.
 
 ### Risks
 
-| Risk | Control |
-| --- | --- |
-| Implied OEM/private-label capability | Do not render a product as eligible until explicit approval is recorded. |
-| Partner-supplier confidentiality breach | Partner products are excluded by default and restricted data stays server/internal only. |
-| Regulatory, labeling, or market commitment | Use confirmation-led wording and require manual review. |
+| Risk                                       | Control                                                                                   |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Implied OEM/private-label capability       | Do not render a product as eligible until explicit approval is recorded.                  |
+| Partner-supplier confidentiality breach    | Partner products are excluded by default and restricted data stays server/internal only.  |
+| Regulatory, labeling, or market commitment | Use confirmation-led wording and require manual review.                                   |
 | Sensitive files or data enter the workflow | No uploads, attachments, payment data, or sensitive personal data in the initial release. |
-| Overbuilding a customer platform | Extend the current stateless RFQ system; defer portals and CRM integration. |
+| Overbuilding a customer platform           | Extend the current stateless RFQ system; defer portals and CRM integration.               |
 
 ### Dependencies
 
-1. Resolution of any product-specific review gate before that product can enter private-label content.
-2. Explicit approval of eligible manufactured products and private-label conditions.
-3. Approval of public wording, form fields, validation rules, and placement.
-4. Confirmed internal owner and manual review process for private-label enquiries.
-5. Security, access-control, retention, and integration approvals before any future AI Control Center or customer tool is connected.
+1. Existing Phase 3 Resend and Turnstile configuration remains available in the target Cloudflare environment.
+2. Security, access-control, retention, and integration approvals before any future AI Control Center or customer tool is connected.
 
 ## Cross-phase release controls
 

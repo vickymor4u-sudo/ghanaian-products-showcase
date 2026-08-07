@@ -127,3 +127,13 @@ Future changes must preserve these constraints.
 - Qualification information is validated server-side, included only in the single internal notification, and reviewed manually. It must not produce automated scoring, acceptance, rejection, quotation, or customer acknowledgement.
 - Internal notifications may include server-derived public product name and supply classification plus validated buyer context. They must never include supplier information, partner brand/manufacturer data, source records, pricing, internal audit fields, review-gate status, private-label eligibility, or secret/operational configuration.
 - Fufu Flour remains in its existing public/RFQ presentation only; no new Phase 4B capability or classification behavior may be added until PCR-001 is resolved. Red Palm Oil remains excluded from every public and RFQ path until PCR-002 is resolved.
+
+## Private-label discovery rules
+
+- Private-label is an enquiry-led manual review process, not an OEM, manufacturing, packaging, regulatory, pricing, MOQ, lead-time, or production commitment.
+- The only product approved for public private-label discovery is the existing manufactured `fufu-borga` record (Fufu Borga). This approval is limited to a discussion path; it does not authorize automatic availability or acceptance.
+- All other current manufactured products remain excluded unless a product-level private-label approval is recorded. Partner-sourced products remain `not_eligible_by_default`; Red Palm Oil remains excluded from every public and RFQ path.
+- The approved public wording is: “BorgaFoods supports private-label discussions for selected products. Private-label opportunities are reviewed individually based on product specifications, packaging requirements, order volume, and production feasibility.”
+- Every private-label enquiry must be reviewed manually by the BorgaFoods management/export team. Confirm MOQ, packaging, specifications, production feasibility, and regulatory requirements before acceptance. Enquiry submission creates no customer or production commitment.
+- Private-label enquiries must use the existing Contact form, shared quotation schema, and `/api/export-quote` Function. They must retain Turnstile verification, honeypot, origin/body controls, server-side allowlisting, one internal Resend notification, buyer `Reply-To`, privacy notice, and no automatic customer acknowledgement.
+- The private-label selector and server allowlist must derive only from the central public catalog. They must never accept partner-sourced, internal-only, review-gated, or unapproved products.

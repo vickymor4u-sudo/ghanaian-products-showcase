@@ -14,24 +14,24 @@ The approved workbook is the operational reference. The website may use only pub
 
 Every product capability record uses these fields:
 
-| Field | Purpose |
-| --- | --- |
-| Product ID | Stable internal identifier. |
-| Product Name | Approved customer-facing name. |
-| Category | Product grouping. |
-| Supply Type | Required value: `manufactured` or `partner_sourced`. |
-| Public Type Label | Approved customer-facing supply label. |
-| Public Supply Statement | Approved manufacturer or partner-sourcing statement. |
-| Country of Origin | Approved origin. |
-| Retail Packaging | Approved or confirmation-required retail pack sizes. |
-| Bulk Packaging | Approved or confirmation-required bulk pack information. |
-| Shelf Life | Verified shelf life, or confirmation-required status. |
-| Export Availability | Availability status. |
-| Wholesale Availability | Wholesale status. |
-| Private Label Eligibility | `requires_business_approval` or `not_eligible_by_default`. |
-| Private Label Condition | Approval condition and constraint. |
-| Public Display Status | Whether public listing is permitted. |
-| Source Alignment | Relationship to the approved catalog and source records. |
+| Field                     | Purpose                                                                               |
+| ------------------------- | ------------------------------------------------------------------------------------- |
+| Product ID                | Stable internal identifier.                                                           |
+| Product Name              | Approved customer-facing name.                                                        |
+| Category                  | Product grouping.                                                                     |
+| Supply Type               | Required value: `manufactured` or `partner_sourced`.                                  |
+| Public Type Label         | Approved customer-facing supply label.                                                |
+| Public Supply Statement   | Approved manufacturer or partner-sourcing statement.                                  |
+| Country of Origin         | Approved origin.                                                                      |
+| Retail Packaging          | Approved or confirmation-required retail pack sizes.                                  |
+| Bulk Packaging            | Approved or confirmation-required bulk pack information.                              |
+| Shelf Life                | Verified shelf life, or confirmation-required status.                                 |
+| Export Availability       | Availability status.                                                                  |
+| Wholesale Availability    | Wholesale status.                                                                     |
+| Private Label Eligibility | `approved_for_discovery`, `requires_business_approval`, or `not_eligible_by_default`. |
+| Private Label Condition   | Approval condition and constraint.                                                    |
+| Public Display Status     | Whether public listing is permitted.                                                  |
+| Source Alignment          | Relationship to the approved catalog and source records.                              |
 
 The controlled internal worksheet may retain source packaging, commercial-reference, and audit fields. Those fields are not public website data and must never be sent to the browser.
 
@@ -42,9 +42,22 @@ The controlled internal worksheet may retain source packaging, commercial-refere
 - Manufactured products use `Manufactured by BorgaFoods` and `Manufactured by BorgaFoods Processing` only where those claims are approved.
 - Partner-sourced products use `BorgaFoods Export Selection` and exactly `Selected from trusted Ghanaian production partners`.
 - Partner-sourced products never inherit private-label eligibility. Their default is `not_eligible_by_default`.
-- Manufactured products are not automatically private-label eligible. Their required state is `requires_business_approval`.
-- A product marked as requiring validation, confirmation, or approval is not eligible for new public Phase 4 content, structured data, quotation automation, or private-label messaging.
+- Manufactured products are not automatically private-label eligible. Their default state is `requires_business_approval`.
+- `approved_for_discovery` authorizes only a manual, enquiry-led private-label discussion. It does not authorize or imply OEM capability, automatic availability, production acceptance, product customization, MOQ, pricing, specifications, packaging, labeling, regulatory support, lead time, or any customer commitment.
+- A product marked as requiring validation, confirmation, or approval is not eligible for new public Phase 4 content, structured data, quotation automation, or private-label messaging unless the relevant product-level decision below is explicitly recorded.
 - Supplier names, supplier brands, commercial source references, prices, and confidential sourcing details are prohibited from public code, pages, metadata, and customer-facing emails.
+
+## Recorded private-label discovery decision
+
+Approved: 7 August 2026
+
+| Product ID   | Product                 | Supply type    | Private Label Eligibility | Public handling                                      | Condition                                                                                                                                                                                                                                                      |
+| ------------ | ----------------------- | -------------- | ------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fufu-borga` | Fufu Flour (Fufu Borga) | `manufactured` | `approved_for_discovery`  | May appear only in the private-label discovery path. | Every enquiry is manually reviewed by the BorgaFoods management/export team. MOQ, packaging, specifications, production feasibility, and regulatory requirements must be confirmed before acceptance. Submission creates no customer or production commitment. |
+
+All other current manufactured products remain `requires_business_approval`. All partner-sourced products remain `not_eligible_by_default`. Red Palm Oil remains excluded. Products without validated manufacturing control remain excluded.
+
+The public website catalog may expose only the narrow, public-safe approval required to derive the approved discovery selector. It must not expose internal conditions, source alignment, supplier details, pricing, capability notes, or review records.
 
 ## Change control
 

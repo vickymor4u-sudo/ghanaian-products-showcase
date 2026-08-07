@@ -19,6 +19,8 @@ const validSubmission = {
   targetMarket: "",
   expectedOrderFrequency: "",
   requirementsTimeline: "",
+  artworkReadiness: "",
+  labelingRequirements: "",
   message: "Please confirm available retail formats.",
   privacyConsent: true,
   sourcePath: "/contact",
@@ -94,6 +96,40 @@ describe("POST /api/export-quote", () => {
         ...validSubmission,
         inquiryType: "wholesale",
         buyerCategory: "",
+      })
+    );
+
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("accepts only the approved Fufu Borga record for private-label discovery", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const rejectedResponse = await onRequest(
+      createContext({
+        ...validSubmission,
+        inquiryType: "private_label",
+        productSelection: "gari-borga",
+        message: "Retail product discussion for manual review.",
+      })
+    );
+
+    expect(rejectedResponse.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("requires product specifications for private-label discovery", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await onRequest(
+      createContext({
+        ...validSubmission,
+        inquiryType: "private_label",
+        productSelection: "fufu-borga",
+        message: "Short",
       })
     );
 
@@ -250,6 +286,56 @@ describe("POST /api/export-quote", () => {
     );
     expect(headers["Idempotency-Key"]).toBe(
       `borgafoods-rfq-${validSubmission.submissionId}`
+    );
+  });
+
+  it("sends a private-label discovery notification with buyer Reply-To and no capability promise", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        Response.json({
+          success: true,
+          hostname: "www.borgafoods.com",
+          action: "export_quote",
+        })
+      )
+      .mockResolvedValueOnce(Response.json({ id: "resend-message-private" }));
+    vi.stubGlobal("fetch", fetchMock);
+    vi.spyOn(console, "info").mockImplementation(() => undefined);
+
+    const response = await onRequest(
+      createContext({
+        ...validSubmission,
+        inquiryType: "private_label",
+        productSelection: "fufu-borga",
+        intendedSalesChannel: "retail",
+        targetMarket: "United Kingdom",
+        requirementsTimeline: "planning_ahead",
+        artworkReadiness: "in_development",
+        labelingRequirements: "English-language retail label.",
+        message:
+          "Please review our preferred Fufu Borga specifications and packaging requirements.",
+      })
+    );
+
+    expect(response.status).toBe(201);
+    const [, resendOptions] = fetchMock.mock.calls[1] as [string, RequestInit];
+    const email = JSON.parse(String(resendOptions.body)) as Record<
+      string,
+      unknown
+    >;
+
+    expect(email.reply_to).toBe("buyer@example.com");
+    expect(String(email.text)).toContain("Inquiry type: private label");
+    expect(String(email.text)).toContain("Product selection: Fufu Flour");
+    expect(String(email.text)).toContain(
+      "Artwork or label readiness: In development"
+    );
+    expect(String(email.text)).toContain(
+      "Product specifications and requirements:"
+    );
+    expect(String(email.text)).not.toMatch(
+      /supplier name|supplier brand|private-label eligibility|source alignment|internal pricing/i
     );
   });
 });

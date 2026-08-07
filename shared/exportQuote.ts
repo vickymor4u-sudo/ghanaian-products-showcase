@@ -7,6 +7,7 @@ export const inquiryTypes = [
   "export_quote",
   "wholesale",
   "distribution",
+  "private_label",
 ] as const;
 
 export type InquiryType = (typeof inquiryTypes)[number];
@@ -22,6 +23,10 @@ export function isQualificationInquiry(
   return qualificationInquiryTypes.includes(
     inquiryType as (typeof qualificationInquiryTypes)[number]
   );
+}
+
+export function isPrivateLabelInquiry(inquiryType: InquiryType) {
+  return inquiryType === "private_label";
 }
 
 export const buyerCategories = [
@@ -100,6 +105,21 @@ export const requirementsTimelineLabels: Record<
   to_be_discussed: "To be discussed",
 };
 
+export const artworkReadinesses = [
+  "not_started",
+  "in_development",
+  "ready_for_review",
+] as const;
+
+export const artworkReadinessLabels: Record<
+  (typeof artworkReadinesses)[number],
+  string
+> = {
+  not_started: "Not started",
+  in_development: "In development",
+  ready_for_review: "Ready for review",
+};
+
 export const packagingPreferences = [
   "retail",
   "bulk",
@@ -163,6 +183,8 @@ export const exportQuoteSchema = z
     targetMarket: optionalText(120),
     expectedOrderFrequency: optionalControlledValue(orderFrequencies),
     requirementsTimeline: optionalControlledValue(requirementsTimelines),
+    artworkReadiness: optionalControlledValue(artworkReadinesses),
+    labelingRequirements: optionalText(500),
     message: optionalMessage,
     privacyConsent: z
       .boolean()
@@ -182,6 +204,18 @@ export const exportQuoteSchema = z
         path: ["buyerCategory"],
         message:
           "Buyer category is required for wholesale and distributor enquiries",
+      });
+    }
+
+    if (
+      isPrivateLabelInquiry(submission.inquiryType) &&
+      submission.message.trim().length < 10
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["message"],
+        message:
+          "Product specifications and requirements are required for private-label enquiries",
       });
     }
   });
