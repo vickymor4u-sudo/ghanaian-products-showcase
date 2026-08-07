@@ -2,6 +2,24 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 7 August 2026 — Phase 4C private-label discovery
+
+Implementation commit: `615c1edcd3f64be9a0dc6d7bc1e88a265c7eae9c`
+
+Completed changes:
+
+- recorded `fufu-borga` (Fufu Borga) as the sole approved product for private-label discovery discussions; all other manufactured products remain approval-gated, and partner-sourced products and Red Palm Oil remain excluded;
+- added a public-safe, central-catalog private-label discovery selector with a catalog integrity guard that rejects partner-sourced eligibility;
+- extended the existing Contact form, shared RFQ schema, and `/api/export-quote` Function with a controlled `private_label` intent, without adding a second form, endpoint, CRM, database, account, automatic quotation, or automatic acknowledgement;
+- added the approved manual-review wording to the existing Wholesale and Contact experiences, plus optional market, sales-channel, artwork/label-readiness, labeling/language, and launch-timing context; product specifications and requirements are required;
+- server-side allowlisting now accepts only `fufu-borga` for a private-label request and rejects manipulated product IDs before Turnstile or Resend calls;
+- retained Turnstile, honeypot, origin/body controls, Resend delivery, buyer `Reply-To`, privacy consent, one internal notification, and supplier confidentiality; and
+- updated the frozen capability model, review gate, public-presentation rules, business rules, Phase 4 roadmap/blueprint, website roadmap, and AI protocol with the approved manual-review conditions and BorgaFoods management/export-team ownership.
+
+Validation: direct TypeScript check passed; all 17 Vitest unit/integration tests passed; catalog integrity verification passed (5 current public records, 4 Phase 4 expansion-eligible records); production build passed; confidentiality scans found no Red Palm Oil, personal Gmail address, or supplier name/brand markers in source or built public output; local production route smoke tests passed for Home, Products, Export Solutions, Wholesale, Export & Compliance, About, Contact, private-label Contact, and 404. Desktop and 390 px mobile checks confirmed the private-label selector contains only Fufu Flour, no horizontal overflow, working mobile navigation, and no browser console errors.
+
+Deployment status: committed locally only. No push, Cloudflare deployment, or live private-label delivery test was performed. Before deployment, verify the existing production Resend and Turnstile configuration, then validate a live Fufu Borga private-label submission, buyer `Reply-To`, single internal notification, and absence of an automatic acknowledgement.
+
 ## 7 August 2026 — Phase 4B wholesale and distributor qualification
 
 Implementation commit: `c736df1a3d0a01fb00b3ea2e55707772347a2a87`
