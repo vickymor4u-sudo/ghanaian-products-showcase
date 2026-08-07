@@ -2,6 +2,21 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 7 August 2026 — Temporary server-only quotation recipient
+
+Commit: `118a6899a33eb6363b05a01354e2db78775eea1e`
+
+Completed changes:
+
+- separated the public `export@borgafoods.com` identity from the internal Resend notification recipient;
+- added server-only `EXPORT_QUOTE_NOTIFICATION_EMAIL` and `EXPORT_QUOTE_FROM_EMAIL` configuration so the recipient and authorized sender can change without code changes;
+- approved the personal Gmail mailbox as a temporary internal recipient while `borgafoods.com` DNS access is unavailable, without exposing it in pages, frontend code, public metadata, customer-facing messages, or the production bundle;
+- changed the sender display identity to `BorgaFoods Export Quote` and retained the buyer's validated address in `Reply-To`;
+- retained `export@borgafoods.com` as the intended future production mailbox and public fallback address;
+- passed formatting, TypeScript, six endpoint tests, production build, diff validation, and a personal-address scan of client, shared, Function, and built files.
+
+Deployment status: committed locally only. Preview and production remain undeployed pending Resend configuration, Cloudflare server variables/secrets, the approved privacy notice, rate limiting, and successful preview delivery verification.
+
 ## 6 August 2026 — Phase 3 secure export quotation workflow
 
 Commit: `249494d35fccd455314967c0196b9b08eef5301a`
