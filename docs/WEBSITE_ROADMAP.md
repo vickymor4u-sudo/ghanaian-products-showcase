@@ -48,7 +48,7 @@ Phase 2 must not expose supplier identities or describe partner-sourced products
 
 ## Phase 3 — Request quotation workflow
 
-Status: **Production readiness approved; deployment verification pending**
+Status: **Completed and production verified**
 
 Completed implementation:
 
@@ -67,7 +67,7 @@ Completed implementation:
 
 Primary implementation commit: `249494d35fccd455314967c0196b9b08eef5301a`
 
-Production readiness was approved on 7 August 2026. The intended future mailbox remains `export@borgafoods.com`; the temporary Gmail fallback is server-only while domain DNS access is unavailable. Launch without a separate Cloudflare rate-limiting rule is temporarily approved because Turnstile, the honeypot, validation, origin checks, body limits, and request controls are active. Rate limiting must be reconsidered when DNS and Cloudflare zone control are restored. Production deployment and live delivery verification are the remaining Phase 3 steps.
+Production readiness was approved on 7 August 2026. Cloudflare production deployment `c274f5d6-cea7-4421-8eb2-f09c29b1ff17` succeeded from commit `3ef938f5b9d97bc450a9e37546b4f6eb109f2aaa`, and live request `BF-2786969F` verified delivery, buyer `Reply-To`, and the absence of an automatic acknowledgement. The intended future mailbox remains `export@borgafoods.com`; the temporary Gmail fallback is server-only while domain DNS access is unavailable. Launch without a separate Cloudflare rate-limiting rule is temporarily approved because Turnstile, the honeypot, validation, origin checks, body limits, and request controls are active. Rate limiting must be reconsidered when DNS and Cloudflare zone control are restored.
 
 ## Phase 4 — Private label and customer tools
 

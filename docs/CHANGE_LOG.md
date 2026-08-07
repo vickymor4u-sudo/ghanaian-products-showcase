@@ -6,6 +6,8 @@ This file records completed, approved changes. Add new entries in reverse chrono
 
 Privacy-notice commit: `cdbbed56221d38fde372804bc4d90161eec8f05f`
 
+Readiness deployment commit: `3ef938f5b9d97bc450a9e37546b4f6eb109f2aaa`
+
 Completed changes:
 
 - added the approved quotation-form consent notice and the 24-month maximum retention statement;
@@ -16,7 +18,7 @@ Completed changes:
 - retained `export@borgafoods.com` as the public identity and future production mailbox without exposing the temporary recipient in browser-delivered content;
 - passed formatting, TypeScript checking, all six endpoint tests, the production build, diff validation, and the public-output personal-address scan.
 
-Deployment status: production readiness approved; production deployment and live delivery verification pending.
+Deployment status: Cloudflare production deployment `c274f5d6-cea7-4421-8eb2-f09c29b1ff17` succeeded. Live request `BF-2786969F` verified notification delivery, buyer `Reply-To`, no automatic acknowledgement, authenticated delivery for the temporary sender, and no browser console errors. The Home, Products, Export Solutions, Wholesale, Export & Compliance, About, Contact, and 404 routes rendered successfully.
 
 ## 7 August 2026 — Temporary server-only quotation recipient
 

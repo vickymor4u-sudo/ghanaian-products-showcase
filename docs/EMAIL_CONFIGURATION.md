@@ -115,4 +115,4 @@ The initial production launch without a separate Cloudflare rate-limiting rule w
 
 ## Production-readiness status
 
-Preview and Production have the required Resend, Turnstile, sender, and server-only recipient configuration. A Preview quotation was accepted with request ID `BF-0E9387D7`; the internal notification reached the temporary recipient, the buyer address was present in `Reply-To`, and no automatic customer acknowledgement was sent. Production deployment and a live quotation delivery test remain outstanding.
+Preview and Production have the required Resend, Turnstile, sender, and server-only recipient configuration. Preview request `BF-0E9387D7` and production request `BF-2786969F` both reached the temporary recipient with the buyer address in `Reply-To` and no automatic customer acknowledgement. SPF, DKIM, and DMARC passed for the temporary provider-authorized sender. Cloudflare production deployment `c274f5d6-cea7-4421-8eb2-f09c29b1ff17` succeeded from commit `3ef938f5b9d97bc450a9e37546b4f6eb109f2aaa` on 7 August 2026.
