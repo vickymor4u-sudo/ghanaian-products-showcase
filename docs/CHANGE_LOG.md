@@ -2,6 +2,27 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 7 August 2026 — Phase 4B wholesale and distributor qualification
+
+Implementation commit: `c736df1a3d0a01fb00b3ea2e55707772347a2a87`
+
+Completed changes:
+
+- extended the existing Contact form, shared quotation schema, and `/api/export-quote` Function rather than creating a second enquiry system;
+- added a required, controlled buyer category for wholesale and distributor enquiries: importer, distributor, wholesaler, retail, food service, or other;
+- added optional, validated sales-channel, target-market, expected-order-frequency, and expected-timing context alongside the existing company, contact, product, packaging, quantity, destination, and business-requirements fields;
+- added an explicit privacy acknowledgement while retaining the approved privacy notice and 24-month retention statement;
+- updated Wholesale calls to action to preselect the existing wholesale or distribution enquiry intent;
+- retained buyer `Reply-To`, server-only Resend routing, Turnstile, honeypot, origin checks, request-size limits, provider idempotency, one internal notification, and no automatic customer acknowledgement;
+- added server-side rejection of missing wholesale/distributor buyer category, unacknowledged privacy consent, unexpected request fields, and unknown qualification values;
+- added approved qualification context to the internal notification without supplier, partner brand/manufacturer, source, pricing, capability-review, audit, or secret data;
+- retained Fufu Flour in its existing RFQ selector only, excluded Red Palm Oil from public/RFQ data, and added tests for both product gates; and
+- created the Phase 4B implementation blueprint, qualification rules, RFQ field mapping, and internal email-notification mapping as permanent references.
+
+Validation: direct TypeScript check passed; all 12 Vitest unit/integration tests passed; catalog integrity verification passed (5 current public records and 4 Phase 4 expansion-eligible records); production build passed; built-output confidentiality scans found no temporary Gmail address, Red Palm Oil, supplier-name/brand markers, or server-secret variable names; local route smoke tests passed for Home, Products, Export Solutions, Wholesale, Contact, wholesale/distribution Contact states, Export & Compliance, About, and 404. At 390 px, the qualification form had no horizontal overflow, the mobile navigation opened, and no browser console errors appeared.
+
+Deployment status: committed locally only. No push, Cloudflare deployment, or live quotation delivery test was performed. Before deployment, verify existing production Resend/Turnstile configuration and repeat live route and delivery verification.
+
 ## 7 August 2026 — Phase 4A export catalogue controls
 
 Implementation commit: `b3ee1c1e83afe15c343c5e0af8e2ffd1c43cd00e`
