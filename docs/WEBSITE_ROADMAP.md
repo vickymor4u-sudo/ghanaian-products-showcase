@@ -71,7 +71,7 @@ Production readiness was approved on 7 August 2026. Cloudflare production deploy
 
 ## Phase 4 — Private label and customer tools
 
-Status: **Phase 4A implemented locally; Phase 4B and 4C remain planning-only**
+Status: **Phase 4A deployed and production verified; Phase 4B and 4C remain planning-only**
 
 Review proposal: [`PHASE_4_PLANNING_PROPOSAL.md`](./PHASE_4_PLANNING_PROPOSAL.md)
 
@@ -81,7 +81,7 @@ Open classification gate: [`PRODUCT_CLASSIFICATION_REVIEW.md`](./PRODUCT_CLASSIF
 
 ### Phase 4A — Export catalogue expansion
 
-Status: **Implemented locally; not deployed**
+Status: **Deployed and production verified**
 
 Completed implementation:
 
@@ -93,6 +93,8 @@ Completed implementation:
 - added catalog control tests alongside the existing quotation tests.
 
 No partner-sourced product has been newly published because the capability model contains no partner record with public-display approval. No private-label claim or workflow was added.
+
+Production deployment `5eb7632b-674e-45f5-8691-2de40e81edd9` succeeded from GitHub `main` on 7 August 2026. The production build executed the mandatory catalog verification (5 current public products; 4 Phase 4 expansion-eligible products). The affected public routes, current Fufu Flour presentation, Red Palm Oil exclusion, supplier confidentiality controls, and existing RFQ form/Function behavior were verified live.
 
 Potential implementation scope after approval:
 

@@ -19,7 +19,7 @@ Completed changes:
 
 Validation: catalog verification passed with 5 current public records and 4 Phase 4 expansion-eligible records; TypeScript check passed; all 9 Vitest tests passed; production build passed; affected desktop and 390 px mobile route smoke tests passed with no browser console errors; no Red Palm Oil, supplier identifiers, or personal Gmail address appeared in the production build.
 
-Deployment status: committed locally only. No push or Cloudflare deployment was requested or performed.
+Deployment status: GitHub `main` and Cloudflare Pages production deployment `5eb7632b-674e-45f5-8691-2de40e81edd9` are verified from implementation commit `b3ee1c1e83afe15c343c5e0af8e2ffd1c43cd00e` and validation commit `8db0b40b69d70af38691016d088ba03580553102`. Production build logs confirmed the mandatory catalog verification before Vite build. The Home, Products, Export Solutions, Contact, Export & Compliance, and Wholesale routes rendered successfully from `https://www.borgafoods.com`; Fufu Flour remained unchanged, Red Palm Oil and supplier-identifying information were absent, and the RFQ form retained its existing fields and product options. A read-only `GET /api/export-quote` returned the expected `405 invalid_method`, confirming the Function remained active without submitting an enquiry.
 
 ## 7 August 2026 — Phase 3 production readiness
 
