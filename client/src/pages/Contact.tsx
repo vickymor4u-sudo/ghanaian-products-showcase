@@ -642,6 +642,19 @@ export default function Contact() {
                       ? "Sending Enquiry..."
                       : "Submit Export Enquiry"}
                   </Button>
+                  <p className="text-sm text-muted-foreground">
+                    By submitting this form, you consent to BorgaFoods using the
+                    information provided to review and respond to your export
+                    enquiry. Your information may be processed by trusted
+                    service providers used to operate our website and email
+                    communication systems and retained as needed for enquiry
+                    handling and legitimate business records. Please do not
+                    submit sensitive personal information.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Export enquiries may be retained for up to 24 months for
+                    business communication and records.
+                  </p>
                   <p className="text-sm text-muted-foreground text-center">
                     Your enquiry is sent securely to {EXPORT_ENQUIRY_EMAIL} for
                     review. No automatic customer acknowledgement is sent. If
