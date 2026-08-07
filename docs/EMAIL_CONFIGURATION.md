@@ -63,24 +63,28 @@ VITE_TURNSTILE_SITE_KEY
 
 The site key is intentionally public. The Resend key, Turnstile secret, and temporary notification recipient must be added as encrypted Cloudflare secrets. `EXPORT_QUOTE_FROM_EMAIL` is also server-only. None of these server settings may use the `VITE_` prefix, be committed to source, or be logged.
 
-## External setup required
+## External setup status
 
-The following work requires access to the approved email provider and DNS configuration and is not completed by the website repository:
+Completed for the temporary production launch:
 
-1. Configure the temporary Gmail recipient through the encrypted `EXPORT_QUOTE_NOTIFICATION_EMAIL` setting in both Preview and Production.
-2. Configure `EXPORT_QUOTE_FROM_EMAIL` with an address Resend currently authorizes for the selected sending mode.
-3. Add and verify `borgafoods.com` in Resend.
-4. Configure and verify Resend's required SPF and DKIM records without replacing unrelated mail records.
-5. Configure and verify DMARC for the domain according to the approved email policy.
-6. Create a production Turnstile widget restricted to `www.borgafoods.com` and the approved preview hostname used for testing.
-7. Configure a Cloudflare rate-limiting rule for `/api/export-quote`, observe the rule before enforcement, and approve an operational threshold.
-8. Add the two encrypted secrets and public site-key variable to the correct Cloudflare Pages environments.
-9. Approve the form privacy notice and the mailbox/provider retention responsibilities before live collection.
-10. Redeploy a preview build and verify one real internal quotation notification reaches the temporary Gmail recipient.
-11. Confirm Reply addresses the buyer and that no automatic customer email is sent.
-12. Define who monitors the mailbox, expected response workflow, and escalation responsibilities.
+1. Configured the temporary recipient through encrypted `EXPORT_QUOTE_NOTIFICATION_EMAIL` settings in Preview and Production.
+2. Configured `EXPORT_QUOTE_FROM_EMAIL` with the temporary provider-authorized Resend sender.
+3. Created the Turnstile widget for `www.borgafoods.com`, the Pages hostname, and the approved Preview hostname.
+4. Added the required encrypted secrets, server-only sender setting, and public site-key variable to Preview and Production.
+5. Approved the form privacy notice and 24-month maximum retention period.
+6. Redeployed Preview and verified internal notification delivery, buyer `Reply-To`, and no automatic customer acknowledgement.
 
-Do not change Cloudflare DNS or email-provider settings without explicit authorization.
+Deferred until BorgaFoods regains DNS and Cloudflare zone control:
+
+1. Add and verify `borgafoods.com` in Resend.
+2. Configure and verify Resend's required SPF and DKIM records without replacing unrelated mail records.
+3. Configure and verify DMARC for the domain according to the approved email policy.
+4. Switch the notification recipient and authorized sender to the approved domain addresses through configuration only.
+5. Configure a Cloudflare rate-limiting rule for `/api/export-quote`, observe the rule before enforcement, and approve an operational threshold.
+
+The business must also define who monitors the operational mailbox, the expected response workflow, and escalation responsibilities.
+
+Do not change Cloudflare DNS or domain email-provider settings without explicit authorization.
 
 ## Phase 3 implementation
 
@@ -95,4 +99,20 @@ The committed implementation includes:
 - reliable success and failure states;
 - secrets stored only in server-side environment variables, never in `VITE_` variables or client code.
 
-The endpoint has automated success and failure tests, but production email delivery has not been verified. Do not deploy Phase 3 to production until the production configuration above is complete and a preview delivery test succeeds.
+The endpoint has automated success and failure tests. Preview delivery was verified before production approval; production delivery must be verified after deployment.
+
+## Privacy and retention
+
+The approved quotation-form notice is:
+
+> By submitting this form, you consent to BorgaFoods using the information provided to review and respond to your export enquiry. Your information may be processed by trusted service providers used to operate our website and email communication systems and retained as needed for enquiry handling and legitimate business records. Please do not submit sensitive personal information.
+
+Export enquiries may be retained for up to 24 months for business communication and records.
+
+## Temporary rate-limit deferral
+
+The initial production launch without a separate Cloudflare rate-limiting rule was approved on 7 August 2026 because DNS and Cloudflare zone control are unavailable. Server-verified Turnstile, the honeypot, schema validation, same-origin enforcement, request-body limits, field limits, and provider idempotency remain mandatory. Configure and validate endpoint rate limiting when DNS and Cloudflare zone control are restored.
+
+## Production-readiness status
+
+Preview and Production have the required Resend, Turnstile, sender, and server-only recipient configuration. A Preview quotation was accepted with request ID `BF-0E9387D7`; the internal notification reached the temporary recipient, the buyer address was present in `Reply-To`, and no automatic customer acknowledgement was sent. Production deployment and a live quotation delivery test remain outstanding.

@@ -2,6 +2,22 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 7 August 2026 — Phase 3 production readiness
+
+Privacy-notice commit: `cdbbed56221d38fde372804bc4d90161eec8f05f`
+
+Completed changes:
+
+- added the approved quotation-form consent notice and the 24-month maximum retention statement;
+- configured server-only quotation delivery and Turnstile settings for Cloudflare Preview and Production;
+- verified Preview delivery with request ID `BF-0E9387D7`, buyer `Reply-To`, no automatic acknowledgement, and no browser console errors;
+- approved the initial production launch without a separate Cloudflare rate-limiting rule while DNS and Cloudflare zone control are unavailable;
+- retained Turnstile, the honeypot, validation, origin checks, body limits, field limits, and provider idempotency as mandatory launch controls;
+- retained `export@borgafoods.com` as the public identity and future production mailbox without exposing the temporary recipient in browser-delivered content;
+- passed formatting, TypeScript checking, all six endpoint tests, the production build, diff validation, and the public-output personal-address scan.
+
+Deployment status: production readiness approved; production deployment and live delivery verification pending.
+
 ## 7 August 2026 — Temporary server-only quotation recipient
 
 Commit: `118a6899a33eb6363b05a01354e2db78775eea1e`

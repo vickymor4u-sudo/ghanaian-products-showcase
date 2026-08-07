@@ -112,4 +112,8 @@ Future changes must preserve these constraints.
 - Quotation payloads and emails may use public product names, slugs, and approved supply statements only. They must not request, store, or reveal supplier identity.
 - Turnstile and Resend secret keys must be stored only as Cloudflare encrypted secrets and must never use the `VITE_` prefix.
 - `VITE_TURNSTILE_SITE_KEY` is a public build-time value, not a secret.
+- The quotation form must display the approved consent notice before submission. It must explain the permitted enquiry use, trusted website and email service providers, legitimate business records, and that sensitive personal information must not be submitted.
+- Export enquiries may be retained for up to 24 months for business communication and records.
+- The initial production launch may operate without a separate Cloudflare rate-limiting rule while DNS and Cloudflare zone control are unavailable. During this approved temporary deferral, server-verified Turnstile, the honeypot, validation, origin checks, body limits, and request controls must remain enabled.
+- Endpoint rate limiting must be reconsidered when DNS and Cloudflare zone control are restored.
 - Do not add customer acknowledgements, persistence, attachments, pricing, fixed MOQs, or automatic quotations without a separately approved phase.

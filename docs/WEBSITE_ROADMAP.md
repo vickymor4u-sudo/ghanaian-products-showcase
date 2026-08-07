@@ -48,7 +48,7 @@ Phase 2 must not expose supplier identities or describe partner-sourced products
 
 ## Phase 3 — Request quotation workflow
 
-Status: **Implemented and committed; production configuration and deployment verification pending**
+Status: **Production readiness approved; deployment verification pending**
 
 Completed implementation:
 
@@ -61,11 +61,13 @@ Completed implementation:
 - added buyer-visible submitting, success, verification, failure, and email-fallback states;
 - kept the first release stateless with no database, CRM, attachments, or automatic customer acknowledgement;
 - restricted Pages Function invocation to `/api/*`;
-- added automated endpoint tests and expanded TypeScript checking to server files.
+- added automated endpoint tests and expanded TypeScript checking to server files;
+- added the approved enquiry consent notice and the 24-month maximum retention statement;
+- configured Resend and Turnstile for Preview and Production and verified preview notification delivery, buyer `Reply-To`, and the absence of an automatic acknowledgement.
 
 Primary implementation commit: `249494d35fccd455314967c0196b9b08eef5301a`
 
-Production remains gated on an authorized Resend sender, the approved temporary notification-recipient configuration, the Resend API key, rate-limiting configuration, approved privacy/retention handling, preview delivery testing, deployment of the intended commit, and verified live mailbox delivery. The intended future mailbox remains `export@borgafoods.com`; the temporary Gmail fallback is server-only while domain DNS access is unavailable. Until those checks pass, the server-backed Contact form must not be described as operational.
+Production readiness was approved on 7 August 2026. The intended future mailbox remains `export@borgafoods.com`; the temporary Gmail fallback is server-only while domain DNS access is unavailable. Launch without a separate Cloudflare rate-limiting rule is temporarily approved because Turnstile, the honeypot, validation, origin checks, body limits, and request controls are active. Rate limiting must be reconsidered when DNS and Cloudflare zone control are restored. Production deployment and live delivery verification are the remaining Phase 3 steps.
 
 ## Phase 4 — Private label and customer tools
 
