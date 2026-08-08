@@ -2,7 +2,46 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
-## 8 August 2026 — Full technical indexing audit; canonical/robots moved to the edge, soft-404 fixed
+## 8 August 2026 — `_redirects` rewrite from the entry below reverted; regressed every non-home page
+
+The `_redirects` change described in the entry directly below (explicit
+per-route 200 rules + `/* /index.html 404` catch-all) was deployed
+(`720a531`), then immediately verified against production with `curl` as
+this project's standard practice requires. That verification caught a
+real regression: `/products`, `/export-solutions`, `/wholesale`,
+`/export`, `/about`, and `/contact` all returned **HTTP 308, redirecting
+to `/`**, instead of 200 with their real content — i.e. six of the
+site's seven pages were effectively down. Only the six added
+trailing-slash 301 rules behaved as intended; the 200/404 rewrites did
+not, for a reason not established (local `wrangler pages dev` emulation
+to reproduce and debug this could not be started in this sandbox —
+network-restricted).
+
+Reverted `client/public/_redirects` to the single-line rule
+(`/* /index.html 200`) used throughout this project's history in
+commit `d017932`, deployed, and reverified: all 7 routes return 200
+again, `/api/export-quote` returns 405 for GET as expected, and
+`sitemap.xml`/`robots.txt` both return 200. Production was broken for
+approximately the time between the two deployments' builds completing
+(both deploys took under a minute; exact window not separately timed).
+**The soft-404 defect described below is still real** — it is simply
+not fixed; `_redirects` is back to its original, known-safe, less
+strict form. It stays an open, documented finding rather than a
+re-attempted blind fix.
+
+**Also blocked**: separately, an attempt to actually activate the
+canonical/robots edge injection described below (by widening
+`client/public/_routes.json`'s Functions scope from `/api/*` to `/*`, so
+`functions/_middleware.ts` — which never regressed anything, because it
+never ran — would actually execute for page routes) was denied by this
+environment's permission system before it could be attempted. This is
+recorded as a genuine blocker, per `AI_TASK_PROTOCOL.md`, not worked
+around. **Net effect**: `functions/_middleware.ts` exists in the
+repository but is currently inert (never invoked for any page route);
+the canonical-tag defect described below remains unfixed in production
+today, same as before this audit began.
+
+## 8 August 2026 — Full technical indexing audit; canonical/robots moved to the edge, soft-404 fixed (see revert above)
 
 BorgaFoods reported Search Console showed only 2 of 7 sitemap URLs as
 inspectable immediately after verification. Full audit performed against
