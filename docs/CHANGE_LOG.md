@@ -2,6 +2,22 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Presentation-rule alignment and repository cleanup
+
+Implementation commit: `da3276f1a67488d7c46513ec86c9cf5edbb554d9`
+
+Completed changes:
+
+- removed unapproved custom-packaging and custom-blend claims from the product catalog (`fufu-borga`, `kokonte-borga`, `cassava-flour` variants), the Products page ("(customizable)" packaging label, "Packaging Customization" heading renamed to "Packaging Requirements Review", and the closing CTA), and the Contact page MOQ FAQ answer, so public content matches `PUBLIC_PRODUCT_PRESENTATION_RULES.md` section 1 (no custom-packaging/OEM-adjacent claim without an explicit product-level approval); no product's supply type, brand, manufacturer, or private-label eligibility changed;
+- removed the unrouted `client/src/pages/Media.tsx` page (not referenced by `App.tsx`, `Navigation`, `Footer`, or the sitemap; it asserted fabricated pricing/MOQ/compliance-certificate downloads that were never approved for publication);
+- archived six pre-`docs/` planning files (`BUSINESS_INFO_CAPTURE.md`, `CATALOG_EXTRACTED_INFO.md`, `COMPLETE_COMPANY_INFO.md`, `WEBSITE_REQUIREMENTS.md`, `ideas.md`, `CONTRAST_ISSUES.md`) from the repository root into `docs/archive/` with an explanatory README, so `docs/` remains the sole authoritative source per `AI_TASK_PROTOCOL.md`; the archived `CATALOG_EXTRACTED_INFO.md` contained looser private-label wording that predates and conflicts with the current `fufu-borga`-only approval, which is now flagged as non-authoritative rather than left ambiguous at the repo root.
+
+This entry makes no business-rule, classification, or supply-type change; PCR-001 and PCR-002 remain open and untouched.
+
+Validation: direct TypeScript check passed; all 17 existing Vitest unit/integration tests passed unmodified; production build passed with unchanged catalog counts (5 current public records, 4 Phase 4 expansion-eligible records); built-output confidentiality scan found no Gmail address, Red Palm Oil, or supplier markers; built-output scan confirmed the removed "customizable"/"Custom blends" strings no longer appear; `git diff --check` and the staged diff were reviewed file-by-file before commit.
+
+Deployment status: committed locally only. **Not pushed to `origin/main` and not deployed.** This session had no SSH access to the `origin` GitHub remote and no Cloudflare credentials/API access, so push and deployment (along with production Resend/Turnstile verification for the still-undeployed Phase 4B/4C work below) could not be performed or verified.
+
 ## 7 August 2026 — Phase 4C private-label discovery
 
 Implementation commit: `615c1edcd3f64be9a0dc6d7bc1e88a265c7eae9c`
