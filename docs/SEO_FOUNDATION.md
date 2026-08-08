@@ -96,13 +96,39 @@ Once GA4 is active, `generate_lead` events segmented by `inquiry_type` (`export_
 
 ## 8. Crawlability audit
 
-**Status: Reviewed.** No blocking issues found for anything currently live.
+**Status: Full technical indexing audit performed 8 August 2026 (prompted by GSC showing only 2 of 7 sitemap URLs as inspectable immediately after verification). Two real defects found and fixed; the earlier claim that "canonical URLs are generated correctly per-route" (below, struck through) was true for browsers but incomplete for crawlers.**
 
-- All 7 public routes return 200 and are crawlable; the 404 route correctly returns app-rendered content with `noindex, nofollow`.
-- Canonical URLs are generated correctly per-route by `SEO.tsx` (verified this session and in prior sessions via live route checks).
-- **Known, pre-existing, out-of-scope item**: Cloudflare's build log reports `client/public/_redirects`'s SPA-fallback rule (`/* /index.html 200`) as an "infinite loop" and ignores it. Despite that, every real route has been repeatedly verified to return 200 in production across this project's history (Cloudflare Pages appears to apply its own default SPA-fallback for this deployment shape independent of the ignored rule). `AI_TASK_PROTOCOL.md` explicitly says not to mix this known warning into feature work unless separately requested — noted here as a crawlability-audit finding only, not touched.
+Audited every sitemap URL against: HTTP status, canonical tag, indexability, robots.txt, internal linking, sitemap presence, and raw (pre-JavaScript) response content — since that raw response, not the rendered DOM, is what a crawler's first pass actually sees.
+
+| Check | `/`, `/products`, `/export-solutions`, `/wholesale`, `/export`, `/about`, `/contact` |
+| --- | --- |
+| HTTP 200 | ✅ all 7, verified via `curl` against production |
+| In `sitemap.xml` | ✅ all 7, exact match against the live route table |
+| Not blocked by `robots.txt` | ✅ `Allow: /` site-wide, no disallow rules |
+| Internally linked | ✅ every route appears in both `Navigation.tsx` and `Footer.tsx` (except `/`, linked via the header logo) |
+| Canonical tag correct | ⚠️ correct value, wrong mechanism — see below |
+| Indexable (no `noindex`) | ✅ no `robots` meta present (absence = indexable, correct) |
+
+**Defect 1 (fixed): canonical and robots tags were client-JS-only, same root cause as the Search Console verification bug fixed earlier today.** `SEO.tsx` set `<link rel="canonical">` via a `useEffect`, so — like the verification meta tag — it was genuinely present in a rendered browser DOM but **absent from the raw HTTP response**:
+```
+$ curl -s https://www.borgafoods.com/products | grep canonical
+(no output)
+```
+This is the likely direct explanation for GSC showing most sitemap URLs as "N/A" right after verification: Google's URL Inspection tool reports live/indexed data from its render pass, and Google's own documentation recommends a static canonical tag over a JavaScript-set one specifically because the render pass is queued and can lag, especially for a newly verified, low-authority property — it isn't that the pages are broken, it's that the signal a fast-path check relies on wasn't there yet.
+
+**Fix**: added `functions/_middleware.ts`, a Cloudflare Pages Function using `HTMLRewriter` to inject the correct `<link rel="canonical">` for the 7 known routes (or `<meta name="robots" content="noindex, nofollow">` for anything else) directly into the HTML at the edge, before any JavaScript runs. `SEO.tsx`'s client-side canonical logic was **not removed** — it now finds and updates the edge-injected tag in place rather than adding a duplicate, so a future route added to the app but not yet to the Function's allowlist still gets a correct canonical once React mounts. Verified with `curl` post-deploy (see `docs/CHANGE_LOG.md` for the exact command and output).
+
+**Defect 2 (fixed): unknown paths returned a soft 404.** `client/public/_redirects` was a single blanket rule (`/* /index.html 200`), so *any* path — typos, removed URLs, bots probing random paths — returned HTTP 200 with the homepage's raw HTML rather than a real 404:
+```
+$ curl -s -o /dev/null -w "%{http_code}" https://www.borgafoods.com/this-page-does-not-exist
+200
+```
+Soft 404s are a documented Search Console concern (Google flags them explicitly under Indexing → Pages) and, while not the primary explanation for "N/A" on real pages, are worth closing while auditing the same file. **Fix**: `_redirects` now rewrites each of the 7 real routes explicitly (still 200) and falls through to a `/* /index.html 404` catch-all for everything else — same SPA body, so wouter's client-side NotFound page still renders, but the HTTP status a crawler sees is now correct. Also added six 301 redirects canonicalizing an accidental trailing slash on any of the 6 non-home routes (e.g. `/products/` → `/products`) to the exact form used everywhere internally, closing a minor duplicate-URL gap the stricter 404 rule would otherwise have created.
+- ~~Canonical URLs are generated correctly per-route by `SEO.tsx`~~ — superseded above; correct value, wrong (client-only) mechanism.
+- **Previously flagged, now resolved**: Cloudflare's build log used to report `client/public/_redirects`'s single SPA-fallback rule as an "infinite loop" and ignore it, with every real route nonetheless returning 200 via what appeared to be Cloudflare's own default SPA-fallback for this deployment shape. With today's more specific `_redirects` rules (7 explicit routes + 6 trailing-slash redirects + a 404 catch-all, no self-referential wildcard), re-verify the Cloudflare build log for this warning after deploy — noted as a specific thing to check, not assumed fixed just because the rule changed shape.
 - No `hreflang` tags: correct, single-language (English) site.
-- `_routes.json` correctly scopes Pages Functions to `/api/*` only, so no static asset or route is inadvertently proxied through the Worker.
+- `_routes.json` correctly scopes Pages Functions to `/api/*` only; `functions/_middleware.ts` added today runs for every request (that's its job — inspecting content-type before touching anything), but only ever mutates responses whose `content-type` includes `text/html`, so `/api/export-quote` (JSON) and every static asset (JS/CSS/images/`sitemap.xml`/`robots.txt`) pass through completely unchanged. Verified post-deploy.
+- **What this audit does not, and cannot, fix**: this remains a client-only SPA with no server-side rendering. Google's crawler does execute JavaScript and will eventually render and fully index every page — the fixes above remove the two concrete defects that were actively working against that, but some lag between "URL discovered via sitemap" and "URL fully inspectable/indexed" is normal and expected for a freshly verified property, not a bug. Eliminating that lag entirely would mean adopting server-side rendering or prerendering, a real architectural change with framework and hosting implications — flagged as a possible future improvement, not implemented here, per `AI_TASK_PROTOCOL.md`'s guidance not to introduce new server architecture without approval.
 
 ## 9. Core Web Vitals review
 

@@ -2,6 +2,23 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Full technical indexing audit; canonical/robots moved to the edge, soft-404 fixed
+
+BorgaFoods reported Search Console showed only 2 of 7 sitemap URLs as
+inspectable immediately after verification. Full audit performed against
+production (HTTP status, canonical, indexability, robots.txt, internal
+linking, sitemap membership, raw pre-JS response) for all 7 public
+routes. Full detail and the check-by-check table are in
+`docs/SEO_FOUNDATION.md` §8. Two real defects found and fixed:
+
+- **Canonical/robots tags were client-JS-only** — same root cause as the Search Console verification bug fixed earlier today (see the entry below): `SEO.tsx` set `<link rel="canonical">` via a `useEffect`, present in a rendered browser DOM but absent from the raw HTTP response, which is the likely direct explanation for most sitemap URLs showing "N/A" in URL Inspection right after verification. Fixed with `functions/_middleware.ts`, a new Cloudflare Pages Function using `HTMLRewriter` to inject the correct canonical tag for each of the 7 known routes (or a `noindex, nofollow` robots meta tag for anything else) directly into the HTML at the edge, before any JavaScript runs. `SEO.tsx`'s client-side logic was kept, not removed — it updates the edge-injected tag in place rather than duplicating it, so any future route not yet added to the Function's allowlist still gets a correct canonical once React mounts.
+- **Unknown paths returned a soft 404** — `client/public/_redirects` was a single blanket `/* /index.html 200` rule, so typos, removed URLs, and bots probing random paths all returned HTTP 200 with the homepage's raw HTML, a documented Search Console "soft 404" flag. Fixed by rewriting `_redirects` to explicitly list all 7 real routes (still 200) with a `/* /index.html 404` catch-all for everything else; the SPA body served is unchanged either way, so wouter's client-side NotFound page still renders — only the HTTP status a crawler sees is different. Also added six 301 redirects canonicalizing an accidental trailing slash on the 6 non-home routes (e.g. `/products/` → `/products`), closing a minor duplicate-URL gap the stricter 404 rule would otherwise have created.
+- Confirmed unaffected: internal linking (`Navigation.tsx`/`Footer.tsx` already link every route), `robots.txt` (already permissive, unchanged), `sitemap.xml` (already exactly matches the route table, unchanged), and `/api/export-quote` plus every static asset (the new middleware only ever mutates responses whose `content-type` includes `text/html`).
+- Corrected an earlier claim in `docs/SEO_FOUNDATION.md` §8 that canonical URLs were "generated correctly per-route" — true for a rendered browser, incomplete for a crawler's first pass. Left struck through rather than deleted, per this file's append-only convention.
+- **Explicitly not attempted**: full server-side rendering / prerendering, which would remove the remaining (normal, expected) lag between sitemap discovery and full render-based indexing entirely. That's a real architectural change with framework/hosting implications, flagged in `docs/SEO_FOUNDATION.md` §8 as a possible future improvement rather than implemented unilaterally, per `AI_TASK_PROTOCOL.md`.
+
+Validation: TypeScript check passed; all 51 tests passed unmodified; production build passed with all four guard scripts green. Local `wrangler pages dev` emulation was attempted to test the new Function end-to-end before deploy but could not start in this sandbox (network-restricted); correctness was instead established by careful manual review (content-type gating confirmed to leave `/api/export-quote` and all static assets untouched; `HTMLRewriter` preserves the original response's status code, so 200/301/404 from `_redirects` pass through unchanged) and thorough `curl`-based verification directly against production immediately after deploy — see the following entry.
+
 ## 8 August 2026 — Fix: site-verification meta tags now build-time, not client-rendered
 
 BorgaFoods reported Google Search Console's HTML tag verification kept
