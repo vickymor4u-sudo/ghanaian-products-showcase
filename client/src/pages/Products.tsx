@@ -1,4 +1,6 @@
+import { useMemo, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
 import SEO from "@/components/SEO";
 import ExportQuoteButton from "@/components/ExportQuoteButton";
@@ -12,6 +14,21 @@ export default function Products() {
   const productNames = currentPublicCatalogueProducts
     .map(product => product.name)
     .join(", ");
+
+  const categories = useMemo(
+    () =>
+      Array.from(
+        new Set(currentPublicCatalogueProducts.map(product => product.category))
+      ),
+    []
+  );
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const visibleProducts =
+    selectedCategory === "all"
+      ? currentPublicCatalogueProducts
+      : currentPublicCatalogueProducts.filter(
+          product => product.category === selectedCategory
+        );
 
   return (
     <div className="min-h-screen bg-background">
@@ -69,11 +86,44 @@ export default function Products() {
 
       <section className="py-20">
         <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-16">
+          <h2 className="text-4xl font-bold text-foreground mb-6">
             Our Product Catalogue
           </h2>
+          <div
+            className="flex flex-wrap gap-3 mb-16"
+            role="group"
+            aria-label="Filter products by category"
+          >
+            <Button
+              size="sm"
+              variant={selectedCategory === "all" ? "default" : "outline"}
+              onClick={() => setSelectedCategory("all")}
+              className={
+                selectedCategory === "all"
+                  ? "bg-primary text-primary-foreground"
+                  : "border-primary/30 text-foreground"
+              }
+            >
+              All Products
+            </Button>
+            {categories.map(category => (
+              <Button
+                key={category}
+                size="sm"
+                variant={selectedCategory === category ? "default" : "outline"}
+                onClick={() => setSelectedCategory(category)}
+                className={
+                  selectedCategory === category
+                    ? "bg-primary text-primary-foreground"
+                    : "border-primary/30 text-foreground"
+                }
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
           <div className="space-y-20">
-            {currentPublicCatalogueProducts.map((product, index) => (
+            {visibleProducts.map((product, index) => (
               <div
                 key={product.name}
                 className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
@@ -111,6 +161,8 @@ export default function Products() {
 
                   <ExportQuoteButton
                     size="default"
+                    productSlug={product.slug}
+                    label={`Request Quote for ${product.name}`}
                     className="bg-primary hover:bg-primary/90 text-primary-foreground"
                   />
                 </div>

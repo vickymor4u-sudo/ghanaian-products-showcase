@@ -52,10 +52,19 @@ function createInitialFormData(): QuoteFormData {
     distribution: "distribution",
     "private-label": "private_label",
   };
+  const query = new URLSearchParams(window.location.search);
   const inquiryType =
-    inquiryTypeByQuery[
-      new URLSearchParams(window.location.search).get("inquiry") ?? ""
-    ] ?? "general";
+    inquiryTypeByQuery[query.get("inquiry") ?? ""] ?? "general";
+
+  const requestedProduct = query.get("product") ?? "";
+  const selectableProducts = isPrivateLabelInquiry(inquiryType)
+    ? privateLabelDiscoveryProducts
+    : rfqEligibleProducts;
+  const productSelection = selectableProducts.some(
+    product => product.slug === requestedProduct
+  )
+    ? requestedProduct
+    : "";
 
   return {
     inquiryType,
@@ -65,7 +74,7 @@ function createInitialFormData(): QuoteFormData {
     contactPerson: "",
     email: "",
     phoneWhatsApp: "",
-    productSelection: "",
+    productSelection,
     packagingPreference: "unsure",
     estimatedQuantity: "",
     destinationCountry: "",

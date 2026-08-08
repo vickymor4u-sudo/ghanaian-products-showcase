@@ -2,6 +2,20 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Product intelligence reconciliation and catalogue conversion improvements
+
+Completed changes:
+
+- reconciled the supplied `BorgaFoods_Master_Export 001.xlsx` working workbook against `PRODUCT_CAPABILITY_MODEL.md`, `PRODUCT_CLASSIFICATION_REVIEW.md`, and `client/src/data/products.ts`; recorded findings in the new `docs/PRODUCT_INTELLIGENCE_RECONCILIATION.md` (structural facts only — no supplier names, brands, or pricing were copied into the repository, which is public on GitHub);
+- confirmed the current 5 public products remain aligned with the workbook (Fufu Flour's existing brand mismatch reinforces the already-open PCR-001; Red Palm Oil's conflicting supply-type rows in the workbook reinforce the already-open PCR-002; both gates were left exactly as recorded, not reinterpreted);
+- identified 22 candidate partner-sourced products in the workbook with no product-level public-display approval recorded anywhere in the frozen capability model; per `PUBLIC_PRODUCT_PRESENTATION_RULES.md` §6, **none were added to the public catalog, SEO content, structured data, or the RFQ product allowlist** — all remain internal pending a business decision (see `docs/PRODUCT_INTELLIGENCE_RECONCILIATION.md` for the exact list and required decisions);
+- confirmed all 22 candidates are additionally imagery-blocked: the workbook's own instructions confirm its 26 embedded product images are supplier-provided photography; none were extracted, reviewed, or used;
+- added a per-product "Request Quote for {product}" call to action on the Products page that preselects the specific product in the Contact form via a `product` query parameter, validated client-side against the same `rfqEligibleProducts`/`privateLabelDiscoveryProducts` selectors already used for the dropdown (an invalid or disallowed product ID falls back to no preselection; the existing server-side allowlist in `/api/export-quote` is unchanged and remains the authoritative check);
+- added category-filter pills to the Products page (derived from existing product categories; no new categories or products);
+- made no changes to product classifications, supply types, private-label eligibility, pricing display, or supplier confidentiality controls.
+
+Validation: TypeScript check passed; all 17 existing tests passed unmodified; production build passed with unchanged catalog counts (5 current public records, 4 Phase 4 expansion-eligible records); confidentiality scan of the built output found no supplier brand names, no Gmail address, no Red Palm Oil, and none of the 22 candidate product names; verified locally via `vite preview` that category filtering, the per-product quote link, and its `product` query-param preselection all work, and that an invalid product ID or a non-Fufu product ID on the private-label path both correctly fall back to no preselection (matching the unchanged server-side gate).
+
 ## 8 August 2026 — Cloudflare dashboard verification (Phase 4B, 4C)
 
 No implementation commit; this entry records verification only, performed once Cloudflare dashboard access became available in the same session as the entry below.

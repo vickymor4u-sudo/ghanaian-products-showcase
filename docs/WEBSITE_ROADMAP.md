@@ -157,4 +157,9 @@ The following work may be scheduled alongside an approved phase when it does not
 - SEO metadata, structured data, sitemap, and canonical improvements;
 - accessibility fixes;
 - deployment documentation and release verification;
-- resolution of Cloudflare build warnings as separately approved maintenance tasks.
+- resolution of Cloudflare build warnings as separately approved maintenance tasks;
+- catalogue discovery/conversion improvements within the current 5-product public catalog (category filtering, per-product quote preselection) — completed 8 August 2026, see `CHANGE_LOG.md`.
+
+## Product intelligence reconciliation (8 August 2026)
+
+The supplied `BorgaFoods_Master_Export 001.xlsx` working workbook was reconciled against the frozen capability model. Full findings, including 22 identified candidate partner-sourced products and the required business decisions, are recorded in [`PRODUCT_INTELLIGENCE_RECONCILIATION.md`](./PRODUCT_INTELLIGENCE_RECONCILIATION.md). **No candidate product was published**; none has a recorded product-level public-display approval, and all are additionally blocked by the absence of any public-safe (non-supplier-branded) image. This reconciliation is not itself an authorization — it is a prerequisite for a future, separately approved export-catalogue expansion phase once the required business decisions in that document are made.
