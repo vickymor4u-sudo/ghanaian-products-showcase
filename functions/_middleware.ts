@@ -108,13 +108,20 @@ export const onRequest = async (
   // Try the exact requested path as a real static file first (JS/CSS
   // bundles, images, sitemap.xml, robots.txt, fonts, favicons, ...).
   // env.ASSETS.fetch resolves directly against the deployed static
-  // output, independent of _redirects. A text/html result here only
-  // happens for a literal request to /index.html itself, which still
-  // needs the same rewriting as every other route below, so it isn't
-  // treated as "found" just because the status wasn't 404.
+  // output, independent of _redirects. For an extensionless SPA route
+  // (e.g. /products) Cloudflare's asset resolution doesn't cleanly 404 —
+  // it comes back shaped like a redirect (2xx/3xx, a stray Location
+  // header, empty body), an artifact of its own index.html
+  // canonicalization, not a real file. Checking for a non-html
+  // content-type AND a genuinely non-empty body rules that out, so only
+  // an actual static file is ever returned here unmodified.
   const assetResponse = await context.env.ASSETS.fetch(context.request);
   const assetContentType = assetResponse.headers.get("content-type") ?? "";
-  if (assetResponse.status !== 404 && !assetContentType.includes("text/html")) {
+  const isRealStaticAsset =
+    assetResponse.ok &&
+    !assetContentType.includes("text/html") &&
+    assetResponse.headers.get("content-length") !== "0";
+  if (isRealStaticAsset) {
     return assetResponse;
   }
 
@@ -125,7 +132,12 @@ export const onRequest = async (
   const pathname = normalizePathname(url.pathname);
   const isKnownPublicPath = KNOWN_PUBLIC_PATHS.has(pathname);
 
-  const shellRequest = new Request(new URL("/index.html", url), context.request);
+  // Fetch the shell via "/", not "/index.html": Cloudflare Pages
+  // automatically 308-redirects a direct /index.html request to / (the
+  // same canonicalization that made the first fetch above ambiguous),
+  // and the ASSETS binding replicates that. "/" is already the canonical
+  // form, so it resolves straight to the real file content instead.
+  const shellRequest = new Request(new URL("/", url), context.request);
   const shellResponse = await context.env.ASSETS.fetch(shellRequest);
 
   const handler = new AppendToHead(
