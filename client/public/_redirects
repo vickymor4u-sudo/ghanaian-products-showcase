@@ -1,1 +1,8 @@
+# NOTE: with client/public/_routes.json now routing every path (/*)
+# through Pages Functions, Cloudflare does not apply this file to any
+# request anymore — functions/_middleware.ts owns SPA-fallback routing,
+# status codes, and canonical/robots injection directly (see that file).
+# This single safe rule is kept only as a defensive fallback in case
+# _routes.json's scope is ever narrowed again; it is not exercised by any
+# request today. See docs/SEO_FOUNDATION.md §8 and docs/CHANGE_LOG.md.
 /*    /index.html   200
