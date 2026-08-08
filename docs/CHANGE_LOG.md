@@ -2,6 +2,22 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Fix: site-verification meta tags now build-time, not client-rendered
+
+BorgaFoods reported Google Search Console's HTML tag verification kept
+failing despite the meta tag being visible in a browser's rendered DOM
+(see the entry below). Root cause found and fixed:
+
+- `client/src/components/SEO.tsx` was setting `google-site-verification` (and `msvalidate.01`) via a `useEffect`, i.e. only after React mounted in the browser. This is a client-only Vite SPA with no server-side rendering, and both Google's and Bing's "HTML tag" verification methods fetch the raw document without executing JavaScript — so the tag was genuinely present for real visitors but invisible to the one client that mattered for verification;
+- fixed by adding `siteVerificationMetaPlugin` to `vite.config.ts`, a small plugin using Vite's `transformIndexHtml` hook that reads `VITE_GOOGLE_SITE_VERIFICATION` / `VITE_BING_SITE_VERIFICATION` directly from the build environment and injects the `<meta>` tag(s) straight into `dist/public/index.html` at build time — present in the raw HTTP response before any JavaScript runs; tag is omitted entirely (not emitted empty) when the corresponding env var is unset, preserving the existing inert-until-configured behavior;
+- removed the now-redundant client-side injection from `SEO.tsx` (and the now-unused `GOOGLE_SITE_VERIFICATION`/`BING_SITE_VERIFICATION` exports from `client/src/config/site.ts`) so there is exactly one place these tags are ever rendered, not two;
+- added a new build-blocking guard, `scripts/verify-site-verification-tags.ts` (wired into `pnpm build` alongside the existing catalog/single-source/no-leak checks), which fails the build if a configured env var's tag is missing from the built `index.html`, or if a tag is present without its env var set; verified to fail closed by temporarily disabling the Vite plugin, confirming the build broke with the exact expected error, then confirming the fix and re-verifying a clean build;
+- the env-var architecture itself (`VITE_GOOGLE_SITE_VERIFICATION` / `VITE_BING_SITE_VERIFICATION`, public/non-secret, same category as `VITE_TURNSTILE_SITE_KEY`) is unchanged — only where the tag is rendered changed, not how it's configured.
+
+Validation: TypeScript check passed; all 51 tests passed unmodified; local production build (with `VITE_GOOGLE_SITE_VERIFICATION` set) confirmed the tag present, exactly once, in the raw `dist/public/index.html`, and confirmed absent when the var is unset; verified live in a local `vite preview` via `curl` (raw HTTP response, no JS execution) and in the browser (rendered DOM matches, no duplicate tag, per-page title/description/OG/canonical tags from `SEO.tsx` still update correctly across routes).
+
+Deployment status: see the following entry for push/deployment/production-verification details.
+
 ## 8 August 2026 — Google Search Console verification activated
 
 No code commit; this entry records a Cloudflare configuration change and

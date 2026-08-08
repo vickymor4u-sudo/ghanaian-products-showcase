@@ -5,13 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
-    "build": "pnpm verify:catalog && pnpm verify:single-source && vite build && pnpm verify:no-leak",
+    "build": "pnpm verify:catalog && pnpm verify:single-source && vite build && pnpm verify:no-leak && pnpm verify:site-verification",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
     "test": "vitest run --config vitest.config.ts",
     "verify:catalog": "tsx scripts/verify-product-catalog.ts",
     "verify:no-leak": "tsx scripts/verify-no-internal-leak.ts",
     "verify:single-source": "tsx scripts/verify-single-source-of-truth.ts",
+    "verify:site-verification": "tsx scripts/verify-site-verification-tags.ts",
     "format": "prettier --write ."
   },
   "dependencies": {

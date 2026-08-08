@@ -17,27 +17,42 @@ added anywhere.
 
 ## 1. Google Search Console verification
 
-**Status: Meta tag live in production, 8 August 2026 — verification pending confirmation in Search Console.**
+**Status: Meta tag live in production's raw HTML, 8 August 2026 — verification pending confirmation in Search Console.**
 BorgaFoods added the URL prefix property `https://www.borgafoods.com` in
 Search Console using the "HTML tag" method and supplied the verification
-code. It is now set as `VITE_GOOGLE_SITE_VERIFICATION` in Cloudflare Pages
-→ Settings → Environment variables (Production), and a redeploy (commit
-`a795ae6`, deployment `36e9646b`) shipped it. Confirmed live by loading
-`https://www.borgafoods.com/` in a browser and reading the rendered DOM:
+code, set as `VITE_GOOGLE_SITE_VERIFICATION` in Cloudflare Pages →
+Settings → Environment variables (Production).
+
+An earlier version of this activation rendered the tag with a
+`useEffect` in `client/src/components/SEO.tsx` — real, and visible in a
+browser's rendered DOM, but **wrong**: this is a client-only Vite SPA (no
+SSR), and Google's "HTML tag" verification method fetches the document
+without executing JavaScript, so it never saw a tag that only existed
+after React mounted. Verification failed silently from Google's side even
+though the tag was genuinely present for anyone using a real browser.
+Fixed by moving the tag into the build itself: a small Vite plugin
+(`siteVerificationMetaPlugin` in `vite.config.ts`, using the
+`transformIndexHtml` hook) reads `process.env.VITE_GOOGLE_SITE_VERIFICATION`
+at build time and injects the `<meta>` tag directly into
+`dist/public/index.html`, so it's present in the raw HTTP response before
+any JavaScript runs. `SEO.tsx` no longer touches this tag at all — one
+source of truth for it, in the build, not split across a build-time env
+var and a runtime effect. Confirmed via `curl` against the raw HTML
+response of the built/deployed site (not just the browser DOM):
 
 ```html
 <meta name="google-site-verification" content="hox6EOS2m2hzwquyKmo0CDObWyxZlydpfTCHQwUAJW0">
 ```
 
-- `client/src/components/SEO.tsx` renders this tag automatically, site-wide, the moment `VITE_GOOGLE_SITE_VERIFICATION` is set as a Cloudflare build-time variable (public, non-secret — same category as `VITE_TURNSTILE_SITE_KEY`). No code change was needed for this activation.
-- The tag is client-rendered (this is a Vite SPA, not SSR) — it appears in the DOM after the page's JS runs, not in the raw HTML response. `curl` against the homepage will not show it; Search Console's own crawler executes JavaScript and will see it, same as a real browser does.
+- The env-var architecture is unchanged: still `VITE_GOOGLE_SITE_VERIFICATION`, still public/non-secret (same category as `VITE_TURNSTILE_SITE_KEY`), still fully absent — not emitted empty — when unset. Only *where* it's rendered changed (build-time HTML injection instead of a client-side React effect).
+- A new build-blocking guard, `scripts/verify-site-verification-tags.ts` (wired into `pnpm build`), fails the build if the env var is set but the tag is missing from the built `index.html`, or if the tag is present without the env var set. Verified to fail closed by temporarily disabling the Vite plugin and confirming the build broke with exactly that error, then confirmed the fix and re-verified a clean build.
 - DNS-based verification remains not viable — `borgafoods.com` (apex) DNS access is unavailable, consistent with every prior session's findings. The HTML meta-tag method above is the correct fallback and needs no DNS access.
-- Remaining step is external to this repository: return to Search Console and click "Verify" on the property. That confirmation, and any subsequent sitemap submission or query data, is a Google-account action this repository cannot perform.
+- Remaining step is external to this repository: return to Search Console and click "Verify" on the property now that the tag is actually fetchable without JavaScript. That confirmation, and any subsequent sitemap submission or query data, is a Google-account action this repository cannot perform.
 
 ## 2. Bing Webmaster Tools readiness
 
 **Status: Site is ready; verification itself needs a Microsoft/Bing account.**
-Same shape as Search Console. `SEO.tsx` renders `<meta name="msvalidate.01" content="...">` once `VITE_BING_SITE_VERIFICATION` is set. Bing Webmaster Tools also supports importing a verified Search Console property directly, which avoids a second manual verification once GSC is done — worth using if available when the time comes.
+Same shape as Search Console, and same fix: the Vite plugin in `vite.config.ts` injects `<meta name="msvalidate.01" content="...">` directly into the built `index.html` once `VITE_BING_SITE_VERIFICATION` is set, so it's present in the raw HTML response rather than only in the post-hydration DOM. `SEO.tsx` does not render this tag. Bing Webmaster Tools also supports importing a verified Search Console property directly, which avoids a second manual verification once GSC is done — worth using if available when the time comes.
 
 ## 3. GA4 integration
 

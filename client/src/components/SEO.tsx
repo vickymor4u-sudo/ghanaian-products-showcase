@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
-import {
-  BING_SITE_VERIFICATION,
-  GOOGLE_SITE_VERIFICATION,
-  SITE_ORIGIN,
-} from "@/config/site";
+import { SITE_ORIGIN } from "@/config/site";
 
 interface SEOProps {
   title?: string;
@@ -69,16 +65,13 @@ export default function SEO({
     updateMetaTag("twitter:description", description);
     updateMetaTag("twitter:image", image);
 
-    // Search Console / Bing Webmaster site-verification tags. Only
-    // rendered once BorgaFoods configures the real verification code
-    // issued by each provider (VITE_GOOGLE_SITE_VERIFICATION /
-    // VITE_BING_SITE_VERIFICATION) — see docs/SEO_FOUNDATION.md.
-    if (GOOGLE_SITE_VERIFICATION) {
-      updateMetaTag("google-site-verification", GOOGLE_SITE_VERIFICATION);
-    }
-    if (BING_SITE_VERIFICATION) {
-      updateMetaTag("msvalidate.01", BING_SITE_VERIFICATION);
-    }
+    // Search Console / Bing Webmaster site-verification tags are NOT set
+    // here. Both providers' "HTML tag" verification fetches the document
+    // without running JavaScript, so a tag added post-mount by this
+    // component would be invisible to them despite showing up in a
+    // rendered browser DOM. They're injected directly into the built
+    // index.html instead, at build time — see the Vite plugin in
+    // vite.config.ts and docs/SEO_FOUNDATION.md.
 
     let canonical = document.querySelector(
       'link[rel="canonical"]'
