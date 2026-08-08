@@ -163,3 +163,11 @@ The following work may be scheduled alongside an approved phase when it does not
 ## Product intelligence reconciliation (8 August 2026)
 
 The supplied `BorgaFoods_Master_Export 001.xlsx` working workbook was reconciled against the frozen capability model. Full findings, including 22 identified candidate partner-sourced products and the required business decisions, are recorded in [`PRODUCT_INTELLIGENCE_RECONCILIATION.md`](./PRODUCT_INTELLIGENCE_RECONCILIATION.md). **No candidate product was published**; none has a recorded product-level public-display approval, and all are additionally blocked by the absence of any public-safe (non-supplier-branded) image. This reconciliation is not itself an authorization — it is a prerequisite for a future, separately approved export-catalogue expansion phase once the required business decisions in that document are made.
+
+## BorgaFoods Product Intelligence Platform (BPIP) — Phase 1 (8 August 2026)
+
+Status: **Implemented and production-deployed. Internal architecture change; no public content or business rule changed.**
+
+The internal product registry, workflow gates, and validation described in [`PRODUCT_INTELLIGENCE_PLATFORM.md`](./PRODUCT_INTELLIGENCE_PLATFORM.md) formalize the reconciliation above (and the frozen capability model) as typed, build-checked code. `client/src/data/products.ts` is now a thin adapter over this registry rather than the product-data owner — verified to produce byte-identical public output to the prior implementation. The 21 reconciled candidates and Red Palm Oil are tracked internally with no supplier name, brand, or price, and are structurally prevented (module boundary + a build-blocking script, `scripts/verify-no-internal-leak.ts`) from reaching the client bundle. See [`BPIP_MIGRATION_PLAN.md`](./BPIP_MIGRATION_PLAN.md) for completed Phase 1 scope and proposed future phases, including the explicit, unapproved future decision point for persistent storage.
+
+This phase does not publish any product, does not change PCR-001/PCR-002, and does not change any private-label approval.

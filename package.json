@@ -5,11 +5,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
-    "build": "pnpm verify:catalog && vite build",
+    "build": "pnpm verify:catalog && vite build && pnpm verify:no-leak",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
     "test": "vitest run --config vitest.config.ts",
     "verify:catalog": "tsx scripts/verify-product-catalog.ts",
+    "verify:no-leak": "tsx scripts/verify-no-internal-leak.ts",
     "format": "prettier --write ."
   },
   "dependencies": {

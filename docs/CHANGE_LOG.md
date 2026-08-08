@@ -2,6 +2,22 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — BorgaFoods Product Intelligence Platform (BPIP) Phase 1
+
+Completed changes:
+
+- created `shared/productIntelligence/` as the new internal, typed product registry: `types.ts` (lifecycle state machine and structured approval fields), `workflow.ts` (pure publication/RFQ/private-label gate functions), `validate.ts` (`assertRegistryIntegrity`), `publishedRegistry.ts` (client-safe, the 5 live products only), `internalCandidates.ts` (internal-only, never client-imported), `registry.ts` and `index.ts` (server/tooling-only combined views);
+- migrated the 5 currently public products into `publishedRegistry.ts` with byte-for-byte identical field values, and refactored `client/src/data/products.ts` into a thin, behavior-preserving adapter over the registry — every existing export name, type, and value is unchanged; the website is now a consumer of BPIP rather than the owner of inline product data;
+- migrated the 21 candidate products and the conflicted Red Palm Oil record from `docs/PRODUCT_INTELLIGENCE_RECONCILIATION.md` into `internalCandidates.ts`, with no supplier name, brand, or price, and every one still failing the new publication-eligibility gate for the same reasons already recorded (no display approval, no public-safe image, incomplete documentation); PCR-001 and PCR-002 are represented exactly as previously recorded, not reinterpreted;
+- discovered during implementation, and fixed, a real bundler leak: an earlier combined-registry import path would have shipped all 21 internal candidate names plus internal status strings into the public client bundle, because a bundler cannot tree-shake array elements filtered at runtime; fixed via a hard module boundary (client code may only import `publishedRegistry.ts` and `types.ts`) plus a new build-blocking script, `scripts/verify-no-internal-leak.ts`, wired into `pnpm build`; verified the guard fails closed by temporarily reintroducing the leak and confirming the build failed, then confirmed the fix and re-verified a clean build;
+- added 30 new tests (`shared/productIntelligence/*.test.ts`) covering workflow gates, registry validation, and registry structure/confidentiality; added `shared/**/*.test.ts` to the vitest include glob and a matching `@shared` alias to `vitest.config.ts`;
+- added `docs/PRODUCT_INTELLIGENCE_PLATFORM.md` (architecture, module boundary rationale, current registry contents) and `docs/BPIP_MIGRATION_PLAN.md` (phased evolution, including the explicit future decision point for persistent storage, which remains unapproved and unimplemented);
+- made no changes to PCR-001, PCR-002, any private-label approval, the RFQ Function, Turnstile/Resend configuration, or any public page design.
+
+Validation: TypeScript check passed; all 47 tests passed (17 pre-existing, unmodified, plus 30 new); production build passed with unchanged catalog counts (5 current public records, 4 Phase 4 expansion-eligible records) and the new internal-leak guard passing; the built JS bundle was diffed against the pre-BPIP build and confirmed byte-identical for all 5 published products' descriptions; a full confidentiality scan (supplier brand names, Gmail address, Red Palm Oil, all 21 candidate slugs/names, internal-only status strings) found nothing in the built output.
+
+Deployment status: see the following entry for push/deployment/production-verification details.
+
 ## 8 August 2026 — Product intelligence reconciliation and catalogue conversion improvements
 
 Completed changes:

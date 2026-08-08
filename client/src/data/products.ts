@@ -1,12 +1,30 @@
-export type SupplyType = "manufactured" | "partner_sourced";
-export type PublicDisplayStatus =
-  | "approved_current_catalog"
-  | "internal_approval_required";
-export type SourceAlignment =
-  | "aligned"
-  | "needs_validation"
-  | "canonical_catalog_only"
-  | "source_only_partner_selection";
+/**
+ * Public product catalog — thin, behavior-preserving adapter over the
+ * BorgaFoods Product Intelligence Platform (BPIP) registry
+ * (`shared/productIntelligence`).
+ *
+ * The website is a consumer of BPIP, not the owner of product data: this
+ * file no longer defines product records inline. It maps
+ * `publishedProducts` (BPIP's richer, workflow-aware shape) into the flat
+ * `Product` shape every page/component in this app already expects, so no
+ * consuming file needed to change. See `docs/PRODUCT_INTELLIGENCE_PLATFORM.md`.
+ */
+// Deliberately NOT importing from "@shared/productIntelligence" (the full
+// barrel) — that would pull internal-only candidate records into this
+// client-bundled file. Import only the client-safe published registry and
+// types directly. See the module-boundary comment in
+// shared/productIntelligence/publishedRegistry.ts.
+import { publishedProducts } from "@shared/productIntelligence/publishedRegistry";
+import {
+  productTypeLabels as sharedProductTypeLabels,
+  productSupplyStatements as sharedProductSupplyStatements,
+  type PublishedProductRecord,
+  type SupplyType,
+  type PublicDisplayStatus,
+  type SourceAlignment,
+} from "@shared/productIntelligence/types";
+
+export type { SupplyType, PublicDisplayStatus, SourceAlignment };
 
 interface ProductBase {
   slug: string;
@@ -49,15 +67,8 @@ export type Product = ManufacturedProduct | PartnerSourcedProduct;
 
 type CatalogIntegrityProduct = Product & Record<string, unknown>;
 
-export const productTypeLabels: Record<SupplyType, string> = {
-  manufactured: "Manufactured by BorgaFoods",
-  partner_sourced: "BorgaFoods Export Selection",
-};
-
-export const productSupplyStatements: Record<SupplyType, string> = {
-  manufactured: "Manufactured by BorgaFoods Processing",
-  partner_sourced: "Selected from trusted Ghanaian production partners",
-};
+export const productTypeLabels = sharedProductTypeLabels;
+export const productSupplyStatements = sharedProductSupplyStatements;
 
 const hasOwnProperty = (value: object, property: string) =>
   Object.prototype.hasOwnProperty.call(value, property);
@@ -121,124 +132,45 @@ export function assertProductCatalogIntegrity(
   }
 }
 
-export const products: readonly Product[] = [
-  {
-    slug: "fufu-borga",
-    name: "Fufu Flour",
-    category: "Traditional Flour Blends",
-    description:
-      "Premium Ghanaian fufu flour—the flagship BorgaFoods product developed for consistent texture, taste, and export stability.",
-    summary: "Premium plantain & cassava flour",
-    brand: "BorgaFoods",
-    manufacturer: "BorgaFoods Processing",
-    supplyType: "manufactured",
-    countryOfOrigin: "Ghana",
-    packagingSizes: ["700g", "1kg", "2kg"],
-    bulkPackagingSizes: ["Available upon request"],
-    shelfLife: "Up to 24 months",
-    storage: "Cool, dry place away from direct sunlight",
-    certification: "Ghana FDA registered facilities",
-    exportAvailable: true,
-    images: ["/images/fufu-borga.png", "/images/fufu-product.png"],
-    wholesaleAvailable: true,
-    publicDisplayStatus: "approved_current_catalog",
-    sourceAlignment: "needs_validation",
-    privateLabelDiscoveryApproved: true,
-    variants: ["Plantain-based fufu flour", "Cassava-plantain blends"],
-  },
-  {
-    slug: "gari-borga",
-    name: "Gari",
-    category: "Cassava Products",
-    description:
-      "Clean, well-processed cassava granules—the BorgaFoods standard for retail, wholesale, and food service distribution.",
-    summary: "Clean cassava granules",
-    brand: "BorgaFoods",
-    manufacturer: "BorgaFoods Processing",
-    supplyType: "manufactured",
-    countryOfOrigin: "Ghana",
-    packagingSizes: ["500g", "1kg", "2kg", "5kg"],
-    bulkPackagingSizes: ["25kg", "50kg sacks"],
-    shelfLife: "Up to 24 months",
-    storage: "Cool, dry place away from direct sunlight",
-    certification: "Ghana FDA registered facilities",
-    exportAvailable: true,
-    images: ["/images/gari-borga.png"],
-    wholesaleAvailable: true,
-    publicDisplayStatus: "approved_current_catalog",
-    sourceAlignment: "aligned",
-    variants: ["Fine grain", "Medium grain", "Coarse grain"],
-  },
-  {
-    slug: "kokonte-borga",
-    name: "Kokonte",
-    category: "Cassava Products",
-    description:
-      "Traditional dried cassava flour—processed under the BorgaFoods standard for export consistency and long shelf life.",
-    summary: "Traditional cassava flour",
-    brand: "BorgaFoods",
-    manufacturer: "BorgaFoods Processing",
-    supplyType: "manufactured",
-    countryOfOrigin: "Ghana",
-    packagingSizes: ["1kg", "2kg", "5kg"],
-    bulkPackagingSizes: ["Available upon request"],
-    shelfLife: "Up to 24 months",
-    storage: "Cool, dry place away from direct sunlight",
-    certification: "Ghana FDA registered facilities",
-    exportAvailable: true,
-    images: ["/images/kokonte-borga.png"],
-    wholesaleAvailable: true,
-    publicDisplayStatus: "approved_current_catalog",
-    sourceAlignment: "canonical_catalog_only",
-    variants: ["Standard mix", "High plantain blend"],
-  },
-  {
-    slug: "banku-borga",
-    name: "Banku Borga",
-    category: "Traditional Ghanaian Staples",
-    description:
-      "Fermented corn and cassava blend—the BorgaFoods signature offering authentic taste adapted for international markets.",
-    summary: "Fermented corn & cassava blend",
-    brand: "BorgaFoods",
-    manufacturer: "BorgaFoods Processing",
-    supplyType: "manufactured",
-    countryOfOrigin: "Ghana",
-    packagingSizes: ["1kg", "2kg", "5kg"],
-    bulkPackagingSizes: ["Available upon request"],
-    shelfLife: "Up to 24 months",
-    storage: "Cool, dry place away from direct sunlight",
-    certification: "Ghana FDA registered facilities",
-    exportAvailable: true,
-    images: ["/images/banku-borga.png", "/images/banku-product.png"],
-    wholesaleAvailable: true,
-    publicDisplayStatus: "approved_current_catalog",
-    sourceAlignment: "canonical_catalog_only",
-    variants: ["Standard mix", "High corn blend", "High cassava blend"],
-  },
-  {
-    slug: "cassava-flour",
-    name: "Cassava Flour",
-    category: "Cassava Products",
-    description:
-      "Pure, finely milled cassava flour for making fufu—a versatile BorgaFoods staple sourced and processed for export-grade consistency.",
-    summary: "Pure milled cassava for fufu",
-    brand: "BorgaFoods",
-    manufacturer: "BorgaFoods Processing",
-    supplyType: "manufactured",
-    countryOfOrigin: "Ghana",
-    packagingSizes: ["1kg", "2kg", "5kg"],
-    bulkPackagingSizes: ["25kg", "50kg sacks"],
-    shelfLife: "Up to 24 months",
-    storage: "Cool, dry place away from direct sunlight",
-    certification: "Ghana FDA registered facilities",
-    exportAvailable: true,
-    images: ["/images/cassava-flour.png"],
-    wholesaleAvailable: true,
-    publicDisplayStatus: "approved_current_catalog",
-    sourceAlignment: "aligned",
-    variants: ["Fine milled", "For fufu preparation"],
-  },
-] as const satisfies readonly Product[];
+function toPublicProduct(record: PublishedProductRecord): Product {
+  const base = {
+    slug: record.slug,
+    name: record.name,
+    category: record.category,
+    description: record.description,
+    summary: record.summary,
+    countryOfOrigin: record.countryOfOrigin,
+    packagingSizes: record.packagingSizes,
+    bulkPackagingSizes: record.bulkPackagingSizes,
+    shelfLife: record.shelfLife,
+    storage: record.storage,
+    certification: record.certification,
+    exportAvailable: record.approvals.exportAvailable,
+    images: record.images,
+    wholesaleAvailable: record.approvals.wholesaleAvailable,
+    variants: record.variants,
+    publicDisplayStatus: record.approvals.publicDisplayStatus,
+    sourceAlignment: record.approvals.sourceAlignment,
+    ...(record.approvals.privateLabelEligibility === "approved_for_discovery"
+      ? { privateLabelDiscoveryApproved: true as const }
+      : {}),
+  };
+
+  return record.supplyType === "manufactured"
+    ? {
+        ...base,
+        supplyType: "manufactured",
+        brand: record.brand,
+        manufacturer: record.manufacturer,
+      }
+    : {
+        ...base,
+        supplyType: "partner_sourced",
+      };
+}
+
+export const products: readonly Product[] =
+  publishedProducts.map(toPublicProduct);
 
 assertProductCatalogIntegrity(products);
 
