@@ -84,31 +84,35 @@ Once GA4 is active, `generate_lead` events segmented by `inquiry_type` (`export_
 
 ## 9. Core Web Vitals review
 
-**Status: Measured against live production before this session's changes; two real, quantified issues found and fixed; results below are the honest pre-fix baseline, not yet re-measured post-deploy.**
+**Status: Measured against live production before and after this session's changes deployed. Real before/after numbers below, not estimates.**
 
-Live PageSpeed Insights run against `https://www.borgafoods.com/` (mobile, Moto G Power emulation, slow 4G throttling — Lighthouse 13.4.1), captured during this session, **before deploying this session's fixes**:
+Live PageSpeed Insights runs against `https://www.borgafoods.com/` (mobile, Moto G Power emulation, slow 4G throttling — Lighthouse 13.4.1), both captured during this session:
 
-| Metric                   | Score/Value |
-| ------------------------ | ----------- |
-| Performance              | 92          |
-| Accessibility            | 84          |
-| Best Practices           | 100         |
-| SEO                      | 100         |
-| First Contentful Paint   | 2.6 s       |
-| Largest Contentful Paint | 2.6 s       |
-| Total Blocking Time      | 0 ms        |
-| Cumulative Layout Shift  | 0           |
-| Speed Index              | 3.0 s       |
+| Metric                                 | Before (pre-deploy) | After (post-deploy, commit `b30fcc0`) |
+| -------------------------------------- | ------------------- | ------------------------------------- |
+| Performance                            | 92                  | **93**                                |
+| Accessibility                          | 84                  | 84 (untouched this session)           |
+| Best Practices                         | 100                 | 100                                   |
+| SEO                                    | 100                 | 100                                   |
+| First Contentful Paint                 | 2.6 s               | 2.6 s                                 |
+| Largest Contentful Paint               | 2.6 s               | 2.6 s                                 |
+| Total Blocking Time                    | 0 ms                | 0 ms                                  |
+| Cumulative Layout Shift                | 0                   | 0                                     |
+| Speed Index                            | 3.0 s               | **2.6 s**                             |
+| "Improve image delivery" opportunity   | est. 5,332 KiB      | **est. 742 KiB** (−86%)               |
+| "Render-blocking requests" opportunity | est. 1,140 ms       | **est. 310 ms** (−73%)                |
+
+FCP/LCP staying flat at 2.6 s under slow-4G throttling is plausibly a network-latency floor for this test condition rather than an asset-size effect; Speed Index (which reflects how quickly the page visually completes, not just first paint) moved directly with the image-size and render-blocking fixes, exactly as expected.
 
 Top findings from that run, and what was done about each:
 
-1. **"Improve image delivery" — est. savings 5,332 KiB.** By far the largest issue. `client/public/images/` contained 17 MB across 10 files. Three files (`hero-background.png`, `contact-section-bg.png`, `gari-kokonte.png`, ~7.9 MB combined) were **not referenced anywhere in the code** — dead weight — and were deleted. The 7 actually-used product photos (all lossless PNG, 880 KB–2.3 MB each, no alpha transparency) were re-encoded to JPEG at quality 85 (visually verified — no perceptible quality loss, checked against the two images with the most fine detail/text) and all code references updated. **Result: `client/public/images/` dropped from 17 MB to 2.0 MB (~88% reduction).** This directly addresses the measured finding; a re-run after deployment is the honest way to confirm the resulting score (see "Next verification step" below).
-2. **"Render-blocking requests" — est. savings 1,140 ms.** The Google Fonts stylesheet `<link>` in `client/index.html` was a synchronous, render-blocking request. Changed to the standard `preload` + `onload` swap pattern with a `<noscript>` fallback for non-JS clients. Verified in a local production build that fonts still load and apply correctly (`document.body`'s computed font resolves to `Lato, sans-serif` as expected) with no visible flash of unstyled content.
+1. **"Improve image delivery" — est. savings 5,332 KiB, now 742 KiB.** By far the largest issue. `client/public/images/` contained 17 MB across 10 files. Three files (`hero-background.png`, `contact-section-bg.png`, `gari-kokonte.png`, ~7.9 MB combined) were **not referenced anywhere in the code** — dead weight — and were deleted. The 7 actually-used product photos (all lossless PNG, 880 KB–2.3 MB each, no alpha transparency) were re-encoded to JPEG at quality 85 (visually verified — no perceptible quality loss, checked against the two images with the most fine detail/text) and all code references updated. **Result: `client/public/images/` dropped from 17 MB to 2.0 MB (~88% reduction), and the live remaining-opportunity estimate dropped 86% (5,332 → 742 KiB) — confirmed against production, not estimated.**
+2. **"Render-blocking requests" — est. savings 1,140 ms, now 310 ms.** The Google Fonts stylesheet `<link>` in `client/index.html` was a synchronous, render-blocking request. Changed to the standard `preload` + `onload` swap pattern with a `<noscript>` fallback for non-JS clients. Verified in a local production build that fonts still load and apply correctly (`document.body`'s computed font resolves to `Lato, sans-serif` as expected) with no visible flash of unstyled content. **Confirmed against production: the live remaining-opportunity estimate dropped 73% (1,140 → 310 ms).**
 3. **"Reduce unused JavaScript" — est. savings 71 KiB.** Not addressed this session — likely comes from the shadcn/Radix component library, only some of which is used per page; a deeper bundle-analysis pass (e.g. `vite-bundle-visualizer`) is the correct next step, not a quick fix. Documented here as a follow-up, not silently skipped.
 4. **CLS is already 0** — every product-image container already reserves space via a Tailwind `aspect-[4/5]` class before the image loads, so there was no layout-shift bug to fix. Added `loading="lazy"` (except each page's first, likely-above-the-fold image, kept `eager`) and `decoding="async"` to every `<img>` in `Home.tsx` and `Products.tsx` regardless, to reduce competing network requests for below-the-fold images — a real, low-risk win independent of the image re-encoding above.
 5. **Accessibility: 84.** Not investigated this session — outside the 11 items in this foundation's scope. Flagged as a real, measured number worth a dedicated pass later (likely candidates: color contrast, form-label associations, or ARIA attributes — not diagnosed here, said as a hypothesis, not a finding).
 
-**Next verification step (not yet done): re-run PageSpeed Insights against production after this session's changes deploy**, to get real before/after numbers instead of an estimate. This is exactly the kind of check the recurring Growth Audit (below) should do automatically going forward.
+Post-deploy re-run done (table above). Doing this kind of before/after confirmation on every future change, automatically, is exactly what the recurring Growth Audit (below) is for.
 
 ## Environment variables this foundation adds
 

@@ -2,6 +2,15 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Search & Analytics Foundation: production verification
+
+No implementation commit; this entry records verification only, performed after the entry below deployed.
+
+- confirmed Cloudflare production deployment (source commit `b30fcc0`) succeeded and is aliased to `www.borgafoods.com`; all 7 public routes return 200;
+- confirmed on the live site: GA4 script/`dataLayer` and Search Console/Bing verification meta tags all remain absent (correctly inert, unconfigured); all 5 products emit valid, distinct `Product` JSON-LD (`schema-product-{slug}`); the built JS bundle references only the new `.jpg` image paths, no `.png`;
+- **re-ran PageSpeed Insights against production post-deploy and got real before/after numbers** (full table in `docs/SEO_FOUNDATION.md` §9): Performance 92→93, Speed Index 3.0 s→2.6 s, the "Improve image delivery" opportunity dropped 86% (5,332→742 KiB), and "Render-blocking requests" dropped 73% (1,140→310 ms) — both drops track almost exactly with the image-size and font-loading fixes shipped in the entry below, confirming they worked as intended rather than merely assuming it from the code change alone;
+- noted, not a regression: old `.png` image URLs briefly remained fetchable (200) on production immediately after deploy despite being deleted from the repo and unreferenced by the new bundle — a Cloudflare Pages asset-retention/propagation artifact, not a broken link, since nothing links to those URLs anymore.
+
 ## 8 August 2026 — Search & Analytics Foundation
 
 Full details, including the pre-fix PageSpeed Insights baseline and exact activation steps, are in `docs/SEO_FOUNDATION.md`. Dashboard design for future GA4/Search Console reporting is in `docs/ANALYTICS_DASHBOARD_SPEC.md`.
