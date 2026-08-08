@@ -1,23 +1,29 @@
-# BorgaFoods Product Intelligence Platform (BPIP) — Phase 1
+# BorgaFoods Product Intelligence Platform (BPIP) — Phases 1 & 2
 
-Status: **Implemented locally, 8 August 2026. Zero-regression migration of the existing public catalog; no new products published.**
+Status: **Implemented and production-deployed, 8 August 2026. Core architecture complete: BPIP is the single authoritative product registry for both the website and the RFQ Function. Zero-regression; no new products published.**
 
 ## Purpose
 
-BPIP is the internal, typed product registry intended to become the single
-source of truth for product data, publication approval, imagery,
-packaging, export/wholesale/private-label readiness, review status, and
+BPIP is the internal, typed product registry and single source of truth
+for product data, publication approval, imagery, packaging,
+export/wholesale/private-label readiness, review status, and
 documentation status — replacing prose-only tracking in
 `PRODUCT_CAPABILITY_MODEL.md` with machine-checkable structure, while
 leaving that document's actual authority and decisions untouched.
 
-**The website is now a consumer of BPIP, not the owner of product data.**
+**The website is a consumer of BPIP, not the owner of product data**
+(Phase 1), **and so is the RFQ Function** (Phase 2).
 `client/src/data/products.ts` no longer defines product records inline; it
 adapts BPIP's richer registry shape into the flat shape the UI already
-expects. This is a real architectural change, implemented as a
-behavior-preserving refactor — every existing test passes unmodified, and
-the built output was diffed byte-for-byte against the pre-BPIP build to
-confirm no public content changed.
+expects. `functions/api/export-quote.ts` imports the registry directly,
+with no dependency on `products.ts` at all. Both were implemented as
+behavior-preserving refactors — every existing test passes unmodified
+(51/51 as of Phase 2), and the built output was diffed byte-for-byte
+against the pre-BPIP build to confirm no public content changed. Two
+build-blocking scripts (`scripts/verify-no-internal-leak.ts`,
+`scripts/verify-single-source-of-truth.ts`) now make both the
+client-bundle boundary and the single-registry claim self-enforcing rather
+than just documented.
 
 ## Why an in-repo typed module, not a database
 
@@ -126,26 +132,41 @@ recorded elsewhere in `docs/`, not reinterpreted.
 "review_gated"`, `reviewGate: "PCR-002"`), treated as `partner_sourced`
   for internal planning only, per `docs/PRODUCT_CLASSIFICATION_REVIEW.md`.
 
+## Current consumers
+
+- **The website**, via `client/src/data/products.ts` (a presentation-layer
+  adapter over `publishedRegistry.ts`).
+- **The RFQ Function** (`functions/api/export-quote.ts`), which imports
+  `publishedProducts` and `privateLabelEligibleProducts` from
+  `publishedRegistry.ts` directly — no dependency on `products.ts`.
+
+Both consumers trace back to the same `publishedRegistry.ts` array; there
+is exactly one place public product data is defined. This is enforced at
+build time by `scripts/verify-single-source-of-truth.ts`, not just
+documented.
+
 ## Future consumers
 
 The module boundary and the `index.ts` barrel are designed so a future
 server-side consumer (an operations dashboard backend, an AI agent with
 repository or API access, an analytics job) can depend on the full
-registry — including lifecycle/approval workflow state — without any
-redesign of this layer. The RFQ Function (`functions/api/export-quote.ts`)
-already runs server-side and could migrate to import from BPIP directly in
-a later phase; it currently continues importing from
-`client/src/data/products.ts` unchanged, since that file's export surface
-did not change and no functional reason required touching it in Phase 1.
+registry — including lifecycle/approval workflow state and
+`internalCandidates.ts` — without any redesign of this layer. Nothing
+currently does; that remains a Phase 3+ proposal (see
+`docs/BPIP_MIGRATION_PLAN.md`).
 
-## What Phase 1 deliberately does not do
+## What Phases 1 & 2 deliberately do not do
 
 - Does not publish any candidate product. Publication requires a recorded
   business decision changing a record's approvals — see
   `docs/PRODUCT_INTELLIGENCE_RECONCILIATION.md` for exactly what's needed.
 - Does not change PCR-001, PCR-002, or any private-label approval.
 - Does not add a database, CMS, API server, or authentication.
-- Does not change the RFQ Function, Turnstile flow, or email delivery.
+- Does not change Turnstile, Resend, or email-delivery behavior — only
+  where the RFQ Function's product data comes from.
+- Does not give the RFQ Function visibility into internal-only candidates;
+  it imports only the published-registry view, matching its actual
+  functional needs today.
 - Does not redesign any public page. The only observable website change is
   that its data now flows through an adapter instead of being defined
   inline — verified to be pixel/byte-identical output.

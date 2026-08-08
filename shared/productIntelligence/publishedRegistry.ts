@@ -22,7 +22,10 @@ import type {
   ProductIntelligenceRecord,
   PublishedProductRecord,
 } from "./types";
-import { isCurrentlyPublished } from "./workflow";
+import {
+  computePrivateLabelEligibility,
+  isCurrentlyPublished,
+} from "./workflow";
 
 export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
   {
@@ -188,3 +191,15 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
 /** Every record currently live on the public website, in registry order. */
 export const publishedProducts: readonly PublishedProductRecord[] =
   publishedRegistry.filter(isCurrentlyPublished);
+
+/**
+ * Published records approved for private-label discovery. Mirrors the
+ * prior `privateLabelDiscoveryProducts` selector in
+ * `client/src/data/products.ts` exactly: manufactured, currently
+ * published, and explicitly `approved_for_discovery`. Consumed directly by
+ * both the website (via the `client/src/data/products.ts` adapter) and the
+ * RFQ Function (`functions/api/export-quote.ts`) — this is the single
+ * authoritative private-label allowlist for both.
+ */
+export const privateLabelEligibleProducts: readonly PublishedProductRecord[] =
+  publishedProducts.filter(computePrivateLabelEligibility);

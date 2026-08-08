@@ -1,6 +1,6 @@
 # BPIP Migration Plan — From the Frozen Capability Model to BPIP
 
-Status: **Phase 1 (this document's "Completed" section) implemented 8 August 2026. Phases 2+ are proposals requiring separate approval before implementation.**
+Status: **Phase 1 and Phase 2 implemented 8 August 2026 — the core architecture is complete. Phase 3+ are proposals requiring separate approval before implementation.**
 
 ## Relationship to the frozen capability model
 
@@ -40,17 +40,50 @@ authority) that keeps this true by construction.
   workflow gates, validation rules, and registry structure/confidentiality;
   all 17 pre-existing tests continue passing unmodified.
 
-## Phase 2 — Proposal: BPIP as the RFQ Function's data source
+## Phase 2 — Completed: BPIP as the RFQ Function's data source, single source of truth confirmed
 
-Currently `functions/api/export-quote.ts` imports product data from
-`client/src/data/products.ts` (unchanged in Phase 1). Since Cloudflare
-Pages Functions run server-side, they could safely import the _full_ BPIP
-registry (`@shared/productIntelligence`, including `internalCandidates.ts`)
-directly — enabling, for example, server-side awareness of a candidate's
-review-gate status without a client round-trip. This is a small, low-risk
-change deferred from Phase 1 only because it wasn't required for any
-approved capability; it does not require a business decision, only
-engineering time, and can be picked up in a later session.
+`functions/api/export-quote.ts` now imports `publishedProducts` and the new
+`privateLabelEligibleProducts` selector directly from
+`shared/productIntelligence/publishedRegistry.ts`, plus `productTypeLabels`
+from `shared/productIntelligence/types.ts`. It no longer imports from
+`client/src/data/products.ts` at all. `privateLabelEligibleProducts`
+(added in Phase 2) mirrors the prior `privateLabelDiscoveryProducts`
+selector exactly (`supplyType: "manufactured"` +
+`privateLabelEligibility: "approved_for_discovery"` + currently published)
+and is now the single allowlist both the website and the RFQ Function
+derive from.
+
+The Function still imports only the published-registry view, not
+`internalCandidates.ts` — there was no functional need for server-side
+awareness of unapproved candidates in this phase, and importing only what's
+needed keeps the change minimal.
+
+**Single source of truth is now enforced by two build-blocking checks**,
+not just by convention:
+
+- `scripts/verify-single-source-of-truth.ts` (new in Phase 2) fails the
+  build if any file outside `publishedRegistry.ts`/`internalCandidates.ts`
+  defines a hardcoded product record, or if `export-quote.ts` imports from
+  `client/src/data/products.ts` again. Verified to fail closed by
+  temporarily reintroducing the RFQ Function's old import and confirming
+  the build broke.
+- `scripts/verify-no-internal-leak.ts` (Phase 1) continues to guard the
+  client-bundle boundary.
+
+**Zero regression, verified**: all 11 pre-existing RFQ-endpoint tests
+(`functions/api/export-quote.test.ts` — covering product allowlisting,
+wholesale/distribution qualification, private-label gating, Reply-To, and
+rejection paths) pass completely unmodified against the new data source,
+plus 4 new tests directly on the new selector. `client/src/data/products.ts`
+is unchanged by Phase 2 and continues serving the website as the
+presentation-layer adapter described in Phase 1 — Phase 2 only changed
+where the _Function_ gets its data, not the website's.
+
+With Phase 1 and Phase 2 complete, every consumer in the repository —
+the website (via the `products.ts` adapter) and the RFQ Function (directly)
+— now traces back to exactly one place product data is defined:
+`shared/productIntelligence/publishedRegistry.ts` for public records,
+`shared/productIntelligence/internalCandidates.ts` for internal-only ones.
 
 ## Phase 3 — Proposal: operations visibility
 

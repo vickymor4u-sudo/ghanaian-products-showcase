@@ -1,8 +1,16 @@
+// Consumes the BorgaFoods Product Intelligence Platform (BPIP) directly —
+// not via client/src/data/products.ts — so the server-trusted RFQ
+// allowlist and the public website read from the exact same authoritative
+// registry without an intermediate layer. See
+// docs/PRODUCT_INTELLIGENCE_PLATFORM.md and docs/BPIP_MIGRATION_PLAN.md
+// (Phase 2). This Function runs server-side and is never bundled to the
+// browser, but it still imports only the published-registry view — it has
+// no functional need for internal-only candidate records.
 import {
-  privateLabelDiscoveryProducts,
-  productTypeLabels,
-  rfqEligibleProducts,
-} from "../../client/src/data/products";
+  privateLabelEligibleProducts,
+  publishedProducts,
+} from "../../shared/productIntelligence/publishedRegistry";
+import { productTypeLabels } from "../../shared/productIntelligence/types";
 import {
   artworkReadinessLabels,
   buyerCategoryLabels,
@@ -108,8 +116,8 @@ function getProductDetails(
   inquiryType: ExportQuoteSubmission["inquiryType"]
 ) {
   const eligibleProducts = isPrivateLabelInquiry(inquiryType)
-    ? privateLabelDiscoveryProducts
-    : rfqEligibleProducts;
+    ? privateLabelEligibleProducts
+    : publishedProducts;
   const product = eligibleProducts.find(item => item.slug === productSelection);
   if (product) {
     return {

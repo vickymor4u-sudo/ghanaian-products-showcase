@@ -2,6 +2,21 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — BPIP Phase 2: RFQ Function migration; core architecture complete
+
+Completed changes:
+
+- added `privateLabelEligibleProducts` to `shared/productIntelligence/publishedRegistry.ts`, a selector derived from `computePrivateLabelEligibility` that mirrors the prior `privateLabelDiscoveryProducts` selector exactly;
+- migrated `functions/api/export-quote.ts` (the RFQ Function) to import `publishedProducts` and `privateLabelEligibleProducts` from `shared/productIntelligence/publishedRegistry.ts` and `productTypeLabels` from `shared/productIntelligence/types.ts`, removing its import from `client/src/data/products.ts` entirely; the Function imports only the published-registry view, not `internalCandidates.ts`, matching its actual functional needs;
+- added a new build-blocking script, `scripts/verify-single-source-of-truth.ts`, which fails the build if any file outside `publishedRegistry.ts`/`internalCandidates.ts` defines a hardcoded product record, or if the RFQ Function imports from `client/src/data/products.ts` again; verified to fail closed by temporarily reintroducing the RFQ Function's old import and confirming the build broke, then confirmed the fix and re-verified a clean build; wired into `pnpm build` alongside the existing catalog and leak checks;
+- added 4 new tests (`shared/productIntelligence/publishedRegistry.test.ts`) covering the new selector; all 11 pre-existing RFQ-endpoint tests pass completely unmodified against the new data source (51 total tests, all passing);
+- updated `docs/PRODUCT_INTELLIGENCE_PLATFORM.md` and `docs/BPIP_MIGRATION_PLAN.md` to record Phase 2 as completed and to state plainly that BPIP is now the single authoritative product registry for both the website and the RFQ Function;
+- made no change to `client/src/data/products.ts` (still the correct presentation-layer adapter for the website), Turnstile/Resend behavior, PCR-001/PCR-002, or any private-label approval.
+
+Validation: TypeScript check passed; all 51 tests passed (47 pre-existing, unmodified, plus 4 new); production build passed with the new single-source-of-truth check, the existing catalog-integrity check, and the existing internal-leak check all passing, and unchanged catalog counts (5 current public records, 4 Phase 4 expansion-eligible records); confidentiality scan of the built output remained clean.
+
+Deployment status: see the following entry for push/deployment/production-verification details.
+
 ## 8 August 2026 — BorgaFoods Product Intelligence Platform (BPIP) Phase 1
 
 Completed changes:
