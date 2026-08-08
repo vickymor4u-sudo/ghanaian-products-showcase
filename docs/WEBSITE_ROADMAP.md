@@ -210,3 +210,34 @@ finding on `/about` for business review.
 No page was created, no product was added or reclassified, and no
 public claim was changed — everything above is audit and planning
 output, per this phase's explicit constraints.
+
+## Export Buyer Content Architecture — plan for approval (9 August 2026)
+
+Status: **Planning complete; no code written, no page created, no
+content changed.** Full detail, and the single consolidated deliverable,
+is [`CONTENT_ARCHITECTURE_IMPLEMENTATION_PLAN.md`](./CONTENT_ARCHITECTURE_IMPLEMENTATION_PLAN.md),
+drawing on [`PUBLIC_CLAIM_VERIFICATION_AUDIT.md`](./PUBLIC_CLAIM_VERIFICATION_AUDIT.md),
+[`SEO_CONTENT_ARCHITECTURE.md`](./SEO_CONTENT_ARCHITECTURE.md), and
+[`BUYER_CONVERSION_GAP_ANALYSIS.md`](./BUYER_CONVERSION_GAP_ANALYSIS.md).
+
+Checked every claim on `/about`, `/export`, `/wholesale`, and
+`/products` against `BUSINESS_RULES.md`,
+`PRODUCT_CAPABILITY_MODEL.md`, and
+`PUBLIC_PRODUCT_PRESENTATION_RULES.md`: `/export`, `/wholesale`, and
+`/products` are clean; `/about` has 7 unsupported claims (most notably a
+specific "500 kg" MOQ figure, a direct violation of the no-unapproved-MOQ
+rule), each with a drafted, business-rule-compliant correction ready for
+review, none applied. Designed a product-page architecture (priority
+order: Fufu Flour, Gari, Cassava Flour, Banku Borga, Kokonte, at
+`/products/{slug}`) and recommended *against* building separate
+"buyer-intent" pages (e.g. "African Food Wholesale Supplier"), since
+existing pages already target those intents and duplicating them risks
+pages competing against each other in search results. Identified two
+real, business-approval-gated buyer-conversion gaps — no stated shipping
+mode, no indicative lead-time range anywhere on the site — that this
+repository can't close on its own since it has no visibility into either
+fact.
+
+No page was created, no content was changed, and no code was written —
+this phase produced an approval-ready plan only, per its explicit "no
+coding until approved" constraint.

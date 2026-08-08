@@ -2,6 +2,21 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Export Buyer Content Architecture: plan for approval
+
+No code changed, no page created, no content edited — per this phase's
+explicit "no coding until the architecture plan is approved" constraint.
+Four new documents; the consolidated deliverable is
+`docs/CONTENT_ARCHITECTURE_IMPLEMENTATION_PLAN.md`.
+
+- **`docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md`** — checked every claim on `/about`, `/export`, `/wholesale`, `/products` against `BUSINESS_RULES.md`, `PRODUCT_CAPABILITY_MODEL.md`, and `PUBLIC_PRODUCT_PRESENTATION_RULES.md`. `/export`, `/wholesale`, `/products` are clean. `/about` has 7 unsupported claims, most notably a specific "500 kg" MOQ figure that directly violates the documented no-unapproved-MOQ rule (no product record specifies any MOQ), plus unverified "international standards"/"proven track record" language and one ambiguous phrase ("Customization for your needs") that could be read as implying unapproved product customization. Drafted a business-rule-compliant correction for each of the 7 — none applied.
+- **`docs/SEO_CONTENT_ARCHITECTURE.md`** — recommends dedicated pages for all 5 published products at `/products/{slug}`, priority-ordered (Fufu Flour, Gari, Cassava Flour, Banku Borga, Kokonte) by BPIP content depth and private-label approval status, since no keyword-volume tool is available to order by proven demand. Flags that `/products` itself needs to become a catalogue index once dedicated pages exist, to avoid duplicate content. Assessed the "buyer-intent page" idea (e.g. "African Food Wholesale Supplier") raised alongside this phase's brief and recommends against building them separately — each would substantially duplicate an existing page (`/wholesale`, `/export-solutions`) and risk pages competing against each other in search results.
+- **`docs/BUYER_CONVERSION_GAP_ANALYSIS.md`** — checked `/export`, `/wholesale`, `/export-solutions` against 5 concrete buyer questions (shipping method, minimum-order process, documentation, packaging, lead time). Packaging and order-process are well answered with real BPIP-sourced data. Two real gaps found: shipping mode (sea/air) is never stated anywhere on the site, and no indicative lead-time range exists anywhere — both are business-approval-gated (this repository has no visibility into either fact and `BUSINESS_RULES.md` prohibits publishing lead times without approval), not something fixable by a copy edit alone.
+- **`docs/CONTENT_ARCHITECTURE_IMPLEMENTATION_PLAN.md`** — consolidates the three documents above into a build order (2 product pages first, verify, then the remaining 3), a pages-to-modify list (`/products` → catalogue index; `/about` → apply the 7 drafted corrections, pending approval; `/export` → add lead-time/shipping-mode content, pending the business supplying the real figures), a required-approvals list, and a risk register (duplicate content, page self-competition, BPIP governance drift — each with its mitigation already designed into the plan).
+
+No product was added or reclassified, no supplier information was
+referenced, no page was created, and no public claim was changed.
+
 ## 9 August 2026 — Search Intelligence & Conversion Analytics: audit and planning phase
 
 No code changed; four new documentation deliverables, per an explicit
