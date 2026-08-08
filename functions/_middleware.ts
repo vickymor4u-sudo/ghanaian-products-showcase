@@ -1,26 +1,32 @@
-// Injects a per-route <link rel="canonical"> (or, for anything outside the
-// known public route table, a <meta name="robots" content="noindex,
-// nofollow">) directly into the served HTML at the edge.
+// Owns routing for every request except /api/*: serves real static assets
+// unchanged, serves the SPA shell (index.html) for the 7 known public
+// routes with a per-route <link rel="canonical">, and serves the same
+// shell for anything else with an actual HTTP 404 plus
+// <meta name="robots" content="noindex, nofollow"> — instead of a soft
+// 404 (HTTP 200 for any unknown path, which is what this project shipped
+// until today).
 //
-// Why: this is a client-only Vite SPA with no server-side rendering.
-// client/src/components/SEO.tsx previously set canonical/robots via a
-// useEffect, so both tags only ever existed after React mounted — real for
-// a browser, but absent from the raw HTTP response search engines fetch on
-// first crawl. Google explicitly recommends a static, non-JavaScript
-// canonical tag for exactly this reason (a JS-set one depends on the
-// render queue, which can lag significantly, especially for a newly
-// verified, low-authority site). This mirrors the fix already applied to
-// the Search Console/Bing verification meta tags (see vite.config.ts) —
-// same underlying defect, different mechanism because those two tags are
-// identical on every page (so a build-time index.html injection works),
-// while canonical is per-route (so it needs the request path, which is
-// only known at request time).
+// Why this lives in a root Pages Function rather than client/public/_redirects:
+// Cloudflare Pages does not apply _redirects rules to a request once it's
+// routed to Pages Functions (client/public/_routes.json now routes every
+// path here, not just /api/*, specifically so canonical/robots tags can be
+// injected before any JavaScript runs). That means this Function has to
+// take over the SPA-fallback job _redirects used to do (rewriting an
+// unmatched path to index.html) — the earlier version of this fix tried
+// to keep using _redirects for that while _routes.json was still /api/*
+// only, and Cloudflare's actual routing behavior for the mixed rule set
+// produced 308 redirects instead of the intended 200s. That was reverted
+// (see docs/CHANGE_LOG.md); this version does the SPA fallback itself, in
+// code, using the env.ASSETS binding, so there's no _redirects
+// interaction to reason about.
 //
-// SEO.tsx still sets canonical client-side too: it looks up the existing
-// <link rel="canonical"> and updates its href in place rather than adding
-// a second one, so this is a reinforcement, not a duplication risk — if a
-// route is ever added to the app but not to KNOWN_PUBLIC_PATHS below, the
-// page still gets a correct canonical once React mounts.
+// client/src/components/SEO.tsx still sets canonical client-side too: it
+// looks up the existing <link rel="canonical"> and updates its href in
+// place rather than adding a second one, so this is a reinforcement, not
+// a duplication risk — if a route is ever added to the app but not to
+// KNOWN_PUBLIC_PATHS below, the page still gets a correct canonical once
+// React mounts (just not in the raw HTTP response until this file is
+// updated too).
 //
 // SITE_ORIGIN is duplicated here rather than imported from
 // client/src/config/site.ts on purpose: that module reads
@@ -54,8 +60,17 @@ interface HTMLRewriterLike {
 
 declare const HTMLRewriter: { new (): HTMLRewriterLike };
 
+interface AssetFetcher {
+  fetch(request: Request): Promise<Response>;
+}
+
+interface Environment {
+  ASSETS: AssetFetcher;
+}
+
 interface MiddlewareContext {
   request: Request;
+  env: Environment;
   next: () => Promise<Response>;
 }
 
@@ -67,25 +82,73 @@ class AppendToHead implements ElementHandlers {
   }
 }
 
+// A route table entry has an optional trailing slash (a browser address
+// bar or an external link can add one) — normalized to the slash-free
+// form used everywhere internally (nav, footer, sitemap) before the
+// KNOWN_PUBLIC_PATHS lookup, so /products/ is treated exactly like
+// /products for status/canonical purposes without needing a redirect.
+function normalizePathname(pathname: string): string {
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+  return pathname === "" ? "/" : pathname;
+}
+
 export const onRequest = async (
   context: MiddlewareContext
 ): Promise<Response> => {
-  const response = await context.next();
+  const url = new URL(context.request.url);
 
-  const contentType = response.headers.get("content-type") ?? "";
-  if (!contentType.includes("text/html")) {
-    return response;
+  // The RFQ API is a real Pages Function of its own
+  // (functions/api/export-quote.ts) — hand off immediately, untouched.
+  if (url.pathname.startsWith("/api/")) {
+    return context.next();
   }
 
-  const url = new URL(context.request.url);
-  const pathname = url.pathname === "" ? "/" : url.pathname;
+  // Try the exact requested path as a real static file first (JS/CSS
+  // bundles, images, sitemap.xml, robots.txt, fonts, favicons, ...).
+  // env.ASSETS.fetch resolves directly against the deployed static
+  // output, independent of _redirects. For an extensionless SPA route
+  // (e.g. /products) Cloudflare's asset resolution doesn't cleanly 404 —
+  // it comes back shaped like a redirect (2xx/3xx, a stray Location
+  // header, empty body), an artifact of its own index.html
+  // canonicalization, not a real file. Checking for a non-html
+  // content-type AND a genuinely non-empty body rules that out, so only
+  // an actual static file is ever returned here unmodified.
+  const assetResponse = await context.env.ASSETS.fetch(context.request);
+  const assetContentType = assetResponse.headers.get("content-type") ?? "";
+  const isRealStaticAsset =
+    assetResponse.ok &&
+    !assetContentType.includes("text/html") &&
+    assetResponse.headers.get("content-length") !== "0";
+  if (isRealStaticAsset) {
+    return assetResponse;
+  }
+
+  // Anything else is the SPA shell: one of the 7 known public routes, or
+  // an unknown path that should render the client-side NotFound page
+  // (wouter still handles that once the shell's JS runs) behind a real
+  // 404 status rather than a soft 404.
+  const pathname = normalizePathname(url.pathname);
   const isKnownPublicPath = KNOWN_PUBLIC_PATHS.has(pathname);
+
+  // Fetch the shell via "/", not "/index.html": Cloudflare Pages
+  // automatically 308-redirects a direct /index.html request to / (the
+  // same canonicalization that made the first fetch above ambiguous),
+  // and the ASSETS binding replicates that. "/" is already the canonical
+  // form, so it resolves straight to the real file content instead.
+  const shellRequest = new Request(new URL("/", url), context.request);
+  const shellResponse = await context.env.ASSETS.fetch(shellRequest);
 
   const handler = new AppendToHead(
     isKnownPublicPath
       ? `<link rel="canonical" href="${SITE_ORIGIN}${pathname}">`
       : `<meta name="robots" content="noindex, nofollow">`
   );
+  const rewritten = new HTMLRewriter().on("head", handler).transform(shellResponse);
 
-  return new HTMLRewriter().on("head", handler).transform(response);
+  return new Response(rewritten.body, {
+    status: isKnownPublicPath ? 200 : 404,
+    headers: rewritten.headers,
+  });
 };
