@@ -1094,7 +1094,7 @@ export default function Contact() {
             {[
               {
                 q: "What is the minimum order quantity?",
-                a: "MOQ varies by product and customization requirements. Contact us with your specific needs for a quote.",
+                a: "MOQ is confirmed per enquiry based on product, packaging, and order requirements. Contact us with your specific needs for a quote.",
               },
               {
                 q: "How long does production take?",

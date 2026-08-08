@@ -144,11 +144,7 @@ export const products: readonly Product[] = [
     publicDisplayStatus: "approved_current_catalog",
     sourceAlignment: "needs_validation",
     privateLabelDiscoveryApproved: true,
-    variants: [
-      "Plantain-based fufu flour",
-      "Cassava-plantain blends",
-      "Custom blends available upon request",
-    ],
+    variants: ["Plantain-based fufu flour", "Cassava-plantain blends"],
   },
   {
     slug: "gari-borga",
@@ -194,11 +190,7 @@ export const products: readonly Product[] = [
     wholesaleAvailable: true,
     publicDisplayStatus: "approved_current_catalog",
     sourceAlignment: "canonical_catalog_only",
-    variants: [
-      "Standard mix",
-      "High plantain blend",
-      "Custom blends available",
-    ],
+    variants: ["Standard mix", "High plantain blend"],
   },
   {
     slug: "banku-borga",
@@ -244,11 +236,7 @@ export const products: readonly Product[] = [
     wholesaleAvailable: true,
     publicDisplayStatus: "approved_current_catalog",
     sourceAlignment: "aligned",
-    variants: [
-      "Fine milled",
-      "For fufu preparation",
-      "Custom blends available upon request",
-    ],
+    variants: ["Fine milled", "For fufu preparation"],
   },
 ] as const satisfies readonly Product[];
 

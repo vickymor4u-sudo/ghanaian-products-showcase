@@ -140,7 +140,8 @@ export default function Products() {
                         "Product Type": productTypeLabels[product.supplyType],
                         "Supply Statement":
                           productSupplyStatements[product.supplyType],
-                        "Standard Retail Sizes": `${product.packagingSizes.join(", ")} (customizable)`,
+                        "Standard Retail Sizes":
+                          product.packagingSizes.join(", "),
                         "Bulk Options": product.bulkPackagingSizes.join(", "),
                         "Shelf Life": product.shelfLife,
                         Storage: product.storage,
@@ -186,7 +187,7 @@ export default function Products() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <Card className="p-8">
               <h3 className="text-2xl font-bold text-foreground mb-6">
-                Packaging Customization
+                Packaging Requirements Review
               </h3>
               <ul className="space-y-4">
                 {[
@@ -313,8 +314,8 @@ export default function Products() {
             Ready to Partner with BorgaFoods?
           </h2>
           <p className="text-lg mb-8 max-w-2xl mx-auto text-white/90">
-            Contact us to discuss your custom packaging requirements, order
-            quantities, and market needs.
+            Contact us to discuss your packaging requirements, order quantities,
+            and market needs.
           </p>
           <ExportQuoteButton className="bg-primary-foreground hover:bg-primary-foreground/90 text-primary" />
         </div>
