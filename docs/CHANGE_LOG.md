@@ -2,6 +2,46 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — SEO route handling repair completed and verified live (commit `d944ee3`)
+
+Explicitly authorized follow-up to the two entries directly below, after
+this session flagged the `_routes.json` widening as a genuine blocker.
+Full requirements, design constraints (the `_redirects`-vs-Functions
+interaction that caused the earlier regression), and an 8-point
+pre-production checklist were specified by the requester; this entry
+records the result.
+
+**Root cause of the earlier regression, now understood**: Cloudflare
+Pages does not apply `client/public/_redirects` rules to a request once
+it's routed through Pages Functions. The reverted attempt kept
+`_routes.json` scoped to `/api/*` while trying to fix `_redirects`
+directly — meaning the earlier `functions/_middleware.ts` never actually
+ran for page routes at all, and the regression was purely `_redirects`
+misbehaving once its rule set became more specific, an interaction not
+understood at the time.
+
+**Final design**: `client/public/_routes.json` now routes every path
+(`include: ["/*"]`) through `functions/_middleware.ts`, which:
+- hands off `/api/*` untouched (`functions/api/export-quote.ts` unaffected — confirmed GET still returns 405, same as before any of today's changes);
+- serves a real static asset (JS/CSS bundle, image, `sitemap.xml`, `robots.txt`, font) unmodified, detected via the `env.ASSETS` binding rather than `_redirects`;
+- otherwise fetches the SPA shell via `env.ASSETS.fetch()` against `/` and injects a per-route `<link rel="canonical">` (7 known public routes) or `<meta name="robots" content="noindex, nofollow">` (anything else) with `HTMLRewriter`, returning an explicit HTTP 200 or 404;
+- normalizes an accidental trailing slash in code (no redirect needed).
+
+**A second bug found and fixed during preview verification, before this ever reached production**: the first preview build (deployment `b25f6b0f`) got every status code right but never actually injected any tag — bodies came back empty. Root cause: Cloudflare Pages automatically 308-redirects a direct `/index.html` request to `/`, and the code was explicitly fetching `/index.html` for the shell content, getting that redirect's empty body instead of the real file. Fixed by fetching `/` instead (already the canonical form); a second preview build (`2ada6a8e`) confirmed the fix.
+
+**Verification performed exactly as specified**, first on the preview deployment (`2ada6a8e.ghanaian-products-showcase.pages.dev`), then repeated against production after merge:
+- all 7 public routes return 200 on direct navigation, each with the correct `<link rel="canonical">` in the raw HTML (`curl`, not a rendered browser);
+- `/does-not-exist` and other unknown paths return a real HTTP 404 with `<meta name="robots" content="noindex, nofollow">`;
+- `/products/` (accidental trailing slash) returns 200 with canonical pointing to the slash-free form, no redirect;
+- `/api/export-quote` returns 405 for GET, unchanged;
+- static assets (a JS bundle, a CSS bundle, `sitemap.xml`, `robots.txt`, a product image) all return 200 with correct content-types, unmodified;
+- no unexpected 301/308 anywhere across all tested paths, including `/index.html` itself (now 404 + `noindex` — it isn't a real public route, nothing links to it, and treating it as equivalent to `/` would be a canonicalization problem, not a fix);
+- exactly one `<link rel="canonical">` per page (no duplication from `SEO.tsx`'s client-side logic, which still runs and correctly finds/updates the edge-injected tag rather than adding a second one);
+- the GSC verification meta tag from the earlier entry two below is still present and unaffected;
+- TypeScript check, all 51 tests, and the full build (`verify:catalog`, `verify:single-source`, `verify:no-leak`, `verify:site-verification`) all passed before every deploy, preview and production.
+
+No product data, Turnstile configuration, or RFQ logic was touched by any file in this change.
+
 ## 8 August 2026 — `_redirects` rewrite from the entry below reverted; regressed every non-home page
 
 The `_redirects` change described in the entry directly below (explicit
