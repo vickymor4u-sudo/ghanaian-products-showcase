@@ -187,3 +187,26 @@ Status: **Complete and production-verified.** Full detail, including one reverte
 BorgaFoods completed Google Search Console's URL-prefix HTML-tag verification for `https://www.borgafoods.com`. Activating it exposed two real defects once the property was live: canonical/robots tags were client-JavaScript-only (invisible to any check that doesn't render JS, same root cause as an earlier verification-tag bug this session also fixed), and unknown paths returned a soft 404 (HTTP 200) instead of a real 404. Both are now fixed at the edge via `functions/_middleware.ts`, routed to every request through `client/public/_routes.json`. `client/public/_redirects` is no longer load-bearing for SPA routing — Cloudflare does not apply it to requests routed through Pages Functions — and is kept only as a commented, inert fallback.
 
 This work does not change any business rule, product classification, or public claim, and does not touch product data, Turnstile configuration, or RFQ logic.
+
+## Search Intelligence & Conversion Analytics — audit and planning phase (9 August 2026)
+
+Status: **Audit and planning complete; no implementation, by design.**
+Full detail in [`GSC_INDEXING_AUDIT.md`](./GSC_INDEXING_AUDIT.md),
+[`GA4_ACTIVATION_PLAN.md`](./GA4_ACTIVATION_PLAN.md),
+[`SEARCH_INTELLIGENCE_FRAMEWORK.md`](./SEARCH_INTELLIGENCE_FRAMEWORK.md),
+and [`BUYER_INTENT_CONTENT_AUDIT.md`](./BUYER_INTENT_CONTENT_AUDIT.md).
+
+Checked what Search Console reports one day after verification (sitemap
+read successfully, 7 pages discovered, no manual actions or security
+issues; per-page indexing data still processing, as expected for a
+new property). Documented a GA4 event taxonomy and isolated the actual
+activation blocker (a privacy-notice/consent decision, not an
+engineering gap). Built a search-keyword framework strictly scoped to
+the 5 published BPIP products and existing business capabilities.
+Audited all 7 live pages against the site's 4 named buyer personas,
+finding one minor cross-referencing gap and one wording-consistency
+finding on `/about` for business review.
+
+No page was created, no product was added or reclassified, and no
+public claim was changed — everything above is audit and planning
+output, per this phase's explicit constraints.

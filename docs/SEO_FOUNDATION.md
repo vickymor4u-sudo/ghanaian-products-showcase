@@ -15,6 +15,17 @@ Nothing in this document changes business rules, product classification,
 or public claims. No pricing, MOQ, certification, or capability claim was
 added anywhere.
 
+**9 August 2026 — Search Intelligence & Conversion Analytics phase**:
+the next phase after this one. `docs/GSC_INDEXING_AUDIT.md` audits what
+Search Console reports now that verification is live (§1 of this
+document); `docs/GA4_ACTIVATION_PLAN.md` extends §3–4's event coverage
+plan and isolates the privacy decision blocking activation;
+`docs/SEARCH_INTELLIGENCE_FRAMEWORK.md` and
+`docs/BUYER_INTENT_CONTENT_AUDIT.md` map search/content opportunity
+against the actual BPIP product registry and the site's existing buyer
+personas. No page was created and no public claim was changed in that
+phase — audit and planning only.
+
 ## 1. Google Search Console verification
 
 **Status: Meta tag live in production's raw HTML, 8 August 2026 — verification pending confirmation in Search Console.**

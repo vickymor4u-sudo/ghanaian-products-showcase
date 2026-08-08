@@ -2,6 +2,20 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Search Intelligence & Conversion Analytics: audit and planning phase
+
+No code changed; four new documentation deliverables, per an explicit
+instruction not to create pages or change public claims without
+approval. Full detail in each document; summary:
+
+- **`docs/GSC_INDEXING_AUDIT.md`** — audited the `borgafoods.com` Search Console property one day after verification, using live authenticated access. Confirmed: ownership verification active, sitemap read successfully (7 discovered pages, Status: Success, matching the live route table exactly), no manual actions, no security issues. Performance/Indexing/Experience reports are all still "processing" — expected for a property this new, not an error. Per-URL Inspection results could not be retrieved this session (the live-inspection search widget did not respond reliably to browser automation); recorded as a tooling limitation, not a missing credential, with a note to check it manually or retry later.
+- **`docs/GA4_ACTIVATION_PLAN.md`** — reviewed the existing config-gated GA4 implementation (unchanged, still fully inert — confirmed `VITE_GA4_MEASUREMENT_ID` remains unset in Cloudflare), documented a 6-event taxonomy for when it activates (the existing `page_view`/`generate_lead` plus four new recommended events: `select_content` for category-filter and WhatsApp-button usage, `view_item` for per-product interest, and an RFQ-CTA-click variant of `generate_lead` to measure funnel drop-off), and isolated the actual blocker: a privacy-notice update and a cookie-consent decision, both business/legal calls this repository doesn't make.
+- **`docs/SEARCH_INTELLIGENCE_FRAMEWORK.md`** — a keyword/topic category structure built strictly from the 5 published products in `shared/productIntelligence/publishedRegistry.ts` and the business capabilities the site's own pages already describe (wholesale, export documentation, mixed-container planning, Fufu-Flour-only private-label discovery) — explicitly not a search-volume-validated keyword list, since no keyword-research tool is available; flags real search-volume validation as a next step once Search Console's Performance report populates.
+- **`docs/BUYER_INTENT_CONTENT_AUDIT.md`** — audited all 7 live pages against the 4 buyer personas the site already names (wholesale buyers, distributors, private-label enquiries, international customers/importers). Wholesale buyers and private-label enquiries are well served; distributors have a minor cross-referencing gap (geographic-coverage framing exists only on `/about`); international customers get process description without concrete detail on `/export`. Separately flagged, for business review only: `/about` uses more assertive, less-hedged language than the rest of the site (e.g. "Every product meets international standards," a specific "500 kg" MOQ figure that appears nowhere else and can't be verified against BPIP) — recorded as a finding, `/about` left untouched.
+
+No product was added or reclassified, no supplier information was
+referenced, no page was created, and no public claim was changed.
+
 ## 8 August 2026 — SEO route handling repair completed and verified live (commit `d944ee3`)
 
 Explicitly authorized follow-up to the two entries directly below, after
