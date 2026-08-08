@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
 import SEO from "@/components/SEO";
+import SchemaMarkup from "@/components/SchemaMarkup";
 import ExportQuoteButton from "@/components/ExportQuoteButton";
 import {
   currentPublicCatalogueProducts,
@@ -128,6 +129,7 @@ export default function Products() {
                 key={product.name}
                 className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
               >
+                <SchemaMarkup type="product" data={product} />
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                   <div className="flex items-center gap-2 mb-2">
                     <Star size={20} className="text-primary fill-primary" />
@@ -172,6 +174,8 @@ export default function Products() {
                     <img
                       src={product.images[0]}
                       alt={product.name}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      decoding="async"
                       className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>

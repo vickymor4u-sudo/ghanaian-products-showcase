@@ -44,7 +44,7 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "Up to 24 months",
     storage: "Cool, dry place away from direct sunlight",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/fufu-borga.png", "/images/fufu-product.png"],
+    images: ["/images/fufu-borga.jpg", "/images/fufu-product.jpg"],
     variants: ["Plantain-based fufu flour", "Cassava-plantain blends"],
     lifecycle: {
       state: "published",
@@ -78,7 +78,7 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "Up to 24 months",
     storage: "Cool, dry place away from direct sunlight",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/gari-borga.png"],
+    images: ["/images/gari-borga.jpg"],
     variants: ["Fine grain", "Medium grain", "Coarse grain"],
     lifecycle: { state: "published" },
     approvals: {
@@ -107,7 +107,7 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "Up to 24 months",
     storage: "Cool, dry place away from direct sunlight",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/kokonte-borga.png"],
+    images: ["/images/kokonte-borga.jpg"],
     variants: ["Standard mix", "High plantain blend"],
     lifecycle: {
       state: "published",
@@ -140,7 +140,7 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "Up to 24 months",
     storage: "Cool, dry place away from direct sunlight",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/banku-borga.png", "/images/banku-product.png"],
+    images: ["/images/banku-borga.jpg", "/images/banku-product.jpg"],
     variants: ["Standard mix", "High corn blend", "High cassava blend"],
     lifecycle: {
       state: "published",
@@ -173,7 +173,7 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "Up to 24 months",
     storage: "Cool, dry place away from direct sunlight",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/cassava-flour.png"],
+    images: ["/images/cassava-flour.jpg"],
     variants: ["Fine milled", "For fufu preparation"],
     lifecycle: { state: "published" },
     approvals: {

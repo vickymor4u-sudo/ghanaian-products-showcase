@@ -6,6 +6,7 @@ import TurnstileWidget from "@/components/TurnstileWidget";
 import { CheckCircle2, Mail, MapPin, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import SEO from "@/components/SEO";
+import { trackEvent } from "@/lib/analytics";
 import {
   privateLabelDiscoveryProducts,
   rfqEligibleProducts,
@@ -209,6 +210,13 @@ export default function Contact() {
           message:
             "Your enquiry has been received by BorgaFoods. Please keep the request ID for reference.",
           requestId: responseBody.requestId,
+        });
+        // GA4 conversion event. Public, non-identifying classification data
+        // only (inquiry type + product slug) — never buyer-provided fields.
+        // No-op if GA4 is not configured.
+        trackEvent("generate_lead", {
+          inquiry_type: formData.inquiryType,
+          product_slug: formData.productSelection || "unspecified",
         });
         setFormData(createInitialFormData());
         setWebsite("");

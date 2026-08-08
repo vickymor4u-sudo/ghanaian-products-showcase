@@ -11,3 +11,16 @@ export const getProductQuotePath = (productSlug: string) =>
 export const EXPORT_QUOTE_API_PATH = "/api/export-quote";
 export const TURNSTILE_SITE_KEY =
   import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() ?? "";
+
+// Search & Analytics Foundation — all three are public, build-time,
+// non-secret identifiers (the same category as TURNSTILE_SITE_KEY, never
+// the VITE_ prefix on anything that must stay server-only). Each is empty
+// by default and stays empty until BorgaFoods configures the real value in
+// Cloudflare: no tracking script loads, no verification tag renders, and
+// no visitor data is collected until then. See docs/SEO_FOUNDATION.md.
+export const GA4_MEASUREMENT_ID =
+  import.meta.env.VITE_GA4_MEASUREMENT_ID?.trim() ?? "";
+export const GOOGLE_SITE_VERIFICATION =
+  import.meta.env.VITE_GOOGLE_SITE_VERIFICATION?.trim() ?? "";
+export const BING_SITE_VERIFICATION =
+  import.meta.env.VITE_BING_SITE_VERIFICATION?.trim() ?? "";

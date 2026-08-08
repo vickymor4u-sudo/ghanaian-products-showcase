@@ -14,6 +14,7 @@ import Wholesale from "./pages/Wholesale";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
+import Analytics from "./components/Analytics";
 
 function Router() {
   return (
@@ -55,6 +56,7 @@ function App() {
             <Footer />
           </div>
           <WhatsAppButton />
+          <Analytics />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

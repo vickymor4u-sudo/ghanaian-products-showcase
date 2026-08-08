@@ -2,6 +2,26 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Search & Analytics Foundation
+
+Full details, including the pre-fix PageSpeed Insights baseline and exact activation steps, are in `docs/SEO_FOUNDATION.md`. Dashboard design for future GA4/Search Console reporting is in `docs/ANALYTICS_DASHBOARD_SPEC.md`.
+
+Completed changes:
+
+- built config-gated GA4 integration (`client/src/lib/analytics.ts`, `client/src/components/Analytics.tsx`), inert until `VITE_GA4_MEASUREMENT_ID` is set — verified no script loads, no `dataLayer`, no data collection without it;
+- added an `RFQ` conversion event (`generate_lead`) fired on successful `/api/export-quote` submission, carrying only `inquiry_type` and `product_slug` — no buyer-provided field is ever sent;
+- added config-gated Search Console / Bing Webmaster verification meta tags to `SEO.tsx` (`VITE_GOOGLE_SITE_VERIFICATION` / `VITE_BING_SITE_VERIFICATION`), rendered site-wide once configured; actual verification still requires BorgaFoods to complete it with its own Google/Microsoft account — this repository has no such credentials;
+- fixed a real bug: `SchemaMarkup.tsx`'s `type="product"` branch existed but was never rendered anywhere; wired it into `Products.tsx` (one JSON-LD block per product, keyed by slug so multiple instances coexist) and added `sku`/`category` fields; verified all 5 products now emit valid, distinct structured data;
+- validated `sitemap.xml` against the live route table (all 7 routes correct) and corrected stale `lastmod` dates to each page's actual last-commit date; reviewed `robots.txt` (already correct, left unchanged, reasoning documented);
+- **Core Web Vitals**: removed 3 confirmed-orphaned, unreferenced images (~7.9 MB dead weight); re-encoded the 7 actually-used product photos from lossless PNG to JPEG quality 85 (visually verified, no alpha channel present so zero transparency risk) and updated all references — `client/public/images/` dropped from 17 MB to 2.0 MB (~88% reduction); made the Google Fonts stylesheet non-render-blocking (`preload` + swap pattern, `noscript` fallback), verified fonts still apply correctly; added `loading="lazy"`/`decoding="async"` to below-the-fold product images;
+- documented, but did not fix (missing data, not a code issue): the Organization schema's `sameAs` field is a no-op (points at the site's own URL instead of an external profile) — needs a real BorgaFoods/Supply & Demand Worldwide social-profile URL from the business;
+- documented, but did not touch (explicitly out of scope per `AI_TASK_PROTOCOL.md`): the pre-existing, already-known `_redirects` build-log warning;
+- attempted to schedule the recommended recurring "Growth Audit" as a cloud routine; blocked by a genuine external credential gap — the cloud-routine feature requires GitHub connected via claude.ai's connector settings (separate from the local git/SSH access used throughout this project), which is not connected. Full recommended scope and cadence (monthly) recorded in `docs/SEO_FOUNDATION.md`; the routine itself was not created.
+
+Validation: TypeScript check passed; all 51 tests passed unmodified; production build passed (catalog, single-source, and no-leak checks all green); confidentiality scan of the built output remained clean; verified in a local production build that GA4/verification tags stay fully inert without configuration, that all 5 products emit correct structured data, and that fonts/images render correctly after optimization. Live PageSpeed Insights was run against production before this session's changes as an honest baseline (see `docs/SEO_FOUNDATION.md` §9); a post-deploy re-run is recorded in the following entry.
+
+Deployment status: see the following entry for push/deployment/production-verification details.
+
 ## 8 August 2026 — BPIP Phase 2: RFQ Function migration; core architecture complete
 
 Completed changes:

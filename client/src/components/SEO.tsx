@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
-import { SITE_ORIGIN } from "@/config/site";
+import {
+  BING_SITE_VERIFICATION,
+  GOOGLE_SITE_VERIFICATION,
+  SITE_ORIGIN,
+} from "@/config/site";
 
 interface SEOProps {
   title?: string;
@@ -15,7 +19,7 @@ export default function SEO({
   title = "borgafoods.com - Premium Ghanaian Staple Foods",
   description = "Export-ready fufu, gari, kokonte, and banku products sourced and processed in Ghana. Supply & Demand Worldwide Ltd serves distributors, wholesalers, and food importers globally.",
   keywords = "Ghana food export, fufu wholesale, gari export, kokonte, banku, African food distributor, West African staples, BorgaFoods products",
-  image = `${SITE_ORIGIN}/images/fufu-borga.png`,
+  image = `${SITE_ORIGIN}/images/fufu-borga.jpg`,
   type = "website",
   noIndex = false,
 }: SEOProps) {
@@ -64,6 +68,17 @@ export default function SEO({
     updateMetaTag("twitter:title", title);
     updateMetaTag("twitter:description", description);
     updateMetaTag("twitter:image", image);
+
+    // Search Console / Bing Webmaster site-verification tags. Only
+    // rendered once BorgaFoods configures the real verification code
+    // issued by each provider (VITE_GOOGLE_SITE_VERIFICATION /
+    // VITE_BING_SITE_VERIFICATION) — see docs/SEO_FOUNDATION.md.
+    if (GOOGLE_SITE_VERIFICATION) {
+      updateMetaTag("google-site-verification", GOOGLE_SITE_VERIFICATION);
+    }
+    if (BING_SITE_VERIFICATION) {
+      updateMetaTag("msvalidate.01", BING_SITE_VERIFICATION);
+    }
 
     let canonical = document.querySelector(
       'link[rel="canonical"]'

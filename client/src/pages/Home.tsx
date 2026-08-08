@@ -97,7 +97,7 @@ export default function Home() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 mb-12">
-            {publicManufacturedProducts.map(product => (
+            {publicManufacturedProducts.map((product, index) => (
               <Card
                 key={product.name}
                 className="group p-6 text-center border-border/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
@@ -106,6 +106,8 @@ export default function Home() {
                   <img
                     src={product.images[0]}
                     alt={product.name}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
                     className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>

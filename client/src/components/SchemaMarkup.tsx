@@ -63,6 +63,8 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
         "@type": "Product",
         name: data.name,
         description: data.description,
+        sku: data.slug,
+        category: data.category,
         ...(isManufactured && {
           brand: {
             "@type": "Brand",
@@ -81,8 +83,14 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
       };
     }
 
-    // Create or update script tag
-    const scriptId = `schema-${type}`;
+    // Create or update script tag. Product schema is keyed by slug so
+    // multiple <SchemaMarkup type="product" /> instances (e.g. one per
+    // card on the Products page) can coexist without overwriting or
+    // removing each other's <script> tag.
+    const scriptId =
+      type === "product" && data
+        ? `schema-product-${data.slug}`
+        : `schema-${type}`;
     let scriptTag = document.getElementById(scriptId) as HTMLScriptElement;
 
     if (!scriptTag) {
