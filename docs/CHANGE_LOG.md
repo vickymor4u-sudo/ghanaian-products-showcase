@@ -2,6 +2,22 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Cloudflare dashboard verification (Phase 4B, 4C)
+
+No implementation commit; this entry records verification only, performed once Cloudflare dashboard access became available in the same session as the entry below.
+
+Verified directly in the Cloudflare dashboard (`borgafoods` Pages project):
+
+- the latest Production deployment (ID `d80ff265`) has source commit `86e4fd0cb72244e77ae34439e8362d9252eefe5c` — the exact commit this milestone targeted — aliased to `www.borgafoods.com`, with build **Status: success**;
+- the full build log shows `pnpm verify:catalog` (5 current public / 4 Phase 4 expansion-eligible records), `vite build` (asset hashes matching the live site), and Function compilation all completing without error; the only warnings present are the pre-existing, already-documented ignored-build-scripts notice and the known `_redirects` infinite-loop warning (per `AI_TASK_PROTOCOL.md`, not to be fixed as incidental work);
+- required Production configuration is present: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, and `EXPORT_QUOTE_NOTIFICATION_EMAIL` as encrypted secrets (values not viewed or copied); `VITE_TURNSTILE_SITE_KEY` and `EXPORT_QUOTE_FROM_EMAIL` (`onboarding@resend.dev`, the documented temporary Resend sandbox sender) as plaintext, consistent with those two being non-secret by design;
+- the Turnstile widget "BorgaFoods Export Quote" (site key matching the configured `VITE_TURNSTILE_SITE_KEY`) is scoped to exactly `www.borgafoods.com`, the approved preview hostname, and one historical preview deployment; its action name (`export_quote`) matches `TURNSTILE_ACTION` in `functions/api/export-quote.ts`;
+- Function metrics for the last 24 hours: 27 successful requests, 0 errors (internal, exception, CPU-limit, memory-limit, or client-disconnect);
+- Turnstile's own siteverify analytics for the last 24 hours: 5 requests, 3 invalid and 2 valid. The 3 invalid requests correspond exactly to this session's deliberately-invalid-token allowlist probes (see the entry below); the 2 valid requests are genuine solves this session did not perform — the code sends a Resend request immediately after a valid Turnstile result, so this is strong circumstantial evidence of at least one real, successful submission in the last 24 hours, though it was not directly witnessed and no Resend-side delivery confirmation was available (no Resend dashboard access this session);
+- `borgafoods.com` (apex domain, without `www`) shows Inactive in Custom domains — unchanged, pre-existing, already-documented behavior; not touched, per protocol.
+
+This closes the one gap left open in the entry below (Cloudflare dashboard/API access). The single remaining fact — a human witnessing a real delivered email — was not established and, per policy, will not be established by this or any automated session, since doing so would require solving Turnstile.
+
 ## 8 August 2026 — Production deployment and verification (Phase 4B, 4C, and cleanup)
 
 No implementation commit; this entry records verification only.
