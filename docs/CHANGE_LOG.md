@@ -2,6 +2,20 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Google Search Console verification activated
+
+No code commit; this entry records a Cloudflare configuration change and
+deployment. BorgaFoods added `https://www.borgafoods.com` as a URL prefix
+property in Search Console (HTML tag method) and supplied the
+verification code.
+
+- set `VITE_GOOGLE_SITE_VERIFICATION` (Plaintext) in Cloudflare Pages → `borgafoods` → Settings → Environment variables (Production), using the existing config-gated slot built in the Search & Analytics Foundation (`SEO.tsx`, no code change required);
+- triggered a redeploy via Cloudflare's "Retry deployment" on the current production commit (`a795ae6`) so the build-time variable took effect — new deployment `36e9646b`, build succeeded in 29s, all three build-blocking guard scripts (`verify:catalog`, `verify:single-source`, `verify:no-leak`) passed;
+- confirmed live: loaded `https://www.borgafoods.com/` in a browser and read the rendered DOM, finding `<meta name="google-site-verification" content="hox6EOS2m2hzwquyKmo0CDObWyxZlydpfTCHQwUAJW0">` present. Note this tag is client-rendered (Vite SPA, not SSR) — it will not appear in a plain `curl`/view-source response, only after JavaScript runs, which is how Search Console's own crawler will see it too;
+- updated `docs/SEO_FOUNDATION.md` §1 to reflect the tag is live and to record the remaining external step (clicking "Verify" in Search Console itself, a Google-account action this repository cannot perform).
+
+Validation: no code changed, so no build/test suite re-run beyond the guard scripts that already ran as part of the Cloudflare build above.
+
 ## 8 August 2026 — Search & Analytics Foundation: production verification
 
 No implementation commit; this entry records verification only, performed after the entry below deployed.

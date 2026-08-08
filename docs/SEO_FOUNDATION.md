@@ -17,15 +17,22 @@ added anywhere.
 
 ## 1. Google Search Console verification
 
-**Status: Not completed — requires a Google account BorgaFoods controls.**
-Verification is fundamentally an account-ownership proof only the property
-owner can perform. This repository has no Google credentials and cannot
-complete it. What's ready:
+**Status: Meta tag live in production, 8 August 2026 — verification pending confirmation in Search Console.**
+BorgaFoods added the URL prefix property `https://www.borgafoods.com` in
+Search Console using the "HTML tag" method and supplied the verification
+code. It is now set as `VITE_GOOGLE_SITE_VERIFICATION` in Cloudflare Pages
+→ Settings → Environment variables (Production), and a redeploy (commit
+`a795ae6`, deployment `36e9646b`) shipped it. Confirmed live by loading
+`https://www.borgafoods.com/` in a browser and reading the rendered DOM:
 
-- `client/src/components/SEO.tsx` now renders `<meta name="google-site-verification" content="...">` automatically, site-wide, the moment `VITE_GOOGLE_SITE_VERIFICATION` is set as a Cloudflare build-time variable (public, non-secret — same category as `VITE_TURNSTILE_SITE_KEY`).
-- DNS-based verification is not viable right now — `borgafoods.com` (apex) DNS access is unavailable, consistent with every prior session's findings. The HTML meta-tag method above is the correct fallback and needs no DNS access.
+```html
+<meta name="google-site-verification" content="hox6EOS2m2hzwquyKmo0CDObWyxZlydpfTCHQwUAJW0">
+```
 
-**To activate**: sign in to [Search Console](https://search.google.com/search-console) with a BorgaFoods-controlled Google account, add `https://www.borgafoods.com` as a property, choose the "HTML tag" verification method, copy the `content` value, set it as `VITE_GOOGLE_SITE_VERIFICATION` in Cloudflare Pages → Settings → Environment variables (Production), and redeploy. No code change is required.
+- `client/src/components/SEO.tsx` renders this tag automatically, site-wide, the moment `VITE_GOOGLE_SITE_VERIFICATION` is set as a Cloudflare build-time variable (public, non-secret — same category as `VITE_TURNSTILE_SITE_KEY`). No code change was needed for this activation.
+- The tag is client-rendered (this is a Vite SPA, not SSR) — it appears in the DOM after the page's JS runs, not in the raw HTML response. `curl` against the homepage will not show it; Search Console's own crawler executes JavaScript and will see it, same as a real browser does.
+- DNS-based verification remains not viable — `borgafoods.com` (apex) DNS access is unavailable, consistent with every prior session's findings. The HTML meta-tag method above is the correct fallback and needs no DNS access.
+- Remaining step is external to this repository: return to Search Console and click "Verify" on the property. That confirmation, and any subsequent sitemap submission or query data, is a Google-account action this repository cannot perform.
 
 ## 2. Bing Webmaster Tools readiness
 
