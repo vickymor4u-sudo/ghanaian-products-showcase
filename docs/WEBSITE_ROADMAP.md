@@ -71,7 +71,7 @@ Production readiness was approved on 7 August 2026. Cloudflare production deploy
 
 ## Phase 4 — Private label and customer tools
 
-Status: **Phase 4A and 4B deployed and production verified; Phase 4C implemented locally and pending deployment verification**
+Status: **Phase 4A, 4B, and 4C deployed and production-route/allowlist verified. Live end-to-end email delivery for a successful (Turnstile-passing) submission remains unverified this session — see the Phase 4B/4C notes below.**
 
 Review proposal: [`PHASE_4_PLANNING_PROPOSAL.md`](./PHASE_4_PLANNING_PROPOSAL.md)
 
@@ -110,7 +110,9 @@ Phase 4 must not begin from this roadmap entry alone. It requires an approved sc
 
 ### Phase 4B — Wholesale and distributor qualification
 
-Status: **Implemented locally; deployment verification pending**
+Status: **Deployed; production route and server-side validation verified 8 August 2026. Live email delivery for a successful submission not independently re-verified this session.**
+
+Production verification performed 8 August 2026 (implementation commit `368af51e778d50285384c17f4d44852ae49be0a9` on `main`, confirmed identical to `origin/main`): `/contact?inquiry=wholesale` renders the buyer-category field and required-state correctly; a same-origin POST to `/api/export-quote` with `inquiryType: "wholesale"` and no `buyerCategory` returned `invalid_request`; the same request with a valid `buyerCategory` and product passed schema/allowlist validation and reached Turnstile verification (`verification_failed`, since a deliberately invalid token was used — Turnstile itself was not solved or bypassed, per policy). The existing mocked test suite (`functions/api/export-quote.test.ts`) asserts `Reply-To` is set to the buyer's email and that qualification content appears in the notification without supplier data; this was re-run (17/17 passing) but not re-confirmed against a live delivered email, since doing so requires either solving Turnstile (not permitted) or Resend/Cloudflare dashboard access (unavailable this session).
 
 Completed implementation:
 
@@ -121,11 +123,13 @@ Completed implementation:
 - kept Fufu Flour in its existing RFQ behavior, excluded Red Palm Oil, and retained the partner brand/manufacturer confidentiality build guard; and
 - recorded the field and internal-email mappings as implementation references.
 
-Before deployment, verify the existing production Resend and Turnstile settings, run full build/test/catalog/confidentiality checks, and perform route, responsive, and live-delivery verification.
+Remaining: a human-performed live submission (real Turnstile completion) for a wholesale and a distribution enquiry, confirming the notification actually arrives at the configured recipient with buyer `Reply-To` and no automatic acknowledgement.
 
 ### Phase 4C — Private-label discovery
 
-Status: **Implemented locally; deployment verification pending**
+Status: **Deployed; production allowlist verified 8 August 2026. Live email delivery for a successful submission not independently re-verified this session.**
+
+Production verification performed 8 August 2026 (implementation commit `368af51e778d50285384c17f4d44852ae49be0a9` on `main`, confirmed identical to `origin/main`): `/contact?inquiry=private-label` renders a product selector containing only Fufu Flour. Same-origin POSTs to `/api/export-quote` with `inquiryType: "private_label"` were sent for every other current catalog product (`gari-borga`, `kokonte-borga`, `banku-borga`, `cassava-flour`), for `red-palm-oil`, and for unknown/placeholder values (`not-a-real-product`, `all`, `other`) — every one returned `invalid_request`, rejected before Turnstile verification. The identical request for `fufu-borga` passed schema and allowlist validation and reached Turnstile verification (`verification_failed`, deliberately invalid token — Turnstile was not solved or bypassed). This confirms the server-side allowlist matches the frozen capability-model decision exactly. As with Phase 4B, live delivery, buyer `Reply-To`, and the no-acknowledgement behavior for a successful submission rely on the unmodified, previously verified `/api/export-quote` logic and the existing mocked test suite (re-run, 17/17 passing) rather than a new live delivered email, since a live test requires solving Turnstile (not permitted) or Resend/Cloudflare dashboard access (unavailable this session).
 
 Completed implementation:
 
@@ -137,7 +141,7 @@ Completed implementation:
 - retained Turnstile, honeypot, origin/body controls, Resend, a single internal notification, buyer `Reply-To`, consent, no automatic acknowledgement, no CRM/database, and supplier confidentiality; and
 - documented the manual-review condition: BorgaFoods management/export team confirms MOQ, packaging, specifications, production feasibility, and regulatory requirements before any acceptance.
 
-Before deployment, verify existing Resend and Turnstile settings; run type, test, catalog, confidentiality, route, responsive, and email-delivery checks; and confirm the live private-label flow accepts only Fufu Borga without creating a customer or production commitment.
+Remaining: a human-performed live private-label submission for the Fufu Borga record (real Turnstile completion), confirming the notification arrives with buyer `Reply-To` and no automatic acknowledgement.
 
 ## Cross-phase work
 

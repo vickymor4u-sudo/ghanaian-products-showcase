@@ -2,6 +2,28 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 8 August 2026 — Production deployment and verification (Phase 4B, 4C, and cleanup)
+
+No implementation commit; this entry records verification only.
+
+Verified changes:
+
+- confirmed `origin/main` at `368af51e778d50285384c17f4d44852ae49be0a9`, exactly matching the local `main` branch pushed this session (commit range `cb8c7d5..368af51`: the pre-existing Phase 4B/4C commits plus the presentation-rule alignment and cleanup commits below);
+- confirmed Cloudflare Pages built and deployed the new commit: `https://www.borgafoods.com` serves updated JS/CSS asset hashes and the new page content (indirect confirmation only — no Cloudflare dashboard/API access was available to read the build log directly);
+- verified all eight production routes return 200 with no browser console errors: `/`, `/products`, `/export-solutions`, `/wholesale`, `/contact`, `/export`, `/about`, and an unknown path resolving to the noindexed 404 page;
+- verified Phase 4B is live: `/contact?inquiry=wholesale` renders the required buyer-category field; a same-origin `POST /api/export-quote` with `inquiryType: "wholesale"` and no `buyerCategory` returns `invalid_request`; the same request with a valid `buyerCategory` and product passes schema/allowlist validation and reaches Turnstile verification;
+- verified Phase 4C is live and matches the frozen capability-model decision exactly: `/contact?inquiry=private-label` renders a product selector containing only Fufu Flour; direct `POST /api/export-quote` requests with `inquiryType: "private_label"` were sent for every other current product (`gari-borga`, `kokonte-borga`, `banku-borga`, `cassava-flour`), `red-palm-oil`, and invalid/placeholder values — all returned `invalid_request`, rejected before Turnstile verification; the identical request for `fufu-borga` passed allowlist validation and reached Turnstile;
+- verified the honeypot (`website` field) still causes `invalid_request` when populated, and that `GET /api/export-quote` still returns `405 invalid_method`;
+- verified the presentation-rule cleanup (previous entry) is live in the production bundle: no `customizable` or `Custom blends` strings, the "Packaging Requirements Review" heading and revised MOQ FAQ wording are present, and no trace of the removed `Media.tsx` page (fabricated document names, "Media & Downloads" heading) remains in the bundle;
+- re-ran `pnpm check`, `pnpm test` (17/17 passing, unmodified), and `pnpm build` (catalog verifier: 5 current public records, 4 Phase 4 expansion-eligible records) against the exact commit now live in production;
+- production confidentiality scan of the live JS bundle found no Gmail address or "Red Palm Oil" string.
+
+Not verified — genuine blocker, not attempted:
+
+- **Live end-to-end email delivery for a successful submission.** All production API tests above used a deliberately invalid Turnstile token so that no request could reach Resend and no email could be sent — this was intentional: completing or bypassing Cloudflare Turnstile (a CAPTCHA/bot-detection control) is outside what an automated session may do, regardless of instruction. Confirming that a genuine wholesale, distribution, or Fufu Borga private-label submission is actually delivered to the configured recipient, with buyer `Reply-To` and no automatic acknowledgement, requires either a human completing the widget and confirming inbox delivery, or Resend/Cloudflare dashboard log access (also unavailable this session). The unmodified `/api/export-quote` logic and its mocked test coverage (`functions/api/export-quote.test.ts`, asserting `Reply-To` and notification content) support high confidence, but this is not the same as a witnessed live delivery.
+
+Deployment status: **Phase 4B and 4C are deployed to production** (they were not modified this session; only their production reachability was newly confirmed). The presentation-rule alignment and cleanup work below was pushed and deployed in the same commit range. One item remains open before this milestone can be called fully closed: a human-performed live delivery test per enquiry type (see `WEBSITE_ROADMAP.md`).
+
 ## 8 August 2026 — Presentation-rule alignment and repository cleanup
 
 Implementation commit: `da3276f1a67488d7c46513ec86c9cf5edbb554d9`
