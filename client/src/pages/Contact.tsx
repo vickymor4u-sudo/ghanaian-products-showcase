@@ -312,12 +312,12 @@ export default function Contact() {
                     </p>
                     <p className="text-foreground">
                       <a
-                        href="https://wa.me/233533763700"
+                        href="https://wa.me/8613516818572"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-primary hover:underline"
                       >
-                        +233 533 763 700 (WhatsApp)
+                        +86 135 1681 8572 (WhatsApp)
                       </a>
                     </p>
                   </div>

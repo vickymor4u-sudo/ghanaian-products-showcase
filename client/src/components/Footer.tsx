@@ -109,7 +109,7 @@ export default function Footer() {
                 <div>
                   <p>Ghana: +233 555 362 208</p>
                   <p className="text-background/70">
-                    WhatsApp: +233 533 763 700
+                    WhatsApp: +86 135 1681 8572
                   </p>
                   <p className="text-background/70">China: +86 135 1681 8572</p>
                 </div>

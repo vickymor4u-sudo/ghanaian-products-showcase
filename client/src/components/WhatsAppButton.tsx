@@ -5,9 +5,10 @@ import { MessageCircle } from "lucide-react";
  * Displays a fixed button in the bottom-right corner that opens WhatsApp chat
  */
 export default function WhatsAppButton() {
-  const whatsappNumber = "+233533763700"; // WhatsApp number without spaces
-  const message = "Hello! I'm interested in learning more about BorgaFoods products.";
-  
+  const whatsappNumber = "+8613516818572"; // WhatsApp number without spaces
+  const message =
+    "Hello! I'm interested in learning more about BorgaFoods products.";
+
   const handleClick = () => {
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
