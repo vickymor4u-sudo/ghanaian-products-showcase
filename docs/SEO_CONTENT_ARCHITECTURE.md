@@ -1,11 +1,16 @@
 # SEO Content Architecture
 
-Status: **Design only — no pages created.** Recommends which products
-justify a dedicated landing page, a URL structure, page purpose, and
-target buyer intent per page. Also assesses the "buyer-intent page"
-concept (e.g. "African Food Wholesale Supplier") raised alongside this
-phase's brief, and recommends against building most of them as separate
-pages, with reasoning.
+Status: **Design approved and implemented, 9 August 2026 — all 5 pages
+live in production.** URL slugs were decided as SEO-facing names
+distinct from BPIP's internal slugs (`/products/fufu-flour`,
+`/products/gari`, `/products/cassava-flour`, `/products/banku-mix`,
+`/products/kokonte`, mapped to BPIP's `fufu-borga`/`gari-borga`/etc. in
+`client/src/data/productUrlSlugs.ts`), resolving the "open decision"
+originally recorded in §2 below. All 5 were built together rather than
+staged 2-then-3 as originally recommended, per explicit approval. The
+recommendations below are kept as the design record; where a
+recommendation was later superseded by an implementation decision, a
+note says so inline.
 
 ## 1. Which products justify a dedicated page
 

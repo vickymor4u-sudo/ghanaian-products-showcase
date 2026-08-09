@@ -1,8 +1,12 @@
 # Public Claim Verification Audit
 
-Status: **Audit complete. Corrections drafted below, none applied.** Per
-this phase's explicit instruction: "Do not make changes until clearly
-validated."
+Status: **All 7 drafted corrections approved and applied, 9 August
+2026, live in production.** Originally: "Audit complete. Corrections
+drafted below, none applied." — superseded once the corrections were
+explicitly approved as part of "BorgaFoods Content Architecture
+Implementation — Phase 1." The findings and draft text below are kept
+as the record of what was found and why; every "Draft correction (not
+applied)" below is now the live text in `client/src/pages/About.tsx`.
 
 ## Method
 
@@ -157,15 +161,16 @@ Findings 1–7 above. If the business wants a fully conservative pass,
 these are worth revisiting; they are not flagged as rule violations on
 their own.
 
-## What this audit does not do
+## Applied, 9 August 2026
 
-No correction above has been applied to `/about` or any other file.
-Applying them is explicitly out of scope for this phase pending
-approval, per the instruction governing this work. If approved, applying
-all 7 corrections is a small, low-risk copy edit to one file
-(`client/src/pages/About.tsx`) — no data model, routing, or BPIP change
-is required, since every correction only removes or rewords existing
-static JSX text.
+All 7 corrections above were approved and applied to
+`client/src/pages/About.tsx` exactly as drafted, verified in a preview
+deployment, then deployed to production (commit `d0ac435`, merged in
+`6ea7eb9`). No data model, routing, or BPIP change was required — every
+correction only removed or reworded existing static JSX text. The two
+lower-priority phrases noted in the previous section ("scalable sourcing
+and logistics partners," "reliable delivery to international partners")
+were left unchanged, as originally scoped.
 
 ## Related documents
 

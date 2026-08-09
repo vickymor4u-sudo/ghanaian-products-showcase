@@ -1,27 +1,36 @@
 # Export Buyer Content Architecture — Implementation Plan
 
-Status: **Plan for approval. No code written, no page created, no
-content changed.** This is the consolidated deliverable for the Export
-Buyer Content Architecture phase, drawing together
-`docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md`,
-`docs/SEO_CONTENT_ARCHITECTURE.md`, and
-`docs/BUYER_CONVERSION_GAP_ANALYSIS.md` into one build order, approval
-list, and risk register.
+Status: **Phase 1 (items 1–2 below) approved, implemented, and verified
+live in production, 9 August 2026 — commit `6ea7eb9`.** This document
+is kept as the original plan record; see `docs/CHANGE_LOG.md` for the
+implementation entry and `docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md` /
+`docs/SEO_CONTENT_ARCHITECTURE.md` for the updated, "as-built" status of
+each recommendation below.
 
 ## Pages to create
 
-| Page | URL (proposed, pending §"Open decisions") | Purpose | Target intent |
-| --- | --- | --- | --- |
-| Fufu Flour product page | `/products/fufu-borga` (or `/products/fufu-flour` — see below) | Dedicated page for the flagship product; includes a private-label section | "fufu flour export/wholesale," "private label fufu flour" |
-| Gari product page | `/products/gari-borga` | Dedicated page, strongest bulk-packaging content | "gari export/wholesale supplier" |
-| Cassava Flour product page | `/products/cassava-flour` | Dedicated page | "cassava flour export/wholesale" |
-| Banku Borga product page | `/products/banku-borga` | Dedicated page | "banku flour export" |
-| Kokonte product page | `/products/kokonte-borga` | Dedicated page | "kokonte flour export" |
+**Status: all 5 built and live**, at the URLs the explicit
+implementation approval specified (resolving the "open decision" this
+plan originally flagged) — `/products/fufu-flour`, `/products/gari`,
+`/products/cassava-flour`, `/products/banku-mix`, `/products/kokonte`,
+each mapped to its unchanged BPIP internal slug in
+`client/src/data/productUrlSlugs.ts`. Built together in one pass rather
+than staged 2-then-3, per explicit approval superseding the original
+build-order recommendation below (kept for the record):
 
-**Build order**: Fufu Flour and Gari first (highest content depth and
+| Page | URL (as built) | Purpose | Target intent |
+| --- | --- | --- | --- |
+| Fufu Flour product page | `/products/fufu-flour` | Dedicated page for the flagship product; includes a private-label section | "fufu flour export/wholesale," "private label fufu flour" |
+| Gari product page | `/products/gari` | Dedicated page, strongest bulk-packaging content | "gari export/wholesale supplier" |
+| Cassava Flour product page | `/products/cassava-flour` | Dedicated page | "cassava flour export/wholesale" |
+| Banku Borga product page | `/products/banku-mix` | Dedicated page | "banku flour export" |
+| Kokonte product page | `/products/kokonte` | Dedicated page | "kokonte flour export" |
+
+**Original build-order recommendation** (superseded — all 5 shipped
+together): Fufu Flour and Gari first (highest content depth and
 business signal — see `docs/SEO_CONTENT_ARCHITECTURE.md` §1),
 verify they index and render correctly, then extend to the remaining
-three. Do not build all 5 speculatively in one pass.
+three.
 
 **Not recommended**: separate "buyer-intent" pages ("African Food
 Wholesale Supplier," "Ghana Food Exporter," "African Grocery Distributor
@@ -34,8 +43,8 @@ results rather than helping.
 
 | Page | Change | Why | Requires approval? |
 | --- | --- | --- | --- |
-| `/products` | Convert from showing each product's full detail block to a catalogue index (image, name, one-line summary, link to the dedicated page) | Prevents duplicate content once dedicated product pages exist | No — mechanical restructuring of already-approved content, no new claims |
-| `/about` | Apply the 7 drafted corrections in `docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md` (remove the 500kg MOQ figure, "international standards," "proven track record," and 4 related items; replace with the drafted, business-rule-compliant alternatives) | Closes real `BUSINESS_RULES.md` violations | **Yes — business review of the 7 drafted corrections before applying.** Corrections are pre-drafted, not blank requests. |
+| `/products` | Convert from showing each product's full detail block to a catalogue index (image, name, one-line summary, link to the dedicated page) | Prevents duplicate content once dedicated product pages exist | No — mechanical restructuring of already-approved content, no new claims. **Not yet done**: Phase 1 only added a "View full product page" link per product, per its explicit "framework only" scope; the full index conversion remains open. |
+| `/about` | ~~Apply the 7 drafted corrections~~ **Done, 9 August 2026** — all 7 applied exactly as drafted, live in production (commit `6ea7eb9`). | Closed real `BUSINESS_RULES.md` violations | Approved and complete. |
 | `/export` | Add an indicative lead-time range and a statement of shipping mode (sea/air), if and when the business confirms them | Closes the two real conversion gaps in `docs/BUYER_CONVERSION_GAP_ANALYSIS.md` | **Yes — this is new factual content, not currently documented anywhere; requires the business to supply and approve the actual figures, not just approve wording.** |
 | `/wholesale`, `/export-solutions` | Optional: sharpen SEO title/keyword phrasing to more directly match "African food wholesale supplier"/"Ghana food exporter" style queries, in place of building separate pages for them | Captures the buyer-intent-page idea's value without duplicate-content risk | No — metadata-only tightening within already-approved page purpose |
 
@@ -63,10 +72,11 @@ concrete pages above:
 
 ## Required business approvals (in priority order)
 
-1. **The 7 drafted `/about` corrections** (`docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md`) — highest priority because one of them (the 500kg MOQ figure) is a live, current violation of `BUSINESS_RULES.md`, not a future risk.
-2. **An actual lead-time range and shipping mode**, if BorgaFoods wants to close the two real conversion gaps in `docs/BUYER_CONVERSION_GAP_ANALYSIS.md`. This repository has no visibility into either fact and cannot draft a "corrected" version the way it could for the `/about` claims — this needs the business to supply the real figures.
-3. **URL slug decision** (`docs/SEO_CONTENT_ARCHITECTURE.md` §2): internal BPIP slugs (`fufu-borga`, etc.) as-is, or cleaner search-facing slugs (`fufu-flour`, etc.)? Affects every new page's URL; cheap to decide now, harder to change after pages are indexed.
-4. **Sign-off to build the 5 product pages at all**, given "no coding until the architecture plan is approved" — this document *is* that architecture plan.
+1. ~~**The 7 drafted `/about` corrections**~~ **Approved and applied, 9 August 2026.**
+2. **An actual lead-time range and shipping mode**, if BorgaFoods wants to close the two real conversion gaps in `docs/BUYER_CONVERSION_GAP_ANALYSIS.md`. This repository still has no visibility into either fact and cannot draft a "corrected" version the way it could for the `/about` claims — this needs the business to supply the real figures. **Still open.**
+3. ~~**URL slug decision**~~ **Resolved, 9 August 2026** — SEO-facing slugs distinct from BPIP's internal ones (`/products/fufu-flour`, `/products/gari`, `/products/cassava-flour`, `/products/banku-mix`, `/products/kokonte`), specified explicitly in the implementation approval.
+4. ~~**Sign-off to build the 5 product pages at all**~~ **Approved and built, 9 August 2026** — all 5 live in production.
+5. **Still open, not yet approved**: converting `/products` into a catalogue index (see "Pages to modify" above) — the duplicate-content risk this would resolve is not yet closed.
 
 ## Risks
 

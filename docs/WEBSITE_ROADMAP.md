@@ -241,3 +241,31 @@ fact.
 No page was created, no content was changed, and no code was written —
 this phase produced an approval-ready plan only, per its explicit "no
 coding until approved" constraint.
+
+## Content Architecture Implementation Phase 1 (9 August 2026)
+
+Status: **Implemented, preview-verified, deployed to production
+(commit `6ea7eb9`).** Approved execution of the two lowest-risk items
+from the plan above. Full detail in `docs/CHANGE_LOG.md` and the updated
+`docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md` /
+`docs/SEO_CONTENT_ARCHITECTURE.md`.
+
+Applied all 7 drafted `/about` corrections — the unsupported "500 kg"
+MOQ figure and 6 related unverified claims are gone, replaced with
+wording grounded in facts already approved and live elsewhere on the
+site. Built and shipped 5 dedicated product landing pages
+(`/products/fufu-flour`, `/products/gari`, `/products/cassava-flour`,
+`/products/banku-mix`, `/products/kokonte`) using SEO-facing URLs
+mapped to BPIP's unchanged internal slugs, each showing only
+already-approved fields, with the private-label section appearing only
+on the one BPIP-approved product (Fufu Flour) and a shipping/lead-time
+section left as an explicit placeholder pending business input. Every
+new route was added to the edge middleware's known-path list and the
+sitemap; both were verified via raw-HTML `curl` checks against
+production, matching this project's established verification discipline
+for anything touching `functions/_middleware.ts`.
+
+Not done in this pass, per the approved scope: converting `/products`
+into a catalogue index (duplicate-content resolution remains a separate
+decision), any new MOQ/certification/lead-time/shipping claim, and
+private-label content for any product beyond Fufu Flour.

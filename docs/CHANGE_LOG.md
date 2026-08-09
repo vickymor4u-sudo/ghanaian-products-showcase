@@ -2,6 +2,23 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Content Architecture Phase 1: `/about` corrections + 5 product pages (commit `6ea7eb9`)
+
+Approved implementation of `docs/CONTENT_ARCHITECTURE_IMPLEMENTATION_PLAN.md`
+items 1–2 ("BorgaFoods Content Architecture Implementation — Phase 1").
+Preview-verified (deployment `0c0c4e03`), then merged and re-verified in
+production. Full detail in `docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md` and
+`docs/SEO_CONTENT_ARCHITECTURE.md`, both updated to record what's now
+live.
+
+- **Applied all 7 drafted `/about` corrections** exactly as written in `docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md`: removed the unsupported "500 kg" MOQ figure, "every product meets international standards," "proven track record," and 4 related unverified claims. Every replacement restates a fact already approved and live elsewhere on the site (Ghana FDA registered facilities, the 2013 founding date, per-enquiry order/pricing review) — no new claim was introduced.
+- **Added 5 dedicated product landing pages** at SEO-facing URLs distinct from BPIP's internal slugs: `/products/fufu-flour` (`fufu-borga`), `/products/gari` (`gari-borga`), `/products/cassava-flour` (`cassava-flour`), `/products/banku-mix` (`banku-borga`), `/products/kokonte` (`kokonte-borga`). The mapping lives in the new `client/src/data/productUrlSlugs.ts`; BPIP's own slugs were not renamed. Each page (`client/src/pages/ProductDetail.tsx`) renders only already-approved BPIP fields — identity, description, variants, packaging/shelf-life/certification/origin — reusing the existing `SchemaMarkup` and `ExportQuoteButton` components unchanged (the RFQ CTA passes the internal BPIP slug, not the URL slug). The private-label section (exact approved wording) renders only for Fufu Flour, the one product BPIP records as `privateLabelDiscoveryApproved`. A "Shipping & Lead Time" card is present as an explicit placeholder ("confirmed per enquiry — contact us for current details"), not a real claim — a real range remains blocked on business input per `docs/BUYER_CONVERSION_GAP_ANALYSIS.md`.
+- **`functions/_middleware.ts`'s `KNOWN_PUBLIC_PATHS` and `client/public/sitemap.xml`** were both updated with the 5 new URLs — required for the edge-injected canonical tags and correct HTTP 200 status to apply to the new pages at all; verified via `curl` against raw production HTML for all 5.
+- **`/products` gained a "View full product page" link per product**, connecting the new pages into internal linking. Its own content is otherwise unchanged in this pass — converting it into a catalogue index to fully resolve the duplicate-content risk flagged in `docs/SEO_CONTENT_ARCHITECTURE.md` remains a separate, not-yet-approved decision.
+- **Explicitly not added**, per the approved scope: MOQ, new certifications, lead times, shipping promises, or private-label claims for any product besides Fufu Flour.
+
+Validation: TypeScript check passed; all 51 tests passed unmodified; production build passed with all four guard scripts green, both before the preview deploy and again after merge. Preview verification confirmed all 5 pages return 200 with correct raw-HTML canonical tags, an unknown `/products/*` path returns a real 404 with `noindex, nofollow`, the original 7 routes and `/api/export-quote` are unaffected, and the `/about` corrections render correctly — all independently re-confirmed against `www.borgafoods.com` after merge.
+
 ## 9 August 2026 — Export Buyer Content Architecture: plan for approval
 
 No code changed, no page created, no content edited — per this phase's
