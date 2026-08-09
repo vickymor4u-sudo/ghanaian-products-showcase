@@ -121,12 +121,13 @@ export default function About() {
                 step: "2",
                 title: "Production",
                 description:
-                  "Manufacturing to international standards with quality control",
+                  "Manufacturing with consistent process and quality controls at BorgaFoods Processing",
               },
               {
                 step: "3",
                 title: "Quality Assurance",
-                description: "Rigorous testing and FDA compliance verification",
+                description:
+                  "Facility registration and compliance with Ghana FDA requirements",
               },
               {
                 step: "4",
@@ -162,19 +163,19 @@ export default function About() {
                 icon: CheckCircle,
                 title: "Standardized Quality",
                 description:
-                  "Consistent product specifications across all batches. Every product meets international standards.",
+                  "Consistent product specifications across all batches, manufactured at Ghana FDA registered facilities.",
               },
               {
                 icon: Users,
                 title: "Export Experience",
                 description:
-                  "Proven track record with international markets. We understand customs, compliance, and logistics.",
+                  "Operating internationally since 2013, coordinating customs, compliance, and logistics requirements for each shipment.",
               },
               {
                 icon: Zap,
-                title: "Flexible MOQs",
+                title: "Order Flexibility",
                 description:
-                  "Scalable solutions for distributors of all sizes. From 500 kg to full container loads.",
+                  "Order volume is reviewed per enquiry to match your business size and market requirements.",
               },
               {
                 icon: Globe,
@@ -223,7 +224,7 @@ export default function About() {
                     size={16}
                     className="text-primary flex-shrink-0 mt-0.5"
                   />
-                  Clear pricing and terms
+                  Clear communication on terms and next steps
                 </li>
                 <li className="flex items-start gap-2 text-sm text-foreground">
                   <CheckCircle
@@ -297,7 +298,7 @@ export default function About() {
                     size={16}
                     className="text-primary flex-shrink-0 mt-0.5"
                   />
-                  Customization for your needs
+                  Enquiries reviewed against your specific requirements
                 </li>
                 <li className="flex items-start gap-2 text-sm text-foreground">
                   <CheckCircle

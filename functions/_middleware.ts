@@ -38,6 +38,11 @@ const SITE_ORIGIN = "https://www.borgafoods.com";
 const KNOWN_PUBLIC_PATHS = new Set([
   "/",
   "/products",
+  "/products/fufu-flour",
+  "/products/gari",
+  "/products/cassava-flour",
+  "/products/banku-mix",
+  "/products/kokonte",
   "/export-solutions",
   "/wholesale",
   "/export",
