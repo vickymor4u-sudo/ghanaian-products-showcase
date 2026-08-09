@@ -1,13 +1,26 @@
 import { useEffect } from "react";
 import { EXPORT_ENQUIRY_EMAIL, SITE_ORIGIN } from "@/config/site";
 import type { Product } from "@/data/products";
+import { getProductPageUrl } from "@/data/productUrlSlugs";
 
-interface SchemaMarkupProps {
-  type: "organization" | "product";
-  data?: Product;
+interface BreadcrumbEntry {
+  name: string;
+  /** Site-relative path, e.g. "/products" — SITE_ORIGIN is prepended. */
+  path: string;
 }
 
-export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
+interface SchemaMarkupProps {
+  type: "organization" | "product" | "breadcrumb";
+  data?: Product;
+  /** Required when type is "breadcrumb", in display order (root first). */
+  breadcrumbs?: BreadcrumbEntry[];
+}
+
+export default function SchemaMarkup({
+  type,
+  data,
+  breadcrumbs,
+}: SchemaMarkupProps) {
   useEffect(() => {
     let schema: any = {};
 
@@ -57,6 +70,7 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
       };
     } else if (type === "product" && data) {
       const isManufactured = data.supplyType === "manufactured";
+      const productPageUrl = getProductPageUrl(data.slug);
 
       schema = {
         "@context": "https://schema.org",
@@ -65,6 +79,11 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
         description: data.description,
         sku: data.slug,
         category: data.category,
+        // Points at the dedicated product page when one exists, even when
+        // this schema is rendered on /products (which lists all products
+        // on one URL) — tells search engines where the canonical detail
+        // page for this specific product actually lives.
+        ...(productPageUrl && { url: `${SITE_ORIGIN}${productPageUrl}` }),
         ...(isManufactured && {
           brand: {
             "@type": "Brand",
@@ -80,6 +99,17 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
           name: data.countryOfOrigin,
         },
         image: data.images.map(image => `${SITE_ORIGIN}${image}`),
+      };
+    } else if (type === "breadcrumb" && breadcrumbs) {
+      schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((crumb, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: crumb.name,
+          item: `${SITE_ORIGIN}${crumb.path}`,
+        })),
       };
     }
 
@@ -109,7 +139,7 @@ export default function SchemaMarkup({ type, data }: SchemaMarkupProps) {
         tag.remove();
       }
     };
-  }, [type, data]);
+  }, [type, data, breadcrumbs]);
 
   return null;
 }
