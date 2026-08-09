@@ -685,3 +685,39 @@ before merging, and a full re-verification pass against production
 afterward (RFQ behavior for both changed and unchanged inquiry types,
 rendered content, structured data, canonical tags, 404 handling, and
 mobile rendering).
+
+## Lead Generation Phase 2 — Market Activation & Conversion Intelligence (9 August 2026)
+
+Status: **4 planning documents complete; one safe website fix
+implemented, validated, deployed, verified live.** Full detail in
+`docs/SEARCH_PERFORMANCE_BASELINE.md`, `docs/OUTREACH_EXECUTION_PLAN.md`,
+`docs/CONVERSION_MEASUREMENT_PLAN.md`, `docs/BUYER_OBJECTION_ANALYSIS.md`.
+
+Turned the completed website and outreach foundation into an actual
+activation and measurement plan, without expanding scope. Re-checked
+GSC data and found it genuinely unchanged since the same day's earlier
+checkpoint — reported that honestly rather than reading a signal into
+noise, and concluded no new content is justified yet. Sequenced the
+existing buyer-targeting framework into a concrete 6-segment outreach
+order, each mapped to a specific landing page and prepared asset, with
+no buyer contacted and no template rewritten. Reviewed the existing GA4
+integration and `generate_lead` event and found them already sufficient
+for the mission's measurement questions once GA4 activates — the one
+substantive recommendation was a zero-code convention (UTM-tagging
+outreach links), with several tempting tracking additions explicitly
+declined for lack of evidence they're needed yet.
+
+Read the live site as 4 specific buyer personas and found one real,
+safe fix: `/wholesale`'s private-label section never named which
+product is actually in scope, a gap that risked buyers submitting
+enquiries the RFQ system would then reject. Fixed by stating the
+already-public fact (Fufu Flour) explicitly. Every other finding —
+17 of them — was mapped to an existing decision record or flagged as
+requiring real business input, including a notable one deliberately
+not acted on: the site claims bilingual capability but has no
+Chinese-language version, a real gap too large to be a "safe
+improvement" in one phase.
+
+No new pages, no product changes, no BPIP change, no RFQ qualification
+change, and no external account activated — per this phase's explicit
+"no unnecessary expansion" constraint.

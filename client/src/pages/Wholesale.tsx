@@ -142,10 +142,10 @@ export default function Wholesale() {
               Discuss Selected Product Opportunities
             </h2>
             <p className="text-lg text-foreground leading-relaxed mb-6">
-              BorgaFoods supports private-label discussions for selected
-              products. Private-label opportunities are reviewed individually
-              based on product specifications, packaging requirements, order
-              volume, and production feasibility.
+              BorgaFoods currently supports private-label discussions for
+              Fufu Flour, reviewed individually based on product
+              specifications, packaging requirements, order volume, and
+              production feasibility.
             </p>
             <p className="text-foreground leading-relaxed mb-8">
               Each enquiry is reviewed manually. Packaging, specifications,

@@ -2,6 +2,60 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Lead Generation Phase 2 (Market Activation & Conversion Intelligence)
+
+Status: **4 planning documents produced; one safe, high-confidence
+website fix implemented, validated, deployed to production, and
+verified live.** Full detail in `docs/SEARCH_PERFORMANCE_BASELINE.md`,
+`docs/OUTREACH_EXECUTION_PLAN.md`, `docs/CONVERSION_MEASUREMENT_PLAN.md`,
+and `docs/BUYER_OBJECTION_ANALYSIS.md`.
+
+Re-checked live GSC data: unchanged from the same-day earlier
+checkpoint (3 of 12 pages indexed, same 3 URLs, same crawl dates, 5
+lifetime impressions, 0 clicks, 1 query) — sitemap still healthy
+(12/12 discovered). Concluded, honestly, that no new content is
+supported by this data yet; the finding worth recording is the absence
+of movement itself, not a signal to chase.
+
+Turned the buyer targeting framework and outreach templates into an
+actual execution order: 6 segments sequenced by capability-fit
+certainty and speed-to-signal, each mapped to the specific live page it
+should land on and the specific prepared asset to send — no buyer
+contacted, no template content changed.
+
+Reviewed GA4 readiness, the `generate_lead` event, and RFQ logging, and
+defined which events matter (the existing `generate_lead` event is
+already sufficient) and which decisions the data should support once
+GA4 activates — including a zero-code recommendation (UTM tagging on
+outreach links) rather than new tracking code. Explicitly declined to
+build form-abandonment or outbound-click tracking now, for lack of any
+evidence yet that they're needed.
+
+Read the live site as 4 buyer personas (European importer, US African
+grocery distributor, Chinese wholesaler, private-label buyer) and
+logged every real objection found: 1 fix-now, 17 requiring business
+decisions or facts this repository doesn't have (each mapped to an
+existing decision record where one exists), 5 already adequately
+covered, and 7 confirmed already resolved by prior phases' work. The
+one fix-now finding — `/wholesale`'s private-label section never named
+which product (Fufu Flour) is actually in scope, risking mismatched
+enquiries the RFQ form would then reject — was implemented:
+`client/src/pages/Wholesale.tsx` now states "Fufu Flour" explicitly,
+reusing a fact already public on that product's own page.
+
+Full validation: `tsc --noEmit`, all 4 build guards, `vite build`
+(+~0kB), 53/53 tests (no test changes needed — content-only fix).
+Verified on a Cloudflare preview deployment before merging and
+re-verified on production (`www.borgafoods.com`) after.
+
+Notable persona-specific finding, deliberately not acted on this
+phase: BorgaFoods' own `/about` page states bilingual (English/Chinese)
+capability as a company fact, and the China office is fully reachable
+by phone/WhatsApp, but the website itself has no Chinese-language
+version — a real trust/usability gap for the Chinese-wholesaler
+persona, but full site localization is a feature-sized project outside
+this phase's "safe improvement" scope, not a wording fix.
+
 ## 9 August 2026 — Lead Generation Audit & Improvement Cycle
 
 Status: **Audit complete; 5 changes implemented, validated, deployed to
