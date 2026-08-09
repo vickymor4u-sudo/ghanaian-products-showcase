@@ -269,3 +269,26 @@ Not done in this pass, per the approved scope: converting `/products`
 into a catalogue index (duplicate-content resolution remains a separate
 decision), any new MOQ/certification/lead-time/shipping claim, and
 private-label content for any product beyond Fufu Flour.
+
+## Product Page Optimization Phase (9 August 2026)
+
+Status: **Implemented and verified live in production (commit
+`ff721da`).** Full detail in `docs/PRODUCT_PAGE_OPTIMIZATION_REPORT.md`
+and `docs/COMMERCIAL_INFO_APPROVAL_LIST.md`.
+
+Improved all 5 product pages built in the prior phase: added
+buyer-conversion sections (product explanation, packaging, target-buyer
+personas, a wholesale CTA, and an FAQ — all built from data or wording
+already approved elsewhere on the site, nothing invented), tightened SEO
+titles and meta descriptions (the prior descriptions ran 210–231
+characters, past Google's practical display limit — now 120–133), added
+breadcrumb navigation and structured data, a `url` field on Product
+schema, and internal links connecting every product page to `/export`,
+`/wholesale`, `/products`, `/contact`, and each other (plus a matching
+update to `/export-solutions`'s product list). Catalogued, but did not
+publish, the commercial information genuinely missing from the site —
+shipping details, certifications beyond what's approved, MOQ, lead
+times, production capacity — as a business-approval list.
+
+No claim was invented, no new product was added, no supplier information
+was referenced, and the RFQ workflow was not touched.

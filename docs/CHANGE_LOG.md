@@ -2,6 +2,23 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Product Page Optimization Phase (commit `ff721da`)
+
+Objectives 1–4 of the "BorgaFoods Product Page Optimization Phase,"
+implemented and verified live for all 5 product pages. Objective 5
+(missing commercial information) is approval-list-only, not
+implemented — `docs/COMMERCIAL_INFO_APPROVAL_LIST.md`. Full detail in
+`docs/PRODUCT_PAGE_OPTIMIZATION_REPORT.md`.
+
+- **Buyer conversion** (`client/src/pages/ProductDetail.tsx`): added "What Is [Product]?" (existing description, own heading), "Export Packaging Options" (existing packaging fields, elevated), "Who [Product] Is For" (the 4 buyer-persona cards already live on `/wholesale`, reused verbatim — accurate unchanged per product since none of the 5 has differentiated buyer-suitability data), a wholesale-enquiry CTA (existing `ExportQuoteButton`/`/contact?inquiry=wholesale` path, no RFQ workflow change), a 5-question FAQ per page (every answer sourced from BPIP fields or existing approved wording), and "Other BorgaFoods Products" cross-links between all 5 pages. Private-label content was deliberately **not** added, even in hedged form, to the 4 non-Fufu pages — `PUBLIC_PRODUCT_PRESENTATION_RULES.md` says a `requires_business_approval` product "must not be presented as eligible."
+- **SEO**: titles gained "Ghana" (factual origin data, not stuffing). Meta descriptions switched from the long BPIP `description` field (210–231 characters — past Google's practical truncation point) to the existing short `summary` field (120–133 characters) — no new copy, a different already-approved field. Internal linking added in both directions: every product page now links to `/export`, `/wholesale`, `/products`, `/contact`, and the other 4 products; `/export-solutions`'s product list now links each name to its dedicated page (the only existing page touched, purely additive).
+- **Structured data** (`client/src/components/SchemaMarkup.tsx`): added a `url` field to `Product` schema (applies on `/products` too) and a new `type="breadcrumb"` `BreadcrumbList` variant, paired with a visible breadcrumb nav on each product page. Confirmed, unchanged: the `Organization`/`manufacturer` name split (Supply & Demand Worldwide Ltd vs. BorgaFoods Processing) is a deliberate, approved distinction per `BUSINESS_RULES.md`, not an inconsistency.
+- **Missing commercial information** (objective 5): catalogued in `docs/COMMERCIAL_INFO_APPROVAL_LIST.md` — shipping details, certifications beyond the existing approved field, MOQ, lead times, and production capacity, each with what business input would be needed and the specific rule it would otherwise violate. Nothing was published.
+
+No MOQ, certification, lead time, shipping promise, or new private-label claim was added anywhere.
+
+Validation: TypeScript check passed; all 51 tests passed unmodified; production build passed with all four guard scripts green, both on the preview deploy and again after merge. Preview verification (deployment `68d0f79c`) confirmed all 5 pages, correct canonicals, unaffected original routes/API, and a clean browser console — independently re-confirmed against `www.borgafoods.com` after merge, including the new sections actually rendering (breadcrumb, FAQ, target-buyer cards, cross-links) and the GSC verification tag still intact.
+
 ## 9 August 2026 — Content Architecture Phase 1: `/about` corrections + 5 product pages (commit `6ea7eb9`)
 
 Approved implementation of `docs/CONTENT_ARCHITECTURE_IMPLEMENTATION_PLAN.md`
