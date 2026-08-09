@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "wouter";
 import ExportQuoteButton from "@/components/ExportQuoteButton";
 
 /**
@@ -26,7 +27,7 @@ export default function Navigation() {
     <header className="sticky top-0 z-50 bg-background border-b border-border">
       <nav className="container flex items-center justify-between py-4">
         {/* Logo/Brand */}
-        <a
+        <Link
           href="/"
           className="flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
@@ -41,18 +42,18 @@ export default function Navigation() {
             </h1>
             <p className="text-xs text-muted-foreground">Export Solutions</p>
           </div>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-5">
           {navItems.map(item => (
-            <a
+            <Link
               key={item.label}
               href={item.href}
               className="text-foreground hover:text-primary transition-colors text-sm font-medium"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -80,14 +81,14 @@ export default function Navigation() {
         <div className="lg:hidden border-t border-border bg-background">
           <div className="container py-4 flex flex-col gap-4">
             {navItems.map(item => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className="text-foreground hover:text-primary transition-colors py-2 text-sm font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
             <div onClick={() => setIsOpen(false)}>
               <ExportQuoteButton

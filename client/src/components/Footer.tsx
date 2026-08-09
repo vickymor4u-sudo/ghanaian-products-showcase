@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import { Link } from "wouter";
 import { EXPORT_ENQUIRY_EMAIL } from "@/config/site";
 
 /**
@@ -49,53 +50,53 @@ export default function Footer() {
             <h4 className="font-bold mb-4">Navigation</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a
+                <Link
                   href="/products"
                   className="hover:text-background/70 transition-colors"
                 >
                   Products
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/export-solutions"
                   className="hover:text-background/70 transition-colors"
                 >
                   Export Solutions
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/wholesale"
                   className="hover:text-background/70 transition-colors"
                 >
                   Wholesale & Distribution
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/export"
                   className="hover:text-background/70 transition-colors"
                 >
                   Export & Compliance
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/about"
                   className="hover:text-background/70 transition-colors"
                 >
                   About Us
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a
+                <Link
                   href="/contact"
                   className="hover:text-background/70 transition-colors"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
