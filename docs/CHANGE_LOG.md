@@ -2,6 +2,32 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — External Authority Activation Package (blocked on GEPA renewal confirmation)
+
+No account created, no application submitted, no external claim
+published — per this phase's explicit instruction. BorgaFoods supplied
+a GEPA "Certificate of Exporter Registration" (Supply and Demand
+Worldwide Limited, Registration No. GEPA2018800113) and confirmed
+`export@borgafoods.com` is operational. Four deliverables produced:
+
+- **`docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md`** — finalized, ready-to-use LinkedIn package (tagline, About section, specialties, field values), sized to LinkedIn's actual limits. The GEPA registration line is deliberately held out of the finalized text pending the renewal question below.
+- **`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`** — draft website/profile wording for the GEPA registration, held pending confirmation. **Genuine blocker found**: the certificate's printed Date of Expiry is 26 Feb 2019 — over 7 years ago — with "Subject to Annual Renewal" printed on it. A public search found no independent, current confirmation of registration status. Two ready-to-use options are drafted (a full credibility statement, and a conservative historical-fact-only fallback), neither published, pending one of: a current/renewed certificate, direct GEPA confirmation, or BorgaFoods confirming the renewal has been kept current.
+- **`docs/EXPORTER_PROFILE_ONE_PAGER.md`** — one-page exporter profile structure (overview, product table sourced from BPIP, certifications, company facts, buyer types) reusable across GEPA, associations, distributors, and buyers. The GEPA registration row is held blank for the same reason as above.
+- **`docs/COMPANY_NAME_CONSISTENCY_REVIEW.md`** — reviewed "Supply & Demand Worldwide Ltd"/"Limited" and "BorgaFoods Processing" usage sitewide. BorgaFoods Processing is fully consistent. Found one minor variant: 8 instances use "Ltd," one (`About.tsx` body text) uses "Limited" — neither wrong, but the certificate's exact legal form ("Supply and Demand Worldwide Limited") is used specifically wherever the GEPA registration number appears in the new documents, since that context calls for the formally precise name.
+
+Updated `docs/COMPANY_PROFILE_DRAFT.md` and
+`docs/EXTERNAL_AUTHORITY_TRUST_FRAMEWORK.md` to record the confirmed
+email and reprioritize GEPA renewal confirmation to the top of the
+priority order (faster than fresh registration, and unlocks 3 of the 4
+documents above).
+
+**Stopped here, as instructed**: publishing any GEPA-registration
+claim — on the website, LinkedIn, or the exporter profile — needs
+either a current certificate or direct confirmation of renewal status,
+neither of which this repository can establish on its own.
+
+Validation: no code changed, so no build/test run was needed.
+
 ## 9 August 2026 — External Authority & Buyer Trust Framework
 
 No account created, no registration submitted, no external claim made.

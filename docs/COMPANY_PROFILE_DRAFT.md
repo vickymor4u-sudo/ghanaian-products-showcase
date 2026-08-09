@@ -74,9 +74,10 @@ About-section limit.)
 | Secondary location | Hangzhou, Zhejiang, China | `SchemaMarkup.tsx` |
 | Industry (for platforms with a category dropdown) | Food & Beverages / Food Production — closest standard categories to "Ghanaian staple food manufacturer and export coordinator" | Inferred from business description, not a platform-specific value confirmed here |
 | Website | https://www.borgafoods.com | — |
-| Public enquiry email | export@borgafoods.com | `shared/exportQuote.ts` |
+| Public enquiry email | export@borgafoods.com — **confirmed operational, 9 Aug 2026** | `shared/exportQuote.ts` |
 | Ghana phone | +233 555 362 208 | `SchemaMarkup.tsx` / Footer |
 | China phone / WhatsApp | +86 135 1681 8572 | Footer |
+| GEPA export registration | Registration No. GEPA2018800113 (2018) — **current renewal status unconfirmed, do not publish yet** | Certificate supplied 9 Aug 2026; see `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` |
 | Products (current manufactured range) | Gari, Cassava Flour, Fufu Flour, Kokonte, Banku Borga | `shared/productIntelligence/publishedRegistry.ts` |
 | Certification | Ghana FDA registered facilities | `publishedRegistry.ts` (identical across all 5 products) |
 | Languages | English, Chinese | `SchemaMarkup.tsx` / `/about` |

@@ -367,3 +367,31 @@ logo and cover image).
 Everything genuinely requiring an external account, business document,
 or organization contact was left for BorgaFoods to do — this phase
 prepared the assets, it didn't act on them.
+
+## External Authority Activation Package (9 August 2026)
+
+Status: **Assets prepared; publication blocked on one confirmation.**
+Full detail in `docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md`,
+`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`,
+`docs/EXPORTER_PROFILE_ONE_PAGER.md`, and
+`docs/COMPANY_NAME_CONSISTENCY_REVIEW.md`.
+
+BorgaFoods supplied a real GEPA exporter-registration certificate
+(Supply and Demand Worldwide Limited, Registration No. GEPA2018800113,
+issued 2018) and confirmed `export@borgafoods.com` is operational,
+resolving the prior phase's open prerequisite. Finalized a ready-to-use
+LinkedIn company page package and a reusable one-page exporter profile
+structure. Found a genuine, material blocker in the process: the
+certificate's own printed Date of Expiry is 26 Feb 2019, with "Subject
+to Annual Renewal" printed on it, and no independent public confirmation
+of current status could be found. Drafted the GEPA-credibility wording
+for both the website and the exporter profile, held pending
+confirmation rather than published, with two ready options prepared
+(a full statement and a conservative fallback) so nothing needs
+rewriting once that confirmation lands. Reviewed company-name usage
+sitewide (fully consistent for "BorgaFoods Processing"; one minor
+"Ltd"/"Limited" variant found, not fixed, flagged as optional).
+
+Reprioritized GEPA renewal confirmation to the top of the external
+authority priority order — likely faster than fresh registration, and
+the one action that unlocks 3 of this phase's 4 documents.

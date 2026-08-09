@@ -16,20 +16,19 @@ brand-new domain with no external presence has nothing to signal trust
 with yet, however well the site itself is built. This document is the
 readiness check for closing that gap.
 
-## Prerequisite to check first
+## Prerequisite — resolved
 
-**Does `export@borgafoods.com` actually receive mail today?** It's
-already the approved, publicly displayed enquiry address
-(`shared/exportQuote.ts`), but `BUSINESS_RULES.md`'s export-workflow
-section notes a temporary Gmail is used as the *server-side delivery
-recipient* "until BorgaFoods regains the required domain DNS access" —
-which suggests the `borgafoods.com` domain's own mail routing may not
-be fully operational yet. LinkedIn's company-page verification
-specifically requires a working company-domain email (not Gmail/Yahoo),
-and GEPA/association applications will likely also expect one. **Confirm
-this works before relying on it for any of the verification steps
-below** — this repository has no way to test mail delivery to that
-address itself.
+~~Does `export@borgafoods.com` actually receive mail today?~~
+**Confirmed operational, 9 August 2026.** The mail-deliverability
+prerequisite this section originally flagged is resolved — LinkedIn
+setup and application forms below can rely on this address.
+
+**New prerequisite found in its place**: a GEPA export-registration
+certificate was supplied (Registration No. GEPA2018800113, issued 2018)
+with a printed expiry of Feb 2019 and an annual-renewal requirement.
+Current renewal status is unconfirmed — see
+`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` for the full question and
+what would resolve it. Nothing below assumes this is currently valid.
 
 ## 1. LinkedIn company profile
 
@@ -46,9 +45,12 @@ text):
 - A cover/banner image (1128×191px)
 - Company size band (LinkedIn asks for an employee-count range —
   nothing in the codebase records this)
-- A verified company-domain email for setup (see Prerequisite above)
-  and a personal LinkedIn profile at least 7 days old with some
-  activity, to actually create the page under
+- A personal LinkedIn profile at least 7 days old with some activity,
+  to actually create the page under (LinkedIn's own requirement)
+
+**Package finalized**: see `docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md` for
+the exact tagline, About text, specialties, and field values, ready to
+paste in once the assets above exist.
 
 **What this repository will do once the page exists**: update
 `client/src/components/Footer.tsx`'s LinkedIn link (currently the
@@ -63,32 +65,44 @@ URL exists, not built speculatively now.
 an external organization, only needs BorgaFoods' own assets and a
 few minutes of setup.
 
-## 2. GEPA export registration
+## 2. GEPA export registration — status update
 
-**What's required**, per GEPA's own published process:
-1. GEPA Registration Form (available at gepaghana.org)
-2. Photocopies of registered business certificates
-3. Possible premises/facility inspection by a Permit-Issuing Agency, with the inspection report feeding back into GEPA's decision
-4. Additional documents where relevant — GEPA names Certificate of Origin and Phytosanitary Certificate as examples for certain goods
+**This is no longer a from-scratch registration.** A certificate was
+supplied showing Supply and Demand Worldwide Limited already registered
+with GEPA in 2018 (Registration No. GEPA2018800113). The open question
+is renewal status, not whether to register at all — full detail and the
+exact confirmation needed in
+`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`. This changes the priority
+action from "gather documents and apply" to "confirm current standing
+and renew if needed" — likely a faster path than original registration,
+once BorgaFoods confirms with GEPA directly.
 
 **What's ready now**: the company-profile text in
-`docs/COMPANY_PROFILE_DRAFT.md` (medium/long versions) is suitable for
-any free-text company-description field on the registration form.
+`docs/COMPANY_PROFILE_DRAFT.md` (medium/long versions), and the
+GEPA-specific credibility wording drafted in
+`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`, both held pending the
+renewal-status confirmation before any of it is published.
 
-**What only BorgaFoods can supply**: the actual business registration
-certificates, and coordinating any required facility inspection. This
-repository has no access to Supply & Demand Worldwide Ltd's
-incorporation documents and does not draft or fabricate them.
+**What only BorgaFoods can supply**: confirmation (from GEPA directly,
+or from BorgaFoods' own records) that the registration is current, or
+the paperwork to renew it if it has lapsed. This repository has no
+access to Supply and Demand Worldwide Limited's GEPA account and does
+not guess at its status.
 
 **Why it matters**: GEPA's exporter directory surfaced independently in
 multiple competitor searches during the Growth Monitoring cycle (see
 `docs/GROWTH_TRACKING_LOG.md`, Cycle 1) — real, external confirmation
 that this is functioning infrastructure buyers and search engines
-already route through, not a theoretical opportunity.
+already route through, not a theoretical opportunity. An already-issued
+registration number, once confirmed current, is a stronger and faster
+trust signal than starting registration fresh.
 
-**Priority**: high, but slower — "takes just a day or two" per GEPA
-once documents are in hand, but getting the documents together and any
-inspection scheduled is a real lead time this repository can't shorten.
+**Priority**: raised to highest alongside LinkedIn — confirming an
+existing registration is very likely faster than the original
+application process, and unlocks real content across 3 of this
+document's 4 deliverables (`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`,
+`docs/EXPORTER_PROFILE_ONE_PAGER.md`, and an addition to
+`docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md`'s About section).
 
 ## 3. Industry association opportunities — membership process, where found
 
@@ -116,26 +130,25 @@ clear — likely starts with a phone call); FABAG last only because
 process discovery drew a blank, not because it's less relevant — same
 priority as GAFEA in practice.
 
-## 4. Priority order (consolidated)
+## 4. Priority order (consolidated, updated 9 Aug 2026)
 
-1. **LinkedIn company page** — no external dependency, ready to execute today once BorgaFoods has a logo/cover image in hand.
-2. **Confirm `export@borgafoods.com` mail delivery** — a prerequisite for #1 and likely #2–3 below, not its own separate action.
-3. **GEPA registration** — start gathering business certificates now; the process itself is fast once documents are ready.
-4. **AGI membership** — clearest documented path among the associations.
-5. **GAFEA / FAGE / FABAG** — direct outreach (phone/website contact form), company-profile text ready to use whenever that conversation happens.
-6. **B2B directory listings** (Tier 3 in `docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md`) — lowest individual impact, reasonable to batch once 1–4 are underway.
+1. **Confirm GEPA registration No. GEPA2018800113 is current, or renew it** — now the single highest-leverage action: faster than fresh registration, and unlocks 3 of the 4 documents produced in this phase (`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`, `docs/EXPORTER_PROFILE_ONE_PAGER.md`, and the reserved GEPA line in `docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md`).
+2. **LinkedIn company page** — no external dependency, ready to execute today with the finalized package; only needs a logo/cover image and company-size figure from BorgaFoods.
+3. **AGI membership** — clearest documented path among the associations.
+4. **GAFEA / FAGE / FABAG** — direct outreach (phone/website contact form), company-profile text ready to use whenever that conversation happens.
+5. **B2B directory listings** (Tier 3 in `docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md`) — lowest individual impact, reasonable to batch once 1–4 are underway.
 
 ## What this repository will do next, once any of the above exists
 
-Update the relevant on-site reference (Footer link, `Organization`
-schema `sameAs`, or similar) to point at the real external profile once
-BorgaFoods confirms the URL — each such update is a small, safe,
-no-new-claim code change, handled the same way the LinkedIn follow-up
-is described in §1.
+- Once GEPA renewal status is confirmed: apply the appropriate wording from `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` to `/about`, and finalize the GEPA line in `docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md` and `docs/EXPORTER_PROFILE_ONE_PAGER.md`.
+- Once a LinkedIn page exists: update `client/src/components/Footer.tsx`'s link and the `Organization` schema's `sameAs` field (`client/src/components/SchemaMarkup.tsx`) to point at it — a small, safe, no-new-claim code change either way.
 
 ## Related documents
 
 - `docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md` — the original opportunity list this framework operationalizes.
 - `docs/COMPANY_PROFILE_DRAFT.md` — the actual draft text referenced throughout.
+- `docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md` — the finalized LinkedIn package.
+- `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`, `docs/EXPORTER_PROFILE_ONE_PAGER.md` — the two documents held on the GEPA renewal confirmation.
+- `docs/COMPANY_NAME_CONSISTENCY_REVIEW.md` — the "Ltd" vs "Limited" naming review prompted by the certificate.
 - `docs/SEO_FOUNDATION.md` §7 — the `Organization` schema `sameAs` gap this framework's LinkedIn item resolves.
 - `docs/GROWTH_TRACKING_LOG.md` — where GEPA's real-world relevance was independently confirmed via competitor research.
