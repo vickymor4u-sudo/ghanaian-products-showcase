@@ -1,6 +1,6 @@
 # BorgaFoods Website Roadmap
 
-Last updated: 7 August 2026
+Last updated: 9 August 2026
 
 ## Roadmap principles
 
@@ -395,3 +395,44 @@ sitewide (fully consistent for "BorgaFoods Processing"; one minor
 Reprioritized GEPA renewal confirmation to the top of the external
 authority priority order — likely faster than fresh registration, and
 the one action that unlocks 3 of this phase's 4 documents.
+
+## External Authority Phase 2 (9 August 2026)
+
+Status: **Evidence reviewed and tracked internally; no supplier name or
+certificate published; no new public claim added.** Full detail in
+`docs/EXPORT_EVIDENCE_MATRIX.md`, `docs/EXPORTER_PROFILE_PDF_OUTLINE.md`,
+and the revised `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` /
+`docs/COMPANY_PROFILE_DRAFT.md`.
+
+BorgaFoods supplied two Ghana Tree Crops Development Authority
+documents (a partner export licence, a partner manufacturer
+registration) for review. Neither names Supply and Demand Worldwide
+Limited or BorgaFoods — both certify separate third-party companies —
+so both were recorded fully redacted (no company name, no registration
+number) in a new claim/evidence/publishability matrix, following this
+project's standing supplier-confidentiality convention. **A second,
+independent finding beyond redaction**: one document's licence category
+("Exporter Of Oil Palm Products") corresponds to Red Palm Oil, this
+project's own PCR-002 — frozen, internal-only, excluded from every
+public path since early in this project. That document is flagged and
+marked not-publishable on that separate ground, not resolved or acted
+on; reopening PCR-002 remains a business decision this repository does
+not make.
+
+Added an explicit entity-separation section to the GEPA proposal
+(Supply and Demand Worldwide Limited, the legal entity GEPA registers,
+kept distinct from the BorgaFoods brand in any future wording) and a
+note in the company-profile draft explaining why the new evidence
+didn't change any published text: it doesn't belong to BorgaFoods, and
+the existing "trusted Ghanaian production partners" wording already
+covers what it honestly supports. Built a new buyer-facing exporter
+profile PDF outline (5 sections) whose "Supporting registrations"
+section deliberately excludes both new documents, for the same two
+reasons as the evidence matrix. The unresolved GEPA renewal-status
+question from the prior phase is unchanged — still pending, still not
+published.
+
+Stopped here, as instructed: no supplier identity or certificate is
+public anywhere, no certification is claimed beyond what's directly
+supported, and the PCR-002 connection is surfaced for business
+awareness rather than acted on.

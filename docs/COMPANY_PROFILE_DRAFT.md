@@ -87,7 +87,29 @@ this document does not guess**: employee/company size range (LinkedIn
 asks for this as a band, e.g. "11-50 employees"), a logo file, and a
 cover/banner image. All three need to come directly from BorgaFoods.
 
+## Supply-chain evidence reviewed 9 Aug 2026 — no wording changed above
+
+Two Ghana Tree Crops Development Authority documents were reviewed
+(a partner export licence and a partner manufacturer registration, full
+detail redacted in `docs/EXPORT_EVIDENCE_MATRIX.md`). None of the text
+above was changed as a result, for two reasons specific to this
+document's purpose:
+
+1. Both documents certify separate, third-party partner companies —
+   not Supply and Demand Worldwide Ltd or BorgaFoods — so neither
+   supports a new fact in *this company's own* profile. The existing
+   "trusted Ghanaian production partners" sentence already covers what
+   this evidence can honestly support, and stays exactly as worded
+   rather than being extended toward "licensed partners" (which would
+   generalize from two reviewed partners to a claim about all of them).
+2. One of the two documents' licence category (oil palm products)
+   intersects with this project's frozen Red Palm Oil product
+   classification gate (PCR-002 — internal-only, no public mention).
+   That's a business decision outside this document's scope; see
+   `docs/EXPORT_EVIDENCE_MATRIX.md` for the full reasoning.
+
 ## Related documents
 
 - `docs/EXTERNAL_AUTHORITY_TRUST_FRAMEWORK.md` — where this content gets used, and what else each platform needs.
 - `docs/PUBLIC_CLAIM_VERIFICATION_AUDIT.md` — why the wording above avoids "international standards," specific MOQ figures, or other claims that were already found and removed from `/about`.
+- `docs/EXPORT_EVIDENCE_MATRIX.md` — the redacted tracking of the two supply-chain documents reviewed 9 Aug 2026.

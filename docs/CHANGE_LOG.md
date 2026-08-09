@@ -2,6 +2,30 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — External Authority Phase 2 (supply-chain evidence review; no new public claim)
+
+No supplier name published, no certificate published, no certification
+claimed. BorgaFoods supplied two Ghana Tree Crops Development Authority
+documents for review (a partner export licence and a partner
+manufacturer registration). **Neither document names Supply and Demand
+Worldwide Limited or BorgaFoods** — both certify separate, third-party
+partner companies, consistent with these being supplier/partner
+credentials rather than BorgaFoods' own. Four deliverables produced:
+
+- **`docs/EXPORT_EVIDENCE_MATRIX.md`** (new) — claim / supporting document / public-mention status / required wording, for both the GEPA registration and the two newly reviewed documents. Both new documents are recorded fully redacted (no company name, no registration number) per this project's standing supplier-confidentiality rules. **Flagged a second, independent finding beyond redaction**: one document's licence category is "Exporter Of Oil Palm Products" — a category that corresponds to Red Palm Oil, which this project's own `docs/PRODUCT_CAPABILITY_MODEL.md` and `docs/PUBLIC_PRODUCT_PRESENTATION_RULES.md` classify as PCR-002 and keep excluded from every public path. Marked not-publishable on that separate ground, not just as a supplier-confidentiality redaction.
+- **`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`** (revised) — added an explicit entity-separation section (Supply and Demand Worldwide Limited, the legal entity GEPA registers, vs. BorgaFoods, the trading brand) so future wording doesn't conflate the two; added a note that the two newly reviewed documents are supporting context only and do not resolve or extend this section's open GEPA renewal question. GEPA status itself unchanged: still pending renewal confirmation, still not published.
+- **`docs/EXPORTER_PROFILE_PDF_OUTLINE.md`** (new) — 5-section outline (company overview, products, export capability, quality assurance approach, supporting registrations) for a buyer-facing exporter profile PDF, distinct from the existing single-page `docs/EXPORTER_PROFILE_ONE_PAGER.md`. The "Supporting registrations" section explicitly excludes both newly reviewed documents, for the same two reasons as the evidence matrix (third-party credentials; one intersects PCR-002).
+- **`docs/COMPANY_PROFILE_DRAFT.md`** (revised) — added a short note explaining why no new claim was added to the profile text despite the new evidence: neither document is BorgaFoods' own, and the existing "trusted Ghanaian production partners" wording already covers what the evidence honestly supports without generalizing from two reviewed partners to all of them.
+
+**Stopped here, as instructed**: no supplier name or certificate is
+published anywhere, and no certification claim was added anywhere that
+isn't directly supported. The oil-palm/PCR-002 connection is a business
+classification decision this repository does not make on its own — see
+`docs/EXPORT_EVIDENCE_MATRIX.md` for the full reasoning if that gate is
+ever revisited.
+
+Validation: no code changed, so no build/test run was needed.
+
 ## 9 August 2026 — External Authority Activation Package (blocked on GEPA renewal confirmation)
 
 No account created, no application submitted, no external claim

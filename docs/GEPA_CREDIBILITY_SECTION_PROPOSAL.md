@@ -42,6 +42,55 @@ Everything below is written to be safe to finalize the moment one of
 those three is confirmed — it is not blocked on rewriting, only on that
 confirmation.
 
+## Entity separation — Supply and Demand Worldwide Limited vs. BorgaFoods
+
+Both options below, and any future version of this section, must keep
+two things distinct rather than conflating them:
+
+- **Supply and Demand Worldwide Limited** is the legal entity that
+  holds the GEPA registration. GEPA registers exporters as legal
+  entities, not as trade names — so any GEPA credibility statement is
+  necessarily a statement about this Ltd, not about "BorgaFoods" as a
+  brand.
+- **BorgaFoods** (and specifically **BorgaFoods Processing**, the
+  manufacturing entity named in `BUSINESS_RULES.md`) is the trading
+  brand under which Supply and Demand Worldwide Limited operates. This
+  relationship is already established and live (`/about`,
+  `docs/COMPANY_NAME_CONSISTENCY_REVIEW.md`) — nothing new is being
+  claimed here.
+
+Both Option A and Option B below are written to name the Ltd as the
+GEPA-registered party, with the BorgaFoods brand relationship stated
+separately rather than merged into a single "BorgaFoods is
+GEPA-registered" sentence, which would blur a legal-entity fact into a
+brand fact. This is a wording discipline, not a new fact — the same
+distinction `docs/COMPANY_NAME_CONSISTENCY_REVIEW.md` already
+documented when it reviewed existing site wording.
+
+## Supporting evidence on file (not a basis for any new public claim)
+
+Two additional Ghana Tree Crops Development Authority documents were
+reviewed on 9 August 2026, each certifying a Ghanaian production/export
+partner's own registration with that authority (a different regulatory
+body from GEPA, which registers exporters generally rather than
+tree-crop-specific operations). Recorded here only as context for why
+this section's scope hasn't expanded:
+
+- They **do not** name Supply and Demand Worldwide Limited or
+  BorgaFoods — both certify separate, third-party companies — so they
+  cannot support any claim about Supply and Demand Worldwide Limited's
+  *own* registration status with any authority, GEPA included.
+- They are tracked, redacted, in `docs/EXPORT_EVIDENCE_MATRIX.md`
+  (rows 3–4), which also flags that one of them intersects with this
+  project's frozen Red Palm Oil product-classification gate (PCR-002)
+  and is excluded from public mention on that separate, additional
+  ground.
+- Nothing in this section, Option A, or Option B relies on or
+  references these two documents. They are supporting evidence for
+  BorgaFoods' *supply chain* generally (already covered by the existing
+  approved "trusted Ghanaian production partners" wording), not for the
+  GEPA question this section exists to resolve.
+
 ## Proposed section — Option A (if registration is confirmed current)
 
 For `/about`, positioned near the existing "Key Facts" panel:
@@ -95,5 +144,8 @@ section and `docs/EXPORTER_PROFILE_ONE_PAGER.md`.
 ## Related documents
 
 - `docs/EXPORTER_PROFILE_ONE_PAGER.md` — the standalone document that also needs this same confirmation before its GEPA field is finalized.
+- `docs/EXPORTER_PROFILE_PDF_OUTLINE.md` — the buyer-facing PDF outline that also holds its "Supporting registrations" section on this same confirmation.
+- `docs/EXPORT_EVIDENCE_MATRIX.md` — where the two supplier/partner credentials reviewed 9 Aug 2026 are tracked (redacted), including the PCR-002 flag on one of them.
 - `docs/COMPANY_NAME_CONSISTENCY_REVIEW.md` — why "Supply and Demand Worldwide Limited" (not "Ltd") is used above.
 - `docs/BUSINESS_RULES.md` — "Do not publish... certifications... without current approval," the rule this entire question is testing against.
+- `docs/PRODUCT_CAPABILITY_MODEL.md`, `docs/PUBLIC_PRODUCT_PRESENTATION_RULES.md` — the PCR-002 exclusion referenced above.
