@@ -314,3 +314,31 @@ page (the highest-value, zero-cost item, and the missing piece for an
 already-known structured-data gap) — without creating any account or
 contacting any organization, since each requires a business action this
 repository doesn't perform on its own.
+
+## Search Growth Monitoring System (9 August 2026)
+
+Status: **Established and run once, live.** Full detail in
+`docs/GROWTH_MONITORING_FRAMEWORK.md` (the repeatable process) and
+`docs/GROWTH_TRACKING_LOG.md` (dated results).
+
+Built a monthly, repeatable framework — 4 defined checks (GSC
+performance, target-keyword tracking, competitor visibility, a
+decision rule requiring real evidence before any site change) — instead
+of another one-off audit. Ran it once: confirmed the sitemap
+resubmission from earlier the same day was picked up (12 pages
+discovered, up from 7), and ran real competitor-visibility searches for
+all 4 priority keywords, surfacing named competitors and two
+data-supported observations (certification as a visible competitive
+differentiator; lighter apparent B2B-specific competition on two of the
+four exact target phrases) — both logged as reinforcing already-pending
+decisions, not new ones, since neither cleared the framework's own bar
+for acting.
+
+Attempted to automate the monthly cycle as a recurring cloud routine —
+blocked with an explicit, actionable error: connect GitHub at
+claude.ai's connector settings. A genuine external-account action for
+BorgaFoods to take if automation is wanted; the framework works fully
+as a manual monthly process in the meantime. Noted that full unattended
+automation would need a second connector (live GSC/browser access) even
+after GitHub is connected — flagged honestly rather than overstating
+what scheduling alone would achieve.

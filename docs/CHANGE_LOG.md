@@ -2,6 +2,20 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Search Growth Monitoring System established
+
+No code, no page, no public claim — a repeatable process plus its first
+live run. Full detail in `docs/GROWTH_MONITORING_FRAMEWORK.md` (the
+stable process) and `docs/GROWTH_TRACKING_LOG.md` (dated results,
+append-only going forward).
+
+- **Framework**: defined 4 repeatable checks per cycle (GSC performance, target-keyword tracking, competitor visibility, a structural-change decision rule requiring real data before any site change), monthly cadence, and a living keyword-opportunity tracker table seeded from `docs/SEARCH_INTELLIGENCE_FRAMEWORK.md` plus the 4 priority queries from the prior phase.
+- **Live cycle 1 run**: confirmed the 9 Aug sitemap resubmission was picked up (12 discovered pages, up from 7, last read same-day). Ran real competitor-visibility searches for all 4 priority keywords and identified real, named competitors for the first time (Neat Foods, Selasie Farms, MEDDR & Co., The Gari Boutique, Gafaco Farms, Praise Export Services, Wigmore Trading, Kwatsons) plus two data-supported observations: certification is a visible differentiator among named competitors, and "fufu flour"/"banku mix export" as literal phrases currently surface more consumer/diaspora retail than B2B content. Neither observation cleared the framework's decision rule for an actual site change — both reinforce already-logged, still-pending decisions (`docs/COMMERCIAL_INFO_DECISION_RECORD.md`'s certification row, `docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md`'s GEPA recommendation) rather than creating new ones.
+- **Tracking log seeded** with a reconstructed baseline of every SEO decision made in prior phases, so the log has continuity from day one instead of starting blank.
+- **Attempted to automate the monthly cycle as a recurring cloud routine** (re-testing the exact blocker noted in `docs/SEO_FOUNDATION.md` and `docs/WEBSITE_ROADMAP.md`'s Search & Analytics Foundation entry). Same result: **"Connect your GitHub account before saving a routine that uses a GitHub repository"** — a genuine external-account action for the user, not something this repository can complete. The framework remains fully usable manually in the meantime; noted for the record that even with GitHub connected, a cloud routine would still need a live-browser/GSC-API connector (also not currently connected) to run the GSC-dependent checks unattended — full automation has two separate blockers, not one.
+
+Validation: this cycle involved no code changes, so no build/test run was needed; all edits were to documentation.
+
 ## 9 August 2026 — Search Intelligence & Buyer Acquisition phase
 
 No code deployment — a GSC monitoring checkpoint, one live GSC
