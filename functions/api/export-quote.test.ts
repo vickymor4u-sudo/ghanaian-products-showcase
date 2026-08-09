@@ -87,6 +87,61 @@ describe("POST /api/export-quote", () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it("rejects a missing product or quantity for non-general inquiry types", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const missingProduct = await onRequest(
+      createContext({ ...validSubmission, productSelection: "" })
+    );
+    const missingQuantity = await onRequest(
+      createContext({ ...validSubmission, estimatedQuantity: "" })
+    );
+
+    expect(missingProduct.status).toBe(400);
+    expect(missingQuantity.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("accepts a general enquiry with no product or quantity specified", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        Response.json({
+          success: true,
+          hostname: "www.borgafoods.com",
+          action: "export_quote",
+        })
+      )
+      .mockResolvedValueOnce(Response.json({ id: "resend-message-general" }));
+    vi.stubGlobal("fetch", fetchMock);
+    vi.spyOn(console, "info").mockImplementation(() => undefined);
+
+    const response = await onRequest(
+      createContext({
+        ...validSubmission,
+        inquiryType: "general",
+        productSelection: "",
+        estimatedQuantity: "",
+        message: "Do you currently ship to Kenya?",
+      })
+    );
+    const result = (await response.json()) as { ok: boolean };
+
+    expect(response.status).toBe(201);
+    expect(result.ok).toBe(true);
+
+    const [, resendOptions] = fetchMock.mock.calls[1] as [string, RequestInit];
+    const email = JSON.parse(String(resendOptions.body)) as Record<
+      string,
+      unknown
+    >;
+    expect(String(email.text)).toContain(
+      "Product selection: Not specified — general enquiry"
+    );
+    expect(String(email.text)).toContain("Estimated quantity: Not provided");
+  });
+
   it("requires a buyer category for wholesale and distributor enquiries", async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);

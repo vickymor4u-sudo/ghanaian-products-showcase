@@ -174,9 +174,13 @@ export const exportQuoteSchema = z
     country: requiredText("Company country", 100),
     email: z.string().trim().email().max(254),
     phoneWhatsApp: optionalText(50),
-    productSelection: z.string().trim().min(1).max(80),
+    // Required for every inquiry type except "general" — enforced below in
+    // superRefine, not here, so a first-touch buyer with a general question
+    // isn't forced to name an exact product or quantity before they'll get
+    // a reply. See docs/LEAD_GENERATION_CHANGE_REPORT.md.
+    productSelection: z.string().trim().max(80).optional().default(""),
     packagingPreference: z.enum(packagingPreferences),
-    estimatedQuantity: requiredText("Estimated quantity", 100),
+    estimatedQuantity: optionalText(100),
     destinationCountry: requiredText("Destination country", 100),
     destinationPort: optionalText(100),
     intendedSalesChannel: optionalControlledValue(salesChannels),
@@ -195,6 +199,28 @@ export const exportQuoteSchema = z
   })
   .strict()
   .superRefine((submission, context) => {
+    if (
+      submission.inquiryType !== "general" &&
+      submission.productSelection.trim().length === 0
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["productSelection"],
+        message: "Product selection is required",
+      });
+    }
+
+    if (
+      submission.inquiryType !== "general" &&
+      submission.estimatedQuantity.trim().length === 0
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["estimatedQuantity"],
+        message: "Estimated quantity is required",
+      });
+    }
+
     if (
       isQualificationInquiry(submission.inquiryType) &&
       !submission.buyerCategory

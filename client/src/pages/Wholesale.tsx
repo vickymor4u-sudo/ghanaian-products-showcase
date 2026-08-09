@@ -172,7 +172,10 @@ export default function Wholesale() {
               We welcome conversations with businesses that understand their
               market and want to develop a reliable Ghanaian food range.
               Partnership scope is agreed according to product availability,
-              market requirements, and a practical supply plan.
+              market requirements, and a practical supply plan. BorgaFoods
+              operates with presence in both Ghana (Tema) and China
+              (Hangzhou), supporting distributor conversations across Asia
+              and Africa.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
