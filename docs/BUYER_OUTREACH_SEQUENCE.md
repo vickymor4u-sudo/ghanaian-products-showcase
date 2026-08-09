@@ -153,6 +153,11 @@ Subject: Closing the loop — BorgaFoods introduction
 
 ## Sequence C — Private-Label Buyers (Fufu Flour only)
 
+**Update, 9 Aug 2026**: BorgaFoods' private-label outreach *targeting*
+scope has broadened to 5 products, but every email below stays
+Fufu Flour-only until BPIP/website/RFQ actually support the other 4 —
+see `docs/PRIVATE_LABEL_SCOPE_CONSISTENCY_REVIEW.md`.
+
 **Day 0**: Template 3 in `docs/BUYER_OUTREACH_TEMPLATES.md` ("Private-label
 buyer introduction").
 

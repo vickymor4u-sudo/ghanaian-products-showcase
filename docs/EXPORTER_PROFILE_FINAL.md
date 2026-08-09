@@ -96,7 +96,10 @@ product-category detail beyond this sentence is included — see
 BorgaFoods also supports private-label discussions for Fufu Flour, its
 current approved private-label discovery product — reviewed
 individually by specification, packaging, order volume, and production
-feasibility.
+feasibility. *(BorgaFoods has decided to explore broadening this to 4
+additional products — see `docs/PRIVATE_LABEL_SCOPE_CONSISTENCY_REVIEW.md`
+— but this section stays Fufu Flour-only until that's reflected in BPIP
+and the live RFQ form.)*
 
 *Not included* — genuinely open business decisions, not yet published
 anywhere on the site: a specific MOQ figure, a named shipping mode

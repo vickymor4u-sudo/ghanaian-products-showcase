@@ -123,6 +123,15 @@ name any other product without that product first clearing the same
 approval gate — using this template for a different product would be an
 unsupported claim, not a copy-paste convenience.
 
+**Update, 9 Aug 2026**: BorgaFoods has decided to broaden its
+private-label *outreach targeting* to 5 products (see
+`docs/BUYER_TARGETING_FRAMEWORK.md` Tier 2), but that broader scope is
+**not yet reflected in BPIP, the website, or the RFQ form** — see
+`docs/PRIVATE_LABEL_SCOPE_CONSISTENCY_REVIEW.md` for the full
+impact analysis. This template stays Fufu Flour-only until that
+technical change ships, specifically to avoid promising something the
+live RFQ form would currently reject.
+
 ---
 
 ## What every template deliberately avoids

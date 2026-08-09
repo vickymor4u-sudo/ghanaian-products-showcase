@@ -536,3 +536,38 @@ third-party supplier documents reviewed earlier.
 No buyer was contacted, no account was created, nothing was published,
 and no code was changed — per this phase's explicit "stop after
 completing the framework" instruction.
+
+## Commercial Outreach Phase 2 — Buyer Package Production + Website Trust Update (9 August 2026)
+
+Status: **GEPA trust update implemented, validated, and live in
+production. Private-label scope change analyzed but not implemented,
+per explicit instruction.** Full detail in `docs/CHANGE_LOG.md`, and
+`docs/PRIVATE_LABEL_SCOPE_CONSISTENCY_REVIEW.md`.
+
+Implemented and shipped the GEPA website update flagged as the top
+priority in the prior phase's conversion review: `/about` and `/export`
+now state the confirmed GEPA registration, always attributed to Supply
+and Demand Worldwide Limited specifically, never to the BorgaFoods
+brand. Followed the full standard discipline — validation suite,
+preview-branch verification, merge, production verification — before
+calling it done.
+
+Separately, when asked to broaden private-label outreach scope from one
+product to five, treated "update the framework" and "don't implement
+technical changes until the impact analysis is complete" as two
+different instructions rather than one, and did the analysis first.
+Confirmed by reading the actual code (not assuming) that this project's
+BPIP single-source-of-truth architecture is working exactly as
+designed: one field change would be sufficient to propagate the
+decision everywhere in the code, with zero scattered hardcoding found
+anywhere. Distinguished internal outreach-targeting intent (safe to
+update now) from literal buyer-facing content that doesn't self-update
+(left untouched, cross-referenced to the review) — avoiding the exact
+outreach-vs-website contradiction the business flagged as the risk to
+prevent.
+
+No buyer was contacted, no account was created, nothing was published
+beyond the two approved GEPA sentences on the live site, and the
+private-label capability model, BPIP registry, RFQ validation, and
+`/wholesale` remain unchanged, awaiting a separate, explicit decision
+to implement the reviewed change.

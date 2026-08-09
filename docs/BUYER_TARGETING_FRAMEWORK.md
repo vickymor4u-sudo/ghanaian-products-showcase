@@ -137,7 +137,7 @@ patterns).
   rather than diaspora/cultural specificity, since that's likely this
   buyer's actual evaluation criteria.
 
-### Private-label buyers (Fufu Flour only)
+### Private-label buyers (targeting scope: 5 products — see status note)
 
 - **Buyer profile**: brands or retailers wanting to sell a Ghanaian
   staple product under their own label rather than BorgaFoods'.
@@ -145,17 +145,36 @@ patterns).
   diaspora-market logic above — private-label interest is more about
   buyer type (an established brand/retailer with its own label) than
   geography.
-- **Why they fit BorgaFoods, and why Tier 2 not Tier 1**: `/wholesale`'s
-  Private-label Discovery section already supports this conversation,
-  but strictly for **Fufu Flour only** — the sole product with
-  `privateLabelDiscoveryApproved` set in BPIP
-  (`shared/productIntelligence/publishedRegistry.ts`). Tier 2 reflects
-  that real capacity here (one product) is narrower than the other
-  Tier 1 categories, which span the full 5-product range.
+- **Why they fit BorgaFoods, and why Tier 2 not Tier 1**: BorgaFoods has
+  decided it is willing to *explore* private-label opportunities across
+  its full manufactured range — Fufu Flour, Banku Mix (Banku Borga),
+  Kokonte, Gari, and Cassava Flour — subject to product requirements,
+  packaging specifications, regulatory requirements, and business
+  review of each enquiry. Tier 2 (not Tier 1) reflects that private-label
+  is inherently a narrower, more case-by-case conversation than standard
+  wholesale supply, regardless of how many products are in scope for it.
+- **Status note — outreach targeting vs. actual website/RFQ capability**:
+  this expanded 5-product scope describes who BorgaFoods is now willing
+  to *talk to* about private-label. It is **not yet reflected in the
+  website, BPIP's capability records, or the RFQ system** — as of this
+  writing, only Fufu Flour is marked `approved_for_discovery` in BPIP
+  (`shared/productIntelligence/publishedRegistry.ts`), and `/contact`'s
+  private-label form only accepts Fufu Flour. Full impact analysis of
+  what changing that would require is in
+  `docs/PRIVATE_LABEL_SCOPE_CONSISTENCY_REVIEW.md` — until that
+  technical change is separately approved and implemented, **do not
+  send outreach content that promises private-label availability for
+  Gari, Cassava Flour, Banku Borga, or Kokonte**, since a buyer who
+  believes that and tries to submit an enquiry for one of those products
+  will be rejected by the live RFQ form. `docs/BUYER_OUTREACH_TEMPLATES.md`
+  and `docs/BUYER_OUTREACH_SEQUENCE.md` are deliberately left
+  Fufu Flour-only for this reason.
 - **Outreach approach**: Template 3 in `docs/BUYER_OUTREACH_TEMPLATES.md`
-  / the Day 0 private-label sequence — must not be adapted to any
-  product beyond Fufu Flour without that product first clearing the
-  same BPIP approval gate.
+  / the Day 0 private-label sequence — currently scoped to Fufu Flour
+  only, pending the technical change referenced above. Once that change
+  ships, both documents should be updated to reflect the full 5-product
+  scope, at which point this section's "targeting scope" and the site's
+  actual capability will finally match.
 
 ---
 

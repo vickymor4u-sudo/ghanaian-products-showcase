@@ -2,6 +2,59 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Commercial Outreach Phase 2 (Buyer Package Production + Website Trust Update)
+
+**Part 1 — GEPA Trust Update: implemented, validated, deployed to
+production (merge commit `3132375`, implementation commit `7536461`).**
+Applied `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`'s finalized Option A
+wording to `/about` (new "Registered Exporter" callout under Key Facts;
+updated Value Chain step 4 and the "Export Experience" advantage card)
+and `/export` (new line under "Shipment Planning"). Every mention
+attributes the registration to **Supply and Demand Worldwide Limited**
+specifically — never to "BorgaFoods" as a brand — per the explicit
+instruction not to claim BorgaFoods itself holds the registration. No
+supplier credential mentioned; no certification beyond the confirmed
+GEPA registration and the existing Ghana FDA fact. Full validation
+passed: `tsc --noEmit`, `vite build`, all 4 guard scripts (catalog,
+single-source-of-truth, no-internal-leak, site-verification-tags),
+51/51 tests. Followed this project's standard preview-branch discipline:
+committed to `gepa-trust-update`, verified live on the Cloudflare
+preview deployment (both pages read correctly via browser text
+extraction), merged to `main`, and re-verified both pages live on
+`www.borgafoods.com` afterward. This closes the priority-1 gap
+identified in `docs/WEBSITE_CONVERSION_REVIEW.md` from the prior phase.
+
+**Part 2 — Private-Label Scope Consistency Review: analysis only, no
+technical change.** BorgaFoods decided to broaden private-label
+*outreach targeting* from Fufu Flour alone to 5 products (Fufu Flour,
+Banku Mix/Banku Borga, Kokonte, Gari, Cassava Flour), with an explicit
+instruction to map every affected location before touching anything
+technical. Traced the actual code and confirmed the single-source-of-truth
+architecture is fully intact: exactly one field
+(`privateLabelEligibility` in `shared/productIntelligence/publishedRegistry.ts`)
+determines eligibility everywhere — the RFQ form's dropdown, the
+server-side allowlist in `functions/api/export-quote.ts`, and each
+product page's private-label section all derive from it automatically,
+with zero independent hardcoding found. Categorized every affected
+location in the new `docs/PRIVATE_LABEL_SCOPE_CONSISTENCY_REVIEW.md`:
+the 2-file single source of truth (untouched), 5 files that derive
+automatically (untouched), and the buyer-facing prose documents that
+don't update themselves (outreach templates/sequence, exporter profile)
+— explicitly left at Fufu Flour-only, each given a short note pointing
+to the review, to avoid outreach ever promising something the live RFQ
+form would reject. Recommended a two-step sequence (approve the small
+BPIP field change first, then update the buyer-facing documents) rather
+than a combined change. Updated exactly one document as authorized —
+`docs/BUYER_TARGETING_FRAMEWORK.md`'s Tier 2 private-label section, to
+record the outreach-targeting decision with a prominent caveat that
+actual website/RFQ capability hasn't changed yet.
+
+**Stopped here, as instructed**: `docs/PRODUCT_CAPABILITY_MODEL.md`,
+`shared/productIntelligence/publishedRegistry.ts`, `client/src/pages/Contact.tsx`,
+`functions/api/export-quote.ts`, and `client/src/pages/Wholesale.tsx`
+are all unchanged. No technical implementation of the broadened
+private-label scope was made.
+
 ## 9 August 2026 — Commercial Outreach Phase 1 (Buyer Acquisition System)
 
 No buyer contacted, no account created, nothing published. Builds the
