@@ -2,6 +2,26 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Commercial Outreach Phase 1 (Buyer Acquisition System)
+
+No buyer contacted, no account created, nothing published. Builds the
+operational foundation for finding and reaching real buyers, using only
+the credibility assets and website content already finalized in
+External Authority Phases 1–4. Five deliverables produced:
+
+- **`docs/BUYER_TARGETING_FRAMEWORK.md`** (new) — 3-tier buyer prioritization (Tier 1: African food distributors, ethnic grocery importers, African supermarkets; Tier 2: restaurant suppliers, food service distributors, private-label buyers scoped to Fufu Flour only; Tier 3: online marketplaces, smaller retailers), each with buyer profile, candidate countries, fit reasoning, and outreach approach — grounded entirely in the site's existing 4 buyer personas and BPIP's private-label gate, with no invented market-sizing claim.
+- **`docs/BUYER_RESEARCH_DATABASE_TEMPLATE.md`** (new) — the 10 requested tracking fields plus a controlled Status vocabulary; explicitly empty, no real company logged.
+- **`docs/BUYER_OUTREACH_SEQUENCE.md`** (new) — Day 0/5/14/30 cadence for 3 buyer types (distributor, importer/supermarket, private-label), Day 0 referencing the existing templates from Phase 3, Days 5/14/30 newly drafted with no new unsupported claims, no escalating pressure, and the private-label track kept scoped to Fufu Flour throughout.
+- **`docs/WEBSITE_CONVERSION_REVIEW.md`** (new) — reviewed the buyer journey (email → website → decide) against the live site. Top finding: outreach emails will cite the confirmed GEPA registration, but the website itself doesn't show it yet (the fix is already drafted in `docs/WEBSITE_TRUST_ENHANCEMENT_PLAN.md`, just not applied) — flagged as priority 1. Also identified a missing lighter-weight "request more information" path versus the single full RFQ form, a missing downloadable buyer package, and other lower-priority gaps. No code changed.
+- **`docs/BUYER_PACKAGE_STRUCTURE.md`** (new) — mapped the requested 6-folder buyer package structure against what actually exists: profile/catalogue/export-information content is written and ready but not yet formatted as distributable files; product images exist (web-sized only); **no certification files exist in this repository at all**, and the folder is explicitly flagged to never contain the two third-party partner documents from External Authority Phase 2; contact details are fully ready.
+
+**Stopped here, as instructed**: no buyer was contacted, no account was
+created (including no marketplace/CRM account for Tier 3), nothing was
+published, and no claim beyond what's already approved elsewhere in
+this project appears in any of the 5 documents.
+
+Validation: no code changed, so no build/test run was needed.
+
 ## 9 August 2026 — External Authority Phase 4 (GEPA confirmed, assets finalized)
 
 No external account created, no LinkedIn post published, no supplier

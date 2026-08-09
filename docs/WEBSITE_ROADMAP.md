@@ -501,3 +501,38 @@ foundation for future outreach, unsent.
 No page was edited, no account was created, no post was published, and
 no supplier name or certificate was disclosed — per this phase's
 explicit constraints.
+
+## Commercial Outreach Phase 1 — Buyer Acquisition System (9 August 2026)
+
+Status: **Framework complete; no buyer contacted, no account created,
+nothing published.** Full detail in `docs/BUYER_TARGETING_FRAMEWORK.md`,
+`docs/BUYER_RESEARCH_DATABASE_TEMPLATE.md`, `docs/BUYER_OUTREACH_SEQUENCE.md`,
+`docs/WEBSITE_CONVERSION_REVIEW.md`, and `docs/BUYER_PACKAGE_STRUCTURE.md`.
+
+Marks a deliberate shift from website-side work to market-testing
+preparation, per the business's own framing: rather than continuing to
+refine the site without buyer feedback, the next commercial insight is
+expected to come from finding real buyers, measuring response, and
+feeding that back into positioning and the site itself. Built a 3-tier
+buyer targeting framework grounded in the site's own 4 existing buyer
+personas and BPIP's private-label gate (no invented market-sizing
+claims); an empty buyer-research tracking template with a controlled
+status vocabulary; a Day 0/5/14/30 outreach cadence for 3 buyer types,
+extending the introduction templates from External Authority Phase 3
+with new follow-up content that adds real value (the confirmed GEPA
+credential, the finalized exporter profile) rather than just
+re-sending reminders. Reviewed the live site against the actual
+outreach journey (email → website → decide) and found the single
+highest-priority gap is self-inflicted and easy to close: outreach
+emails will cite the now-confirmed GEPA registration, but the website
+itself doesn't display it yet, even though the exact wording was
+already drafted in the prior phase. Mapped the requested 6-folder buyer
+package structure against what's actually ready, finding the profile
+and export-information content is written but not yet formatted as
+distributable files, and explicitly confirming the Certifications
+folder has no real files today and must never include the two
+third-party supplier documents reviewed earlier.
+
+No buyer was contacted, no account was created, nothing was published,
+and no code was changed — per this phase's explicit "stop after
+completing the framework" instruction.
