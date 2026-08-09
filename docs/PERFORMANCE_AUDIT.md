@@ -1,12 +1,15 @@
 # BorgaFoods Performance Optimization Audit
 
-Status: **Audit complete. No fix implemented, no functionality removed,
-no SEO or business logic changed.** Investigates reported slow
-navigation between pages. Every measurement below was taken directly —
-against the live production site (`www.borgafoods.com`) via browser
-automation and `curl`, and against a fresh local production build — not
-estimated or assumed. Two root causes account for almost everything
-found; both are precisely identified with code references.
+Status: **Audit complete. Root causes #1 and #2 (below) are now fixed,
+deployed to production, and verified — see "Performance Optimization
+Phase 1 — implementation & verification" at the end of this document.
+Every other finding in this audit remains unimplemented, as scoped.**
+Investigates reported slow navigation between pages. Every measurement
+below was taken directly — against the live production site
+(`www.borgafoods.com`) via browser automation and `curl`, and against a
+fresh local production build — not estimated or assumed. Two root
+causes accounted for almost everything found; both are precisely
+identified with code references, and both are now resolved.
 
 ## Executive summary
 
@@ -354,27 +357,29 @@ architectural point.
 
 ---
 
-## Recommended fixes (not implemented — audit only)
+## Recommended fixes
 
 Ordered by estimated impact-to-effort ratio. None of these touch SEO
 behavior, remove any approved functionality, or change business logic
 — each is scoped specifically to avoid that, per this audit's
-constraints.
+constraints. **Items 1 and 2 are now implemented** — see
+"Performance Optimization Phase 1 — implementation & verification"
+below for what actually shipped and how it was verified. Items 3–6
+remain unimplemented, as scoped.
 
-1. **Replace the 14 internal `<a href>` links in `Navigation.tsx`,
-   `Footer.tsx`, and the 1 in `About.tsx` with wouter's `<Link>`** —
-   the single highest-impact fix available. Purely a component swap
-   (`<a href="/products">` → `<Link href="/products">`); no visual,
-   SEO, or content change, since `<Link>` renders a real `<a>` tag
-   under the hood — it only changes click behavior from a full reload
-   to a client-side transition.
-2. **Add `exclude: ["/assets/*", "/images/*"]` to `client/public/_routes.json`** —
-   restores Cloudflare's native long-lived caching for hashed,
-   never-changing filenames, without touching the canonical/robots
-   injection logic (which only ever applies to HTML page routes, never
-   to `/assets/*` or `/images/*`). A one-line, surgical change to a
-   routing config file — does not modify `functions/_middleware.ts`
-   itself.
+1. ~~Replace the 14 internal `<a href>` links in `Navigation.tsx`,
+   `Footer.tsx`, and the 1 in `About.tsx` with wouter's `<Link>`~~ —
+   **done.** Purely a component swap (`<a href="/products">` →
+   `<Link href="/products">`); no visual, SEO, or content change, since
+   `<Link>` renders a real `<a>` tag under the hood — it only changed
+   click behavior from a full reload to a client-side transition.
+2. ~~Add `exclude` patterns to `client/public/_routes.json`~~ — **done**,
+   with one correction to the original recommendation: excluding paths
+   from Pages Functions routing turned out to be necessary but not
+   sufficient on its own (verified directly — see below). A
+   `client/public/_headers` file was also needed, since Cloudflare
+   Pages doesn't apply a long-lived `Cache-Control` by default even to
+   natively-served static assets.
 3. **Delete `fufu-product.jpg` and `banku-product.jpg`** (or wire them
    into an actual second-image use, if one is wanted) — removes 739 kB
    of dead deploy weight with zero visitor-facing effect either way,
@@ -400,8 +405,8 @@ constraints.
 
 | Fix | Estimated impact | Confidence |
 | --- | --- | --- |
-| #1 — `<Link>` instead of `<a>` | Eliminates ~600ms+ full-reload cost (demonstrated) on the majority of a visitor's navigation clicks; largest single improvement available | High — directly measured, not modeled |
-| #2 — exclude static assets from Function routing | Restores browser caching entirely for repeat views/reloads; meaningfully reduces the compounding cost of #1 for returning visitors | High — root cause directly confirmed via headers |
+| #1 — `<Link>` instead of `<a>` | **Implemented and measured on production**: 641ms full-reload → 1ms client-side transition for the same nav click. Eliminated on the majority of a visitor's navigation clicks. | Confirmed — measured before and after, not modeled |
+| #2 — restore static-asset caching | **Implemented and measured on production**: `/assets/*` and `/robots.txt`/`/sitemap.xml` now `max-age=31536000, immutable` / `max-age=3600` (was `max-age=0` everywhere); `/images/*` now `max-age=604800`. HTML pages deliberately unchanged (still `max-age=0`, so deploys are picked up immediately). | Confirmed — measured before and after via `curl` |
 | #3 — remove 2 dead images | 739 kB smaller deploy; no visitor-facing load-time change (files are already unfetched) | Certain — deploy-size only, not a runtime win |
 | #4 — route-based code splitting | Meaningfully smaller first download for single-page visitors (a large share of B2B traffic that arrives via a specific product/export link); no effect on already-loaded-bundle navigation once #1 is fixed | Medium — real but harder to quantify without a live before/after |
 | #5 — image format/responsive sizing | Likely 30–50%+ smaller image payloads based on typical WebP-vs-JPEG savings at similar quality; exact figure needs the actual re-encoded files to measure | Medium — directionally well-established, not measured on these specific files |
@@ -409,19 +414,23 @@ constraints.
 
 ---
 
-## What this audit did not do
+## What this audit — and the Phase 1 implementation below — did not do
 
-- **No code was changed.** Every finding above was produced by reading
-  existing code and measuring the live site and a local build — nothing
-  was edited, and no fix from the list above has been applied.
-- **No functionality was removed or proposed for removal** — fix #3
-  removes two files that are already unreachable by any user-facing
-  path, not a feature.
-- **No SEO or business logic was touched or is recommended to change** —
-  fix #2 is explicitly scoped to exclude only `/assets/*` and
-  `/images/*`, which `functions/_middleware.ts`'s canonical/robots
-  injection logic never applies to in the first place; fix #1 preserves
-  every link's destination, label, and visible behavior.
+- **Fixes #3–6 remain unimplemented.** Only #1 and #2 were approved and
+  shipped in Performance Optimization Phase 1 (see below); every other
+  finding in this document is still exactly what it was at audit time
+  — a documented, prioritized recommendation, not a change.
+- **No functionality was removed** — fix #3 (still unimplemented) would
+  remove two files that are already unreachable by any user-facing
+  path, not a feature; nothing was actually deleted in Phase 1.
+- **No SEO or business logic was touched.** Fix #1 preserved every
+  link's destination, label, and visible behavior — confirmed by
+  post-deployment verification below, not just intended. Fix #2 only
+  ever affects `/assets/*`, `/images/*`, `/robots.txt`, and
+  `/sitemap.xml` — paths `functions/_middleware.ts`'s canonical/robots
+  injection logic never applied to in the first place; HTML page routes
+  were re-verified live to confirm their behavior is byte-for-byte
+  unchanged.
 
 ## A note on testing-tool noise
 
@@ -435,11 +444,101 @@ tool's own network layer under rapid/parallel requests, not a
 production defect, and is excluded from the root causes above
 accordingly.
 
+---
+
+## Performance Optimization Phase 1 — implementation & verification (9 August 2026)
+
+Status: **Implemented, validated, deployed to production, and
+re-verified live.** Implements fixes #1 and #2 from this audit only —
+fixes #3–6 remain unimplemented, per explicit scope.
+
+### What shipped
+
+**Fix 1 — client-side navigation.** `client/src/components/Navigation.tsx`
+(logo + 7 desktop nav links + 7 mobile nav links), `client/src/components/Footer.tsx`
+(6 internal Quick Links), and `client/src/pages/About.tsx` (the "Contact
+Us" button) were converted from plain `<a href>` to wouter's `<Link>` —
+the same component already used correctly everywhere else in the app.
+External links (Footer's LinkedIn and website icons, all `mailto:`/
+`tel:`/WhatsApp links in `Contact.tsx`) were left as plain `<a>`,
+exactly as they should be. No URL, label, or visible behavior changed.
+
+**Fix 2 — restored static-asset caching.** `client/public/_routes.json`
+now excludes `/assets/*`, `/images/*`, `/robots.txt`, and `/sitemap.xml`
+from Cloudflare Pages Functions routing. **This alone turned out not to
+be sufficient** — verified directly on the first preview deployment,
+these paths still returned `max-age=0, must-revalidate` after the
+routing change alone. Cloudflare Pages does not apply a long-lived
+`Cache-Control` by default, even to natively-served static assets; that
+requires its actual supported mechanism, a `client/public/_headers`
+file, which was added in a follow-up commit on the same branch. This
+correction is recorded here because it's a genuinely useful fact for
+next time: **excluding a path from Functions routing changes who
+serves it, not what headers it gets.**
+
+`functions/_middleware.ts` itself — the canonical/robots injection
+logic — was **not modified**. HTML page routes still go through it
+unchanged, which is exactly what the verification below confirms.
+
+### Validation performed before deployment
+
+- `tsc --noEmit` — clean
+- `npx vitest run` — 51/51 tests passing
+- `vite build` — succeeded, output unchanged in structure (478 kB JS,
+  123 kB CSS, same as pre-fix; `_headers` correctly copied to
+  `dist/public/`)
+- All 4 build guards (`verify-product-catalog`,
+  `verify-single-source-of-truth`, `verify-no-internal-leak`,
+  `verify-site-verification-tags`) — all passing
+- Asset cache-header verification — done on the Cloudflare preview
+  deployment via `curl` before merging (caught the `_headers`-file gap
+  described above)
+- Route verification (canonical tags, 404 behavior, `/api/*` sanity) —
+  done on the same preview deployment before merging
+- Navigation-timing comparison — done on the preview deployment via the
+  browser's own Navigation Timing API
+
+### Verification performed after deployment (production, `www.borgafoods.com`)
+
+| Check | Result |
+| --- | --- |
+| `/assets/*` (JS, CSS) | `Cache-Control: public, max-age=31536000, immutable` (was `max-age=0, must-revalidate`) |
+| `/images/*` | `Cache-Control: public, max-age=604800` (was `max-age=0, must-revalidate`) |
+| `/robots.txt`, `/sitemap.xml` | `Cache-Control: public, max-age=3600`; content byte-identical to before |
+| HTML pages (e.g. `/about`) | `Cache-Control: public, max-age=0, must-revalidate` — **unchanged**, confirmed still routed through `functions/_middleware.ts` |
+| Canonical tag, `/about` and `/export` | Present and correct: `<link rel="canonical" href="https://www.borgafoods.com/...">` |
+| Unknown URL (`/this-page-does-not-exist-xyz`) | `HTTP 404` + `<meta name="robots" content="noindex, nofollow">` — unchanged |
+| `/api/export-quote` | Responds with the same validation behavior as before (`invalid_origin`, 403, for an unauthenticated `curl` request) — Function routing for `/api/*` is untouched |
+| `/about` → `/contact` | Confirmed client-side: same document (`performance.timeOrigin` unchanged), correct new page title, zero new navigation entries |
+| `/contact` → `/products` | Same confirmation |
+| `/products` → `/export` | Same confirmation, including the client-side-updated canonical tag reading correctly as `https://www.borgafoods.com/export` |
+| Hard refresh on `/export` | Loads correctly via a real page load, correct title and content — direct/bookmarked navigation still works exactly as before |
+| Navigation-timing, before vs. after | **641ms** (full reload, measured pre-fix) → **1ms** (client-side transition, measured post-fix) for the same nav-link click |
+
+One verification note: clicking nav links through the remote browser
+automation tool's coordinate/ref-based click intermittently failed to
+register during this session (unrelated to the site — confirmed by
+inspecting the DOM, which showed the correct element at the correct
+position every time). Route-transition checks were instead performed
+by dispatching a real `MouseEvent` directly at the link element via
+JavaScript, which is what a genuine click produces from the page's
+perspective — the same method used to get the clean 1ms timing figure
+above.
+
+### Commits
+
+- `7536461`/`3132375` — prior phase (GEPA trust update), unrelated,
+  merged earlier the same day.
+- `cc07b46` — Fix 1 (nav/footer/About `<Link>` swap) and Fix 2's
+  routing exclude.
+- `08a687a` — the `_headers` file correction to Fix 2.
+- `c91a146` — merge to `main`.
+
 ## Related documents
 
-- `functions/_middleware.ts` — the routing logic behind root cause #2.
-- `client/public/_routes.json` — the config file fix #2 would change.
-- `client/src/components/Navigation.tsx`, `client/src/components/Footer.tsx`, `client/src/pages/About.tsx` — the 3 files behind root cause #1.
-- `shared/productIntelligence/publishedRegistry.ts` — where the 2 unused image references live.
+- `functions/_middleware.ts` — the routing logic root cause #2 was about; confirmed unmodified.
+- `client/public/_routes.json`, `client/public/_headers` — the two config files Fix 2 actually changed.
+- `client/src/components/Navigation.tsx`, `client/src/components/Footer.tsx`, `client/src/pages/About.tsx` — the 3 files Fix 1 changed.
+- `shared/productIntelligence/publishedRegistry.ts` — where the 2 unused image references live (fix #3, still unimplemented).
 - `docs/SEO_FOUNDATION.md` — the prior Core Web Vitals work (image re-encoding, font loading) this audit builds on and didn't need to repeat.
-- `docs/CHANGE_LOG.md`, 8 August 2026 — the original reasoning for routing all requests through `functions/_middleware.ts`, which fix #2 preserves for HTML routes while scoping it away from static assets.
+- `docs/CHANGE_LOG.md`, 8 August 2026 — the original reasoning for routing all requests through `functions/_middleware.ts`, which Fix 2 preserves for HTML routes while scoping it away from static assets.

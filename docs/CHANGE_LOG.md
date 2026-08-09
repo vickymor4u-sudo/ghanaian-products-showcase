@@ -2,6 +2,55 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Performance Optimization Phase 1 (navigation & cache fixes)
+
+Status: **Implemented, validated, deployed to production, and
+re-verified live.** Implements exactly the top 2 fixes from
+`docs/PERFORMANCE_AUDIT.md` — nothing else from that list. Full detail,
+including a before/after timing comparison, in that document's new
+"Performance Optimization Phase 1 — implementation & verification"
+section. Commits: `cc07b46` (nav/footer/About `<Link>` swap + routing
+exclude), `08a687a` (the `_headers` file correction), `c91a146` (merge
+to `main`).
+
+**Fix 1**: `Navigation.tsx`, `Footer.tsx`, and `About.tsx`'s "Contact
+Us" button converted from plain `<a href>` to wouter's `<Link>` —
+matching the pattern already correct everywhere else in the app.
+External links untouched. Measured directly: the same header nav click
+that previously triggered a 641ms full page reload now completes as a
+1ms client-side transition — confirmed via the Navigation Timing API
+(same document, zero new navigation entries) before and after, not
+estimated.
+
+**Fix 2**: `client/public/_routes.json` now excludes `/assets/*`,
+`/images/*`, `/robots.txt`, and `/sitemap.xml` from Cloudflare Pages
+Functions routing. **This alone was not sufficient** — verified on the
+first preview deployment before merging, these paths still returned
+`max-age=0, must-revalidate` after the routing change. Cloudflare
+Pages does not apply long-lived caching by default even to
+natively-served static assets; a `client/public/_headers` file (its
+actual supported mechanism) was needed too, added in a follow-up
+commit on the same branch before merging to `main`. `functions/_middleware.ts`
+itself is unmodified — HTML pages are confirmed still `max-age=0` and
+still carry correct canonical tags.
+
+Full validation before deployment: `tsc --noEmit`, 51/51 tests, `vite
+build`, all 4 build guards, asset cache-header verification and route
+verification on a Cloudflare preview deployment (where the `_headers`
+gap was caught), navigation-timing comparison. Full verification after
+deployment on `www.borgafoods.com`: cache headers on all 4 excluded
+path types confirmed correct; HTML cache-control and canonical tags
+confirmed unchanged; unknown-URL 404 + `noindex` confirmed unchanged;
+`/api/export-quote` confirmed responding identically; `/about` →
+`/contact` → `/products` → `/export` all confirmed as genuine
+client-side transitions; hard refresh on `/export` confirmed working.
+
+No functionality removed, no SEO or business logic changed, no
+additional optimization work from the audit's remaining 4 fixes was
+implemented — per explicit scope. Not combined with the private-label
+BPIP change or buyer-package work reviewed in the prior phase, per
+explicit sequencing instruction.
+
 ## 9 August 2026 — Performance Optimization Audit
 
 No code changed, no functionality removed, no SEO/business logic

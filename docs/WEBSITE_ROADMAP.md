@@ -608,3 +608,35 @@ none implemented, per this task's explicit audit-only scope. No
 functionality was removed and no SEO or business logic was proposed for
 change; the two top-priority fixes are both scoped narrowly enough to
 avoid either.
+
+## Performance Optimization Phase 1 — navigation & cache fixes (9 August 2026)
+
+Status: **Implemented, validated, deployed to production, verified
+live.** Full detail in `docs/PERFORMANCE_AUDIT.md`'s implementation
+section and `docs/CHANGE_LOG.md`.
+
+Implemented exactly the top 2 fixes identified by the audit above,
+deliberately sequenced ahead of any further feature work per the
+business's own framing: make the existing experience feel instant
+before expanding it. Converted the site's header navigation, footer,
+and one About-page CTA from plain links to the client-side router
+already used correctly elsewhere in the app — measured directly, the
+same navigation click that used to trigger a 641ms full page reload
+now completes in 1ms. Restored long-lived browser caching for static
+assets by excluding them from Cloudflare Pages Functions routing and
+adding a `_headers` file — the routing change alone turned out to be
+insufficient on its own, caught during preview verification before it
+ever reached production, and corrected in the same phase rather than
+shipped incomplete. Every change was validated locally (typecheck,
+tests, build, all 4 guards) and verified twice against real deployments
+— once on a Cloudflare preview before merging, once on production
+after — checking cache headers, canonical tags, 404 behavior, the API
+route, three separate page-to-page transitions, and hard-refresh
+behavior, not just trusting that the intended fix worked.
+
+Nothing else from the audit's fix list was implemented, no
+functionality was removed, and no SEO or business logic changed — the
+canonical/robots injection middleware itself was never touched, only
+which requests are routed to it. Not combined with the private-label
+BPIP change or buyer-package work from the prior phase, per explicit
+instruction to keep this foundational cleanup separate.
