@@ -37,13 +37,15 @@ following, tighter version instead, at 119 characters:)
 
 > BorgaFoods manufactures Ghanaian staple foods — gari, cassava flour, fufu flour, kokonte, and Banku Borga — for export & wholesale buyers.
 
-## About section (2,000-character limit)
+## About section (2,000-character limit) — finalized, 9 Aug 2026
 
 > Supply and Demand Worldwide Limited is a legally registered limited
 > liability company in Ghana, established in 2013. Trading under the
 > BorgaFoods brand, the company has over a decade of experience
 > exporting traditional West African staple foods to international
-> markets.
+> markets. The company is a registered commercial exporter with the
+> Ghana Export Promotion Authority (GEPA), Registration No.
+> GEPA2018800113.
 >
 > Through BorgaFoods Processing, BorgaFoods manufactures its current
 > range of Ghanaian staples — gari, cassava flour, fufu flour, kokonte,
@@ -62,17 +64,19 @@ following, tighter version instead, at 119 characters:)
 > Export quotations, wholesale supply, or distributor partnerships:
 > export@borgafoods.com | borgafoods.com
 
-(~1,080 characters — well within the 2,000-character limit, leaving
-room to add a GEPA-registration line once
-`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`'s open question is
-resolved.)
+(~1,180 characters — within the 2,000-character limit. The GEPA
+sentence uses `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`'s finalized
+Option A wording exactly, with no expiry or renewal date stated, since
+none is on file beyond BorgaFoods' confirmation that the registration
+is current.)
 
 **Note on entity name**: this uses "Supply and Demand Worldwide
 Limited" (the certificate's exact legal form) in the opening sentence,
 not the site's usual stylized "Supply & Demand Worldwide Ltd" — see
 `docs/COMPANY_NAME_CONSISTENCY_REVIEW.md`. Either is defensible for a
 LinkedIn About section; this draft picked the more formal legal form
-since LinkedIn company pages are themselves a quasi-official record.
+since LinkedIn company pages are themselves a quasi-official record,
+and since it's also the name the GEPA registration line refers to.
 
 ## Specialties (LinkedIn allows up to 20 keyword tags)
 
@@ -82,7 +86,7 @@ no invented capability:
 Ghanaian food export, food manufacturing, gari, cassava flour, fufu
 flour, kokonte, Banku Borga, wholesale food supply, West African
 staples, African grocery export, Ghana to China trade, food-service
-supply, distributor partnerships
+supply, distributor partnerships, GEPA registered exporter
 
 ## What's still needed before this page can actually be created
 

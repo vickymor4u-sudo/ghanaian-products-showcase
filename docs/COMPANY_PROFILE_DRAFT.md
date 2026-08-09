@@ -77,7 +77,7 @@ About-section limit.)
 | Public enquiry email | export@borgafoods.com — **confirmed operational, 9 Aug 2026** | `shared/exportQuote.ts` |
 | Ghana phone | +233 555 362 208 | `SchemaMarkup.tsx` / Footer |
 | China phone / WhatsApp | +86 135 1681 8572 | Footer |
-| GEPA export registration | Registration No. GEPA2018800113 (2018) — **current renewal status unconfirmed, do not publish yet** | Certificate supplied 9 Aug 2026; see `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` |
+| GEPA export registration | Registration No. GEPA2018800113 — **renewal confirmed current by BorgaFoods, 9 Aug 2026; safe to publish using the exact wording below** | Certificate supplied 9 Aug 2026, renewal confirmed 9 Aug 2026; see `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` for the confirmation record and its limits (no new expiry date or renewed certificate on file) |
 | Products (current manufactured range) | Gari, Cassava Flour, Fufu Flour, Kokonte, Banku Borga | `shared/productIntelligence/publishedRegistry.ts` |
 | Certification | Ghana FDA registered facilities | `publishedRegistry.ts` (identical across all 5 products) |
 | Languages | English, Chinese | `SchemaMarkup.tsx` / `/about` |
@@ -86,6 +86,14 @@ About-section limit.)
 this document does not guess**: employee/company size range (LinkedIn
 asks for this as a band, e.g. "11-50 employees"), a logo file, and a
 cover/banner image. All three need to come directly from BorgaFoods.
+
+**GEPA line, now finalized**: the exact approved sentence is
+`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`'s Option A — "Registered
+commercial exporter with the Ghana Export Promotion Authority (GEPA),
+Registration No. GEPA2018800113." Not inserted into the medium/long
+paragraphs above to avoid duplicating wording in two places; use that
+exact sentence wherever a GEPA line is needed, appended after the
+existing text.
 
 ## Supply-chain evidence reviewed 9 Aug 2026 — no wording changed above
 

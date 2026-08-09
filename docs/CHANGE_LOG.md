@@ -2,6 +2,31 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — External Authority Phase 4 (GEPA confirmed, assets finalized)
+
+No external account created, no LinkedIn post published, no supplier
+name disclosed. BorgaFoods confirmed directly that the GEPA renewal for
+Registration No. GEPA2018800113 (Supply and Demand Worldwide Limited)
+is completed and current. **No renewed certificate or written GEPA
+confirmation was supplied** — this is a business-attested operational
+fact, recorded and dated as such everywhere it's used, with no invented
+expiry date, renewal date, or new certificate number anywhere. Five
+deliverables produced:
+
+- **GEPA status updated across internal documentation** — `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` rewritten with a "Resolution record" section stating precisely what the confirmation does and doesn't establish; Option A's wording (a present-tense registration statement with no date) is now finalized. Propagated to `docs/COMPANY_PROFILE_DRAFT.md`, `docs/EXTERNAL_AUTHORITY_TRUST_FRAMEWORK.md`, `docs/EXPORTER_PROFILE_ONE_PAGER.md`, `docs/EXPORT_EVIDENCE_MATRIX.md`, and `docs/GEPA_RENEWAL_FOLLOWUP.md` (marked superseded — the drafted outreach was never sent, since BorgaFoods confirmed directly). The Supply and Demand Worldwide Limited / BorgaFoods Processing entity distinction is unchanged throughout.
+- **`docs/EXPORTER_PROFILE_FINAL.md`** (new) — the finalized 8-section buyer-facing exporter profile (Company Overview, About BorgaFoods Processing, Product Categories, Export Solutions, Buyer Types Served, Quality Assurance Approach, Export Documentation Capability, Contact Information), including GEPA registration as a credential. Supersedes the prior 5-section outline/draft. No supplier name, supplier certificate, or private supplier information anywhere in it.
+- **LinkedIn package finalized** — `docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md`'s About section now includes the GEPA line (~1,180 characters, still within the 2,000-character limit); `docs/LINKEDIN_LAUNCH_CHECKLIST.md` expanded from 5 to 10 draft launch posts, covering Ghanaian food exports, product education, sourcing capability, export journey, and buyer relationships, with no unsupported certification claim, no supplier disclosure, and no capacity/volume figure beyond the existing "reviewed per enquiry" hedge.
+- **`docs/WEBSITE_TRUST_ENHANCEMENT_PLAN.md`** (new) — builds on the prior phase's trust-gap review with actual proposed wording, sorted into: (A) 4 locations supported by GEPA evidence with exact draft copy for `/about` (Key Facts addition, Value Chain step 4, "Export Experience") and `/export` (new Shipment Planning line); (B) 5 items still blocked on a separate business decision (MOQ, shipping mode, lead time, export document types, production capacity — unchanged by GEPA); (C) everything else, explicitly left unchanged, including all of `/wholesale`. No page was edited.
+- **`docs/BUYER_OUTREACH_TEMPLATES.md`** (new) — three draft outreach templates (international distributor, supermarket/importer, private-label buyer), built from approved facts and the confirmed GEPA line, with no supplier detail, no capacity/MOQ figures, and the private-label template scoped explicitly to Fufu Flour only (the sole BPIP-approved product). Nothing sent; sender name, recipient, and channel all left as placeholders.
+
+**Stopped here, as instructed**: no external account was created, no
+LinkedIn page or post was published, no supplier name or certificate
+was disclosed, and no claim beyond what's directly confirmed was added
+anywhere — most notably, no specific GEPA expiry or renewal date is
+stated anywhere in this project, since none was supplied.
+
+Validation: no code changed, so no build/test run was needed.
+
 ## 9 August 2026 — External Authority Phase 3 (activation preparation)
 
 No external submission made, no new website claim published, no

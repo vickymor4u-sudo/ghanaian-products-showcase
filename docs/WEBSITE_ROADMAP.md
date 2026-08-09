@@ -467,3 +467,37 @@ now.
 No page was edited, no email was sent, no account was created, and no
 post was published — per this phase's explicit "no external
 submissions, no new website claims" constraint.
+
+## External Authority Phase 4 — Authority Activation & Buyer Trust Assets (9 August 2026)
+
+Status: **GEPA status resolved and propagated everywhere it appears
+internally; buyer-facing assets finalized. No page edited, no external
+account created, no LinkedIn post published.** Full detail in
+`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`, `docs/EXPORTER_PROFILE_FINAL.md`,
+`docs/LINKEDIN_LAUNCH_CHECKLIST.md`, `docs/WEBSITE_TRUST_ENHANCEMENT_PLAN.md`,
+and `docs/BUYER_OUTREACH_TEMPLATES.md`.
+
+BorgaFoods confirmed directly that the GEPA renewal for Registration
+No. GEPA2018800113 is completed. Since no renewed certificate or
+written GEPA confirmation was supplied, this is recorded everywhere as
+a dated, business-attested fact — with the original registration number
+and 2018 issue date, and deliberately **no** invented expiry date,
+renewal date, or new certificate number. Propagated the finalized,
+present-tense GEPA wording across every internal document that had held
+it pending confirmation. Rebuilt the buyer-facing exporter profile
+into the requested 8-section structure (`docs/EXPORTER_PROFILE_FINAL.md`),
+including GEPA as a credential while continuing to exclude both
+third-party supplier/partner documents reviewed in Phase 2. Finalized
+the LinkedIn About section and expanded the launch-post set from 5 to
+10, covering exports, product education, sourcing, export journey, and
+buyer relationships without overclaiming capacity or certifications.
+Turned the prior phase's trust-gap review into an actual enhancement
+plan with proposed wording for 4 GEPA-supported locations across
+`/about` and `/export`, while re-confirming 5 unrelated commercial-info
+items and all of `/wholesale` stay unchanged. Prepared 3 buyer-outreach
+templates (distributor, importer/retailer, private-label) as a
+foundation for future outreach, unsent.
+
+No page was edited, no account was created, no post was published, and
+no supplier name or certificate was disclosed — per this phase's
+explicit constraints.

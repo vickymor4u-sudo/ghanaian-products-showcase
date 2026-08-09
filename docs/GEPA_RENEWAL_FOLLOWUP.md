@@ -1,19 +1,29 @@
-# GEPA Renewal Follow-Up — Preparation Only
+# GEPA Renewal Follow-Up — Superseded by Confirmation
 
-Status: **Draft email and document checklist prepared. Nothing sent,
-nothing submitted, no GEPA account accessed.** This exists to make the
-one action item blocking `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`,
-`docs/EXPORTER_PROFILE_PDF_DRAFT.md`, and
-`docs/LINKEDIN_LAUNCH_CHECKLIST.md`'s held GEPA line as easy as possible
-for BorgaFoods to actually do.
+Status: **Superseded, 9 August 2026 — BorgaFoods confirmed the renewal
+directly, so the outreach drafted below was not needed and was not
+sent.** Kept as a historical record and as a ready-to-use template in
+case a *future* renewal cycle needs the same follow-up. The current
+GEPA line across all documents now reflects the confirmed status
+recorded in `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`, not this
+document's draft outreach.
 
-## The open question, restated
+## The question this was originally prepared to resolve
 
 Registration No. GEPA2018800113 (Supply and Demand Worldwide Limited)
 was issued 26 Feb 2018 with a printed Date of Expiry of 26 Feb 2019 and
-"Subject to Annual Renewal" on the certificate. Whether it's been kept
-current since then is unknown to this repository — see
-`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` for the full reasoning.
+"Subject to Annual Renewal" on the certificate. Whether it had been kept
+current since then was unknown to this repository at the time. **This is
+now resolved** — BorgaFoods confirmed directly that the renewal is
+completed and the registration is current. See
+`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`'s confirmation record for
+exactly what is and isn't established by that confirmation (no new
+expiry date or renewed certificate is on file).
+
+The draft email and document checklist below are preserved unedited, in
+case they're useful for a future annual renewal or a request for a
+written GEPA confirmation letter — not because they're still an open
+action item today.
 
 ## What GEPA's own site confirms, and what it doesn't
 
@@ -104,18 +114,19 @@ confirmed as accurate for a renewal specifically** — it is a reasonable
 starting point for whoever at BorgaFoods makes contact, not a verified
 requirements list.
 
-## What this repository will do once a response is received
+## What actually happened instead
 
-Apply whichever outcome results — a confirmed-current registration
-(Option A wording), a renewed certificate (updated registration
-detail), or continued pending status — to
-`docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`,
-`docs/EXPORTER_PROFILE_PDF_DRAFT.md`, and
-`docs/LINKEDIN_LAUNCH_CHECKLIST.md`, following the same draft → review
-→ apply pattern used for every prior claim change in this project.
+BorgaFoods confirmed the renewal directly, without this template being
+sent. Option A's wording (from `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`)
+is now applied across `docs/COMPANY_PROFILE_DRAFT.md`,
+`docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md`, `docs/LINKEDIN_LAUNCH_CHECKLIST.md`,
+`docs/EXPORTER_PROFILE_ONE_PAGER.md`, and `docs/EXPORTER_PROFILE_FINAL.md`.
+If a written GEPA confirmation letter or a renewed certificate is
+obtained later, it should be used to add the specific detail (expiry
+date, renewal date) none of those documents currently state.
 
 ## Related documents
 
-- `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` — the open question and the two ready-to-use wording options this follow-up unlocks.
-- `docs/EXPORTER_PROFILE_PDF_DRAFT.md`, `docs/LINKEDIN_LAUNCH_CHECKLIST.md` — the two other documents holding a GEPA line on this same confirmation.
-- `docs/EXTERNAL_AUTHORITY_TRUST_FRAMEWORK.md` §2 — background on why GEPA confirmation is this project's top external-authority priority.
+- `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` — the confirmation record and the finalized wording now in use.
+- `docs/EXPORTER_PROFILE_FINAL.md`, `docs/LINKEDIN_LAUNCH_CHECKLIST.md` — the two documents now carrying the finalized GEPA line.
+- `docs/EXTERNAL_AUTHORITY_TRUST_FRAMEWORK.md` §2 — background on why GEPA confirmation was this project's top external-authority priority.

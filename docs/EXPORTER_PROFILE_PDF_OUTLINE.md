@@ -1,5 +1,17 @@
 # Buyer-Facing Exporter Profile — PDF Outline
 
+Status: **Superseded by `docs/EXPORTER_PROFILE_FINAL.md`, 9 August
+2026**, which uses an 8-section structure and includes the now-confirmed
+GEPA registration as a credential. Kept as a historical record of the
+original 5-section outline and its reasoning — the exclusion logic for
+supplier/partner documents below is still accurate and still applies to
+the final version. For actual current content, use
+`docs/EXPORTER_PROFILE_FINAL.md`.
+
+---
+
+*Original outline, retained below unedited:*
+
 Status: **Outline only. No PDF has been designed or produced. Not
 published anywhere.** This is a structural outline for a longer,
 buyer-facing document — distinct from `docs/EXPORTER_PROFILE_ONE_PAGER.md`

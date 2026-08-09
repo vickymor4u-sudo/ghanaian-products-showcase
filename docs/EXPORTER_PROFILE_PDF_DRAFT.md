@@ -1,5 +1,16 @@
 # Buyer-Facing Exporter Profile — Draft Content
 
+Status: **Superseded by `docs/EXPORTER_PROFILE_FINAL.md`, 9 August
+2026**, which restructures this content into the 8 sections requested
+for the final version and adds the now-confirmed GEPA registration as a
+credential. Kept as a historical record of the 5-section draft. For
+actual current content, use `docs/EXPORTER_PROFILE_FINAL.md`.
+
+---
+
+*Original draft, retained below unedited (GEPA section is now stale —
+see `docs/EXPORTER_PROFILE_FINAL.md` for the confirmed version):*
+
 Status: **Actual draft content, ready for design/layout. Not published,
 not formatted as a distributable PDF.** Fills in the structure set out
 in `docs/EXPORTER_PROFILE_PDF_OUTLINE.md` with real, approved copy —

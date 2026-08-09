@@ -46,13 +46,12 @@ from that file rather than retyped by hand for future updates.)
 ### Certifications & registrations
 
 - **Manufacturing**: Ghana FDA registered facilities (all 5 products)
-- **Export registration**: ⚠️ **On hold** — see
-  `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`. The certificate supplied
-  shows GEPA Registration No. GEPA2018800113, issued 2018, with a
-  printed expiry of Feb 2019 and an annual-renewal requirement.
-  **Do not include a GEPA line in the distributed version of this
-  document until that status is confirmed current** — leave this row
-  blank or omit it entirely rather than publish an unconfirmed claim.
+- **Export registration**: ✅ Registered commercial exporter with the
+  Ghana Export Promotion Authority (GEPA), Registration No.
+  GEPA2018800113 — renewal confirmed current by BorgaFoods, 9 Aug 2026.
+  See `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` for the confirmation
+  record and its exact limits (no new expiry date or renewed
+  certificate on file — only the confirmed-current status is stated).
 
 ### Company facts
 
@@ -84,12 +83,11 @@ and every product page — see `docs/BUYER_INTENT_CONTENT_AUDIT.md`)*
 - **Actual page layout/design** — this is content and structure, not a
   formatted PDF. Turning it into an actual one-page document (design,
   logo placement, print-ready export) is a separate, small production
-  step once the logo exists and the GEPA line is resolved.
-- **The GEPA registration row** — held pending
-  `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md`'s confirmation.
+  step once the logo exists.
 
 ## Related documents
 
-- `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` — the open question this document's certifications section depends on.
+- `docs/GEPA_CREDIBILITY_SECTION_PROPOSAL.md` — the GEPA confirmation record this document's certifications section now reflects.
+- `docs/EXPORTER_PROFILE_FINAL.md` — the longer, multi-section sibling document using the same confirmed GEPA wording.
 - `docs/COMPANY_PROFILE_DRAFT.md` — the source text this one-pager's overview paragraph is adapted from.
 - `docs/EXTERNAL_AUTHORITY_TRUST_FRAMEWORK.md` §2–3 — where this document would actually get used (GEPA application, association applications).
