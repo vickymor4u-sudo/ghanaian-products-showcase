@@ -56,8 +56,8 @@ const TARGET_BUYERS = [
   },
 ] as const;
 
-function ProductFaq({ product }: { product: Product }) {
-  const faqs = [
+function getProductFaqs(product: Product) {
+  return [
     {
       q: `Is ${product.name} available for export and wholesale?`,
       a: `${product.name} is currently ${product.exportAvailable ? "available for export" : "not available for export"} and ${product.wholesaleAvailable ? "available for wholesale" : "not available for wholesale"} enquiries.`,
@@ -81,7 +81,15 @@ function ProductFaq({ product }: { product: Product }) {
       q: "What is the shipping method and lead time?",
       a: "Shipping method and estimated lead time are confirmed per enquiry, based on your destination and order volume — contact us for current details.",
     },
+    {
+      q: "Is BorgaFoods a registered exporter?",
+      a: "Yes. Supply and Demand Worldwide Limited, the company behind BorgaFoods, is registered with the Ghana Export Promotion Authority (GEPA) as a commercial exporter (Registration No. GEPA2018800113).",
+    },
   ];
+}
+
+function ProductFaq({ product }: { product: Product }) {
+  const faqs = getProductFaqs(product);
 
   return (
     <div className="space-y-6">
@@ -133,6 +141,11 @@ export default function ProductDetail() {
         keywords={`${product.name}, ${product.category}, Ghana food export, BorgaFoods ${product.name}, ${product.name} wholesale`}
       />
       <SchemaMarkup type="product" data={product} />
+      <SchemaMarkup
+        type="faq"
+        faqs={getProductFaqs(product)}
+        faqKey={product.slug}
+      />
       <SchemaMarkup
         type="breadcrumb"
         breadcrumbs={[

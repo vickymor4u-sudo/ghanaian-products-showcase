@@ -115,6 +115,13 @@ function getProductDetails(
   productSelection: string,
   inquiryType: ExportQuoteSubmission["inquiryType"]
 ) {
+  // General enquiries are the one inquiry type allowed to omit a product
+  // (see the schema's superRefine) — a blank selection is expected and
+  // valid there, not a lookup failure.
+  if (!productSelection && inquiryType === "general") {
+    return { label: "Not specified — general enquiry", supply: "N/A" };
+  }
+
   const eligibleProducts = isPrivateLabelInquiry(inquiryType)
     ? privateLabelEligibleProducts
     : publishedProducts;
@@ -221,7 +228,7 @@ function formatEmail(
       "Packaging preference",
       packagingPreferenceLabels[submission.packagingPreference],
     ],
-    ["Estimated quantity", submission.estimatedQuantity],
+    ["Estimated quantity", submission.estimatedQuantity || "Not provided"],
     ["Destination country", submission.destinationCountry],
     ["Destination port", submission.destinationPort || "Not provided"],
     ...qualificationFields,

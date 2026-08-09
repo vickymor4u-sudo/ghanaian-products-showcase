@@ -76,10 +76,15 @@ export default function Home() {
               current range of gari, cassava flour, fufu flour, kokonte, and
               Banku Borga.
             </p>
-            <p className="text-lg text-foreground leading-relaxed">
+            <p className="text-lg text-foreground mb-6 leading-relaxed">
               We also coordinate approved export selections—selected from
               trusted Ghanaian production partners—without presenting those
               products as BorgaFoods manufacturing.
+            </p>
+            <p className="text-lg text-foreground leading-relaxed">
+              Supply and Demand Worldwide Limited is registered with the
+              Ghana Export Promotion Authority (GEPA) as a commercial
+              exporter (Registration No. GEPA2018800113).
             </p>
           </div>
         </div>

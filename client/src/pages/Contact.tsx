@@ -240,6 +240,7 @@ export default function Contact() {
 
   const isQualificationForm = isQualificationInquiry(formData.inquiryType);
   const isPrivateLabelForm = isPrivateLabelInquiry(formData.inquiryType);
+  const isGeneralForm = formData.inquiryType === "general";
   const showsMarketContext = isQualificationForm || isPrivateLabelForm;
   const selectableProducts = isPrivateLabelForm
     ? privateLabelDiscoveryProducts
@@ -261,7 +262,9 @@ export default function Contact() {
         ? "Submit Distribution Enquiry"
         : formData.inquiryType === "private_label"
           ? "Submit Private-label Enquiry"
-          : "Submit Export Enquiry";
+          : isGeneralForm
+            ? "Send Enquiry"
+            : "Submit Export Enquiry";
 
   return (
     <div className="min-h-screen bg-background">
@@ -420,6 +423,17 @@ export default function Contact() {
                       </option>
                     </select>
                   </div>
+
+                  {isGeneralForm && (
+                    <div className="rounded-lg border border-primary/20 bg-primary/5 p-5">
+                      <p className="text-sm text-muted-foreground">
+                        Just have a question or want to learn more before
+                        requesting a formal quote? Product and quantity are
+                        optional here — share what you already know and we'll
+                        follow up.
+                      </p>
+                    </div>
+                  )}
 
                   {isPrivateLabelForm && (
                     <div className="rounded-lg border border-primary/20 bg-primary/5 p-5 space-y-2">
@@ -657,17 +671,21 @@ export default function Contact() {
                         htmlFor="productSelection"
                         className="block text-sm font-semibold text-foreground mb-2"
                       >
-                        Product Selection *
+                        Product Selection {isGeneralForm ? "(optional)" : "*"}
                       </label>
                       <select
                         id="productSelection"
                         name="productSelection"
                         value={formData.productSelection}
                         onChange={handleChange}
-                        required
+                        required={!isGeneralForm}
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       >
-                        <option value="">Select products</option>
+                        <option value="">
+                          {isGeneralForm
+                            ? "Not sure yet / general enquiry"
+                            : "Select products"}
+                        </option>
                         {selectableProducts.map(product => (
                           <option key={product.slug} value={product.slug}>
                             {product.name}
@@ -717,7 +735,9 @@ export default function Contact() {
                       >
                         {isQualificationForm
                           ? "Expected Order Volume *"
-                          : "Estimated Quantity *"}
+                          : isGeneralForm
+                            ? "Estimated Quantity (optional)"
+                            : "Estimated Quantity *"}
                       </label>
                       <input
                         id="estimatedQuantity"
@@ -725,10 +745,14 @@ export default function Contact() {
                         name="estimatedQuantity"
                         value={formData.estimatedQuantity}
                         onChange={handleChange}
-                        required
+                        required={!isGeneralForm}
                         maxLength={100}
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Quantity and unit"
+                        placeholder={
+                          isGeneralForm
+                            ? "Quantity and unit, if known"
+                            : "Quantity and unit"
+                        }
                       />
                     </div>
                     <div>
