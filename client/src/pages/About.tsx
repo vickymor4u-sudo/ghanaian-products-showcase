@@ -97,6 +97,16 @@ export default function About() {
                   </p>
                 </div>
               </div>
+              <div className="mt-6 pt-6 border-t border-border">
+                <p className="text-sm font-bold text-primary mb-1">
+                  Registered Exporter
+                </p>
+                <p className="text-sm text-foreground leading-relaxed">
+                  Supply and Demand Worldwide Limited is registered with the
+                  Ghana Export Promotion Authority (GEPA) as a commercial
+                  exporter (Registration No. GEPA2018800113).
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -133,7 +143,7 @@ export default function About() {
                 step: "4",
                 title: "Export & Logistics",
                 description:
-                  "Professional handling and reliable delivery to international partners",
+                  "Export handled by Supply and Demand Worldwide Limited, a GEPA-registered commercial exporter, with reliable delivery to international partners",
               },
             ].map(item => (
               <Card key={item.step} className="p-6 text-center">
@@ -169,7 +179,7 @@ export default function About() {
                 icon: Users,
                 title: "Export Experience",
                 description:
-                  "Operating internationally since 2013, coordinating customs, compliance, and logistics requirements for each shipment.",
+                  "Operating internationally since 2013 through Supply and Demand Worldwide Limited, a GEPA-registered commercial exporter, coordinating customs, compliance, and logistics requirements for each shipment.",
               },
               {
                 icon: Zap,
