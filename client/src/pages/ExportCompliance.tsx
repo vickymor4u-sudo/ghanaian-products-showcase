@@ -173,9 +173,15 @@ export default function ExportCompliance() {
 
       <section className="py-20">
         <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-12">
+          <h2 className="text-4xl font-bold text-foreground mb-5">
             Shipment Planning
           </h2>
+          <p className="text-foreground leading-relaxed max-w-3xl mb-12">
+            Supply and Demand Worldwide Limited, the company behind
+            BorgaFoods, is registered with the Ghana Export Promotion
+            Authority (GEPA) as a commercial exporter (Registration No.
+            GEPA2018800113).
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="p-8">
               <h3 className="text-xl font-bold text-primary mb-4">
