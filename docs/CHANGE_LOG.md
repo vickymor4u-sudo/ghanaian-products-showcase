@@ -2,6 +2,17 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — External Authority & Buyer Trust Framework
+
+No account created, no registration submitted, no external claim made.
+Two new docs, extending `docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md` from
+the prior phase with actual readiness detail and reusable draft text.
+
+- **`docs/COMPANY_PROFILE_DRAFT.md`** — 3 lengths of ready-to-use company description (short/medium/long, sized to LinkedIn's 120-char tagline and 2,000-char About limits specifically), plus a field-by-field fact table, built entirely from facts already approved and live on the site (`Organization` schema, corrected `/about` text, BPIP product data). Explicitly left blank rather than guessed: employee-count band, logo file, cover image — none of these exist in the codebase.
+- **`docs/EXTERNAL_AUTHORITY_TRUST_FRAMEWORK.md`** — readiness detail per opportunity: LinkedIn (what's ready vs. what BorgaFoods must supply, plus the planned Footer/`sameAs` follow-up once a real page exists), GEPA registration (the actual 4-step process researched, what documents are needed), and deeper research on the 4 trade associations' application processes (honestly reporting that none publish fees or a self-service process — all four need direct contact, not invented). Flagged a real prerequisite to check first: whether `export@borgafoods.com` actually receives mail yet, since `BUSINESS_RULES.md`'s own language about a temporary Gmail recipient suggests the domain's mail routing may not be fully operational, and LinkedIn/GEPA/association verification will likely depend on it.
+
+Validation: no code changed, so no build/test run was needed.
+
 ## 9 August 2026 — Search Growth Monitoring System established
 
 No code, no page, no public claim — a repeatable process plus its first

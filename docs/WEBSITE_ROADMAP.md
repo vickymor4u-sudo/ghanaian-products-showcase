@@ -342,3 +342,28 @@ as a manual monthly process in the meantime. Noted that full unattended
 automation would need a second connector (live GSC/browser access) even
 after GitHub is connected — flagged honestly rather than overstating
 what scheduling alone would achieve.
+
+## External Authority & Buyer Trust Framework (9 August 2026)
+
+Status: **Preparation complete; no account created, no registration
+submitted, no external claim made.** Full detail in
+`docs/EXTERNAL_AUTHORITY_TRUST_FRAMEWORK.md` and
+`docs/COMPANY_PROFILE_DRAFT.md`.
+
+Turned `docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md`'s named opportunities
+into actual readiness: drafted reusable company-description text at 3
+lengths (sized specifically to LinkedIn's tagline/About limits), built
+entirely from facts already approved and live on the site. Researched
+GEPA's real registration process (form, business certificates, possible
+facility inspection) and the 4 trade associations' application paths —
+honestly reporting that none publish fees or a self-service process, all
+four need direct contact. Flagged a genuine prerequisite: whether
+`export@borgafoods.com` actually receives mail yet, since it will likely
+gate LinkedIn/GEPA/association verification and this repository can't
+test it. Consolidated everything into one priority order, LinkedIn
+first (no third-party dependency, ready to execute once BorgaFoods has a
+logo and cover image).
+
+Everything genuinely requiring an external account, business document,
+or organization contact was left for BorgaFoods to do — this phase
+prepared the assets, it didn't act on them.
