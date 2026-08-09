@@ -292,3 +292,25 @@ times, production capacity — as a business-approval list.
 
 No claim was invented, no new product was added, no supplier information
 was referenced, and the RFQ workflow was not touched.
+
+## Search Intelligence & Buyer Acquisition (9 August 2026)
+
+Status: **Monitoring checkpoint recorded; two decisions/plans prepared
+for BorgaFoods, nothing published or submitted externally.** Full detail
+in `docs/GSC_INDEXING_AUDIT.md`, `docs/COMMERCIAL_INFO_DECISION_RECORD.md`,
+and `docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md`.
+
+Checked live Search Console data now that real numbers exist (5
+impressions, avg. position 4.8, one query so far) and resubmitted the
+sitemap after finding Google hadn't yet re-read the file since the 5
+product-page URLs were added. Turned the commercial-information gap list
+from the prior phase into a sign-off sheet (MOQ, shipping mode, lead
+time, export documents, production capacity) — decisions left blank for
+BorgaFoods, since this repository has no visibility into any of the real
+figures. Researched and named real off-site authority-building
+opportunities — GEPA exporter registration, 4 Ghana food-trade
+associations, 4 African B2B food directories, and a LinkedIn company
+page (the highest-value, zero-cost item, and the missing piece for an
+already-known structured-data gap) — without creating any account or
+contacting any organization, since each requires a business action this
+repository doesn't perform on its own.

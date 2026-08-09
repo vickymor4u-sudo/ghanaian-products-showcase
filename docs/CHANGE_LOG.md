@@ -2,6 +2,20 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Search Intelligence & Buyer Acquisition phase
+
+No code deployment — a GSC monitoring checkpoint, one live GSC
+operational action (a sitemap resubmission, not a content/business
+change), and two research/planning documents. Full detail in
+`docs/GSC_INDEXING_AUDIT.md` (checkpoint 2),
+`docs/COMMERCIAL_INFO_DECISION_RECORD.md`, and
+`docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md`.
+
+- **GSC monitoring**: Performance report now has real data — 5 impressions, 0 clicks, average position 4.8, one query ("borga food," 2 impressions), homepage only. None of the 4 target queries ("fufu flour Ghana," "gari supplier Ghana," "banku mix export," "African food distributor Ghana") have impressions yet — expected at this stage, recorded as a baseline to compare against, not a negative finding. Indexing report still processing. No manual actions or security issues.
+- **Sitemap resubmitted** via Search Console: the sitemap had a stale "last read" date (8 Aug) from before the 5 product-page URLs were added to `client/public/sitemap.xml` (9 Aug, prior phase). Resubmitting the same, already-approved sitemap URL is a standard operational action (not a content or business change) that prompts Google to re-fetch it sooner rather than waiting for its own periodic recheck.
+- **`docs/COMMERCIAL_INFO_DECISION_RECORD.md`** — a sign-off sheet for the 5 items catalogued in `docs/COMMERCIAL_INFO_APPROVAL_LIST.md` (MOQ, shipping mode, lead time, export documents, production capacity), each with an Approved/Not-approved checkbox for business sign-off. This repository has no visibility into any of the underlying facts and left every decision blank — it structured the decision, it did not make it.
+- **`docs/OFFSITE_AUTHORITY_BUILDING_PLAN.md`** — researched and named real, currently active off-site opportunities (verified via web search, not invented): GEPA exporter registration, 4 Ghana food-sector trade associations (GAFEA, FABAG, FAGE, AGI), 4 African B2B food-trade directories, and a LinkedIn company page (the single highest-value item — zero cost, no third-party dependency, and the missing input for the `Organization` schema `sameAs` gap already flagged in `docs/SEO_FOUNDATION.md` §7). No account was created and no organization was contacted — every item requires a business action (registration, business-document submission, or representing the company externally) that this repository does not perform on its own.
+
 ## 9 August 2026 — Product Page Optimization Phase (commit `ff721da`)
 
 Objectives 1–4 of the "BorgaFoods Product Page Optimization Phase,"
