@@ -2,6 +2,56 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Performance Optimization Audit
+
+No code changed, no functionality removed, no SEO/business logic
+touched — an audit only, investigating reported slow navigation between
+pages. Full detail in `docs/PERFORMANCE_AUDIT.md`.
+
+Found two root causes, both directly demonstrated rather than assumed.
+**Root cause 1**: `Navigation.tsx` (the site's persistent header, every
+page), `Footer.tsx` (6 internal links), and one CTA in `About.tsx` use
+plain `<a href>` instead of wouter's `<Link>` — the router already used
+correctly everywhere else in the app (`Home.tsx`, `Products.tsx`,
+`ProductDetail.tsx`, `ExportCompliance.tsx`, `ExportSolutions.tsx`,
+`ExportQuoteButton.tsx`). Proved this with live Navigation Timing API
+data: clicking a header nav link on production shows a fresh navigation
+timeline (`unloadEventStart` fired, `loadEventEnd: 641ms`) — a full
+page reload — while every `<Link>`-based transition elsewhere produces
+zero new navigation entries and zero network requests. Since the header
+nav is the primary way visitors move around the site, this is the
+direct, verified cause of "slow navigation between pages."
+**Root cause 2**: every asset — JS, CSS, images, even `sitemap.xml` —
+is served `Cache-Control: public, max-age=0, must-revalidate`
+(confirmed via `curl` on 3 asset types), because `client/public/_routes.json`'s
+`"include": ["/*"]` (added deliberately in an earlier phase so
+`functions/_middleware.ts` could inject canonical/robots tags) routes
+every request, including static assets, through the Function instead
+of Cloudflare's native static-asset cache path.
+
+Also checked and found genuinely clean, not just assumed: tree-shaking
+correctly excludes 39 of 53 unused shadcn/ui scaffold files from the
+478 kB production bundle (zero signature matches for `recharts`,
+`embla`, `framer-motion`, etc. in the built JS); BPIP's internal-only
+`internalCandidates.ts` never reaches the client bundle (re-verified
+manually, matching `scripts/verify-no-internal-leak.ts`); GA4/Analytics
+is a genuine no-op when unconfigured; Brotli compression is active on
+all assets. Found smaller issues: no route-based code splitting
+(single 478 kB chunk for all 8 pages), 2 of 7 product images (739 kB)
+never referenced by any `<img>` tag, no WebP/responsive images, and
+`Contact.tsx`'s 1,147-line form re-renders entirely on every keystroke
+(plain `useState`, not the `react-hook-form` dependency already in the
+project).
+
+Produced a prioritized, impact-estimated fix list — none implemented.
+Top two recommended fixes (`<Link>` swap in 3 files; add
+`/assets/*`/`/images/*` to `_routes.json`'s `exclude`) are both scoped
+to avoid touching canonical/robots injection logic or any visible link
+behavior.
+
+Validation: audit only, no code changed, so no build/test run was
+performed as part of this task.
+
 ## 9 August 2026 — Commercial Outreach Phase 2 (Buyer Package Production + Website Trust Update)
 
 **Part 1 — GEPA Trust Update: implemented, validated, deployed to

@@ -571,3 +571,40 @@ beyond the two approved GEPA sentences on the live site, and the
 private-label capability model, BPIP registry, RFQ validation, and
 `/wholesale` remain unchanged, awaiting a separate, explicit decision
 to implement the reviewed change.
+
+## Performance Optimization Audit (9 August 2026)
+
+Status: **Audit complete; no code changed.** Full detail in
+`docs/PERFORMANCE_AUDIT.md`. Deliberately sequenced ahead of the
+Private-Label Scope implementation reviewed above, per an explicit
+business decision to understand and address the site's actual
+performance bottleneck before adding further weight to it.
+
+Investigated reported slow navigation between pages and found the
+direct, demonstrated cause: the site's persistent header navigation and
+footer — present on every page, and the primary way a visitor moves
+around the site — use plain HTML links instead of the client-side
+router (`wouter`) already used correctly everywhere else in the app.
+Every click on the header menu therefore reloads the entire site from
+scratch (proved with live Navigation Timing API measurements showing a
+full document teardown/reload) instead of the instant transition the
+rest of the app already provides. A second, compounding issue was found
+independently: every asset on the site is served with a cache header
+that forces revalidation on every load, traced to a routing-config
+change from an earlier SEO phase that (correctly, at the time) began
+routing all requests through a Cloudflare Pages Function, with the
+side effect of losing native long-lived caching for static assets.
+
+Also audited and found already correct: image lazy-loading strategy,
+Brotli compression, tree-shaking of the project's large (mostly-unused)
+shadcn/ui scaffold, and BPIP's internal-only module exclusion from the
+client bundle — each re-verified directly rather than assumed. Smaller
+findings: no route-based code splitting, 739 kB of never-loaded dead
+product images, no modern/responsive image formats, and one form
+component that re-renders more than necessary.
+
+Produced a prioritized fix list with estimated impact for each item —
+none implemented, per this task's explicit audit-only scope. No
+functionality was removed and no SEO or business logic was proposed for
+change; the two top-priority fixes are both scoped narrowly enough to
+avoid either.
