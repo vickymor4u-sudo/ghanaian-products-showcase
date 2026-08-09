@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
+import { Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import SEO from "@/components/SEO";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import ExportQuoteButton from "@/components/ExportQuoteButton";
@@ -10,6 +11,7 @@ import {
   productSupplyStatements,
   productTypeLabels,
 } from "@/data/products";
+import { getProductPageUrl } from "@/data/productUrlSlugs";
 
 export default function Products() {
   const productNames = currentPublicCatalogueProducts
@@ -140,9 +142,18 @@ export default function Products() {
                   <h2 className="text-4xl font-bold text-foreground mb-4">
                     {product.name}
                   </h2>
-                  <p className="text-lg text-foreground mb-8 leading-relaxed">
+                  <p className="text-lg text-foreground mb-4 leading-relaxed">
                     {product.description}
                   </p>
+                  {getProductPageUrl(product.slug) && (
+                    <Link
+                      href={getProductPageUrl(product.slug)!}
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline mb-8"
+                    >
+                      View full {product.name} page
+                      <ArrowRight size={14} />
+                    </Link>
+                  )}
 
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-foreground mb-4">
