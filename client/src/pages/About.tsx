@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Users, Globe, Zap } from "lucide-react";
+import { Link } from "wouter";
 import SEO from "@/components/SEO";
 
 /**
@@ -57,11 +58,11 @@ export default function About() {
                 diaspora-focused and specialty food markets across Asia and
                 Africa, supported by scalable sourcing and logistics partners.
               </p>
-              <a href="/contact" className="inline-block">
+              <Link href="/contact" className="inline-block">
                 <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                   Contact Us
                 </Button>
-              </a>
+              </Link>
             </div>
             <div className="bg-secondary/10 rounded-lg p-8 border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6">
