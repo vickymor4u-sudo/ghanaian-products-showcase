@@ -13,6 +13,7 @@ import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { publicManufacturedProducts } from "@/data/products";
+import { getProductPageUrl } from "@/data/productUrlSlugs";
 
 const manufacturedProducts = publicManufacturedProducts;
 
@@ -109,18 +110,30 @@ export default function ExportSolutions() {
                 staple-food range for B2B wholesale and export enquiries.
               </p>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {manufacturedProducts.map(product => (
-                  <li
-                    key={product.slug}
-                    className="flex items-center gap-3 text-foreground"
-                  >
-                    <PackageCheck
-                      size={18}
-                      className="text-primary flex-shrink-0"
-                    />
-                    <span>{product.name}</span>
-                  </li>
-                ))}
+                {manufacturedProducts.map(product => {
+                  const productPageUrl = getProductPageUrl(product.slug);
+                  return (
+                    <li
+                      key={product.slug}
+                      className="flex items-center gap-3 text-foreground"
+                    >
+                      <PackageCheck
+                        size={18}
+                        className="text-primary flex-shrink-0"
+                      />
+                      {productPageUrl ? (
+                        <Link
+                          href={productPageUrl}
+                          className="hover:text-primary hover:underline"
+                        >
+                          {product.name}
+                        </Link>
+                      ) : (
+                        <span>{product.name}</span>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </Card>
 
