@@ -2,6 +2,62 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — Lead Generation Audit & Improvement Cycle
+
+Status: **Audit complete; 5 changes implemented, validated, deployed to
+production, and verified live.** Full detail in
+`docs/LEAD_GENERATION_STRATEGY.md` (baseline, findings, remaining
+opportunities, measurement plan) and
+`docs/LEAD_GENERATION_CHANGE_REPORT.md` (every change, reason, impact,
+validation). Commits `0d3f220` → merged as `86dcb8b`.
+
+Checked live GSC data directly rather than assuming: only 3 of 12 known
+public routes indexed so far (sitemap itself healthy, 12/12 discovered),
+5 lifetime impressions, 0 clicks — concluded the site is too young for
+keyword-opportunity analysis to be meaningful yet, and that the right
+response is making every page's buyer-intent signals as strong as
+possible before Google finishes crawling, not inventing content for
+search volume (explicitly out of scope).
+
+Audited the full buyer journey page by page and found one genuinely
+consequential issue by reading the actual RFQ validation code: every
+inquiry type, including the unlabeled default "general business
+inquiry," required an exact product and exact quantity before the form
+would submit — real, code-confirmed friction between a curious buyer
+and their first contact. Fixed it narrowly: `general` inquiries now
+have both fields optional; every other inquiry type (`export_quote`,
+`wholesale`, `distribution`, `private_label`) is completely unchanged,
+confirmed by 2 new tests plus all 11 pre-existing RFQ tests passing
+unmodified.
+
+Also found and closed: the homepage and every product page had zero
+GEPA export-credibility signal despite it being live and approved on
+`/about`/`/export` (added the identical, already-approved wording, no
+new claim); the FAQ content on product pages had no structured data
+(added FAQPage JSON-LD around the exact text already visible, no new
+copy); `/wholesale` never told a distributor which countries BorgaFoods
+actually operates from, even though that fact was already public on
+`/about` (added one cross-referencing sentence).
+
+Reviewed and left unchanged, with reasons recorded: MOQ/shipping/lead-time/
+capacity publication (business decision), `/export` Incoterm/port
+specificity (business/legal call per prior audit), a downloadable
+company PDF (blocked on a missing logo asset), an explicit response-time
+commitment (no real commitment exists to state), broadening private-label
+scope (separate, already-reviewed, deliberately not combined per prior
+sequencing instruction), and all remaining performance-audit fixes
+(separate scope). GA4 activation remains blocked on an external account
+this repository cannot create; the existing `generate_lead` conversion
+event already answers the mission's measurement questions the moment
+it's turned on.
+
+Full validation before deployment: `tsc --noEmit`, all 4 build guards,
+`vite build` (+1.7kB), 53/53 tests. Verified on a Cloudflare preview
+deployment before merging and re-verified on production after —
+RFQ API behavior for both affected and unaffected inquiry types,
+rendered content on 4 pages, FAQ schema correctness, canonical tags,
+404 behavior, and mobile rendering all confirmed live.
+
 ## 9 August 2026 — Performance Optimization Phase 1 (navigation & cache fixes)
 
 Status: **Implemented, validated, deployed to production, and

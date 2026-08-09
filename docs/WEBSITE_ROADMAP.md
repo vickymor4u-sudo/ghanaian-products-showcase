@@ -640,3 +640,48 @@ canonical/robots injection middleware itself was never touched, only
 which requests are routed to it. Not combined with the private-label
 BPIP change or buyer-package work from the prior phase, per explicit
 instruction to keep this foundational cleanup separate.
+
+## Lead Generation Audit & Improvement Cycle (9 August 2026)
+
+Status: **Audit complete; 5 changes implemented, validated, deployed to
+production, verified live.** Full detail in
+`docs/LEAD_GENERATION_STRATEGY.md` and `docs/LEAD_GENERATION_CHANGE_REPORT.md`.
+
+Reframed the website explicitly as a commercial acquisition tool and
+audited the full buyer journey — search discovery, landing experience,
+product/export/wholesale pages, lead capture, trust signals, outreach
+support, and measurement — against one test: does this increase
+qualified buyer enquiries, not traffic. Checked live Search Console
+data directly (3 of 12 pages indexed, sitemap healthy, too little
+history yet for keyword-opportunity analysis) and concluded the right
+move was strengthening every page's buyer-intent and trust signals
+ahead of Google's crawl, not publishing content for search volume.
+
+Found and fixed the RFQ form's most consequential friction point by
+reading the actual validation code: even a general question required
+naming an exact product and quantity. Loosened that requirement for
+general enquiries only, leaving every serious enquiry type's
+requirements untouched, with new test coverage proving both halves of
+that boundary hold. Closed a homepage and product-page trust gap (no
+GEPA credibility signal anywhere off `/about` and `/export`, despite it
+being confirmed and already approved) using only wording already live
+elsewhere. Added FAQPage structured data around FAQ content that was
+already on the page, for search rich-snippet eligibility with zero new
+copy. Closed a distributor-persona content gap on `/wholesale`
+(geographic footprint) flagged by an earlier phase's buyer-intent
+audit and still open.
+
+Explicitly left unchanged, with reasons recorded in
+`docs/LEAD_GENERATION_STRATEGY.md`: everything gated on a business
+decision (MOQ, shipping, lead time, capacity, response-time
+commitments), the separately-reviewed private-label scope question,
+a downloadable company PDF (blocked on a missing logo), and the
+remaining items on `docs/PERFORMANCE_AUDIT.md`'s fix list.
+
+Full validation before and after deployment, matching this project's
+established discipline: typecheck, all 4 build guards, full test suite
+(53/53, 2 new), production build, Cloudflare preview verification
+before merging, and a full re-verification pass against production
+afterward (RFQ behavior for both changed and unchanged inquiry types,
+rendered content, structured data, canonical tags, 404 handling, and
+mobile rendering).
