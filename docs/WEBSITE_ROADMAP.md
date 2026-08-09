@@ -436,3 +436,34 @@ Stopped here, as instructed: no supplier identity or certificate is
 public anywhere, no certification is claimed beyond what's directly
 supported, and the PCR-002 connection is surfaced for business
 awareness rather than acted on.
+
+## External Authority Phase 3 — Activation Preparation (9 August 2026)
+
+Status: **All 4 deliverables prepared; nothing submitted, published, or
+posted.** Full detail in `docs/LINKEDIN_LAUNCH_CHECKLIST.md`,
+`docs/EXPORTER_PROFILE_PDF_DRAFT.md`, `docs/GEPA_RENEWAL_FOLLOWUP.md`,
+and `docs/WEBSITE_TRUST_GAP_REVIEW.md`.
+
+Turned the completed authority documents from Phases 1–2 into
+execution-ready assets. Consolidated the LinkedIn package into a single
+launch checklist and drafted the first 5 launch posts (all built from
+already-public facts, none referencing GEPA or unverified
+certifications). Wrote the actual draft content for the buyer-facing
+exporter profile PDF, filling in the outline from the prior phase with
+real copy sourced from BPIP and already-approved page text; its
+"Supporting registrations" section lists only the verified Ghana FDA
+fact and holds the GEPA line. Prepared a draft GEPA follow-up email and
+a document checklist for a possible renewal — researched GEPA's own
+published first-time-registration requirements via its Exporters Portal
+rather than inventing a process, and honestly flagged that a
+renewal-specific procedure isn't publicly documented. Reviewed
+`/about`, `/export`, and `/wholesale` line by line for trust statements
+that could be strengthened once GEPA is confirmed: found 2 on `/about`,
+one candidate new addition on `/export`, and none on `/wholesale`
+(which targets buyer/product fit, not export-registration credibility)
+— a map to apply against once confirmation lands, not a change made
+now.
+
+No page was edited, no email was sent, no account was created, and no
+post was published — per this phase's explicit "no external
+submissions, no new website claims" constraint.

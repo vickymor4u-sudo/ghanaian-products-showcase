@@ -2,6 +2,25 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 9 August 2026 — External Authority Phase 3 (activation preparation)
+
+No external submission made, no new website claim published, no
+supplier name published. Converts the completed authority documents
+into concrete, ready-to-use assets. Four deliverables produced:
+
+- **`docs/LINKEDIN_LAUNCH_CHECKLIST.md`** (new) — consolidates `docs/LINKEDIN_COMPANY_PAGE_PACKAGE.md` into a single go/no-go checklist (10 items, 4 still needed from BorgaFoods: logo, cover image, company-size band, a creator profile), plus draft copy for the first 5 launch posts — all built from facts already public, none mentioning GEPA or any certification beyond the existing Ghana FDA fact.
+- **`docs/EXPORTER_PROFILE_PDF_DRAFT.md`** (new) — actual draft content (not just structure) for the buyer-facing exporter profile PDF outlined in the prior phase: company overview, product categories (sourced from BPIP), export process, buyer types served, and quality assurance approach. The "Supporting registrations" section lists only the verified Ghana FDA fact; the GEPA line stays held, and the two supplier/partner documents from Phase 2 are excluded, per `docs/EXPORT_EVIDENCE_MATRIX.md`.
+- **`docs/GEPA_RENEWAL_FOLLOWUP.md`** (new) — a draft email requesting GEPA confirm registration No. GEPA2018800113's current status (not sent), and a document checklist for a possible renewal, built from GEPA's own published first-time-registration requirements (confirmed via GEPA's Exporters Portal, gepaghana.org) and honestly flagged as unconfirmed for a renewal specifically, since GEPA doesn't publish a renewal-specific process.
+- **`docs/WEBSITE_TRUST_GAP_REVIEW.md`** (new) — line-by-line review of `/about`, `/export`, `/wholesale` sorting every trust statement into "strengthenable once GEPA is confirmed" vs. "unchanged regardless." Found 2 candidate statements on `/about` (Value Chain step 4, "Export Experience"), one candidate new addition on `/export` (Shipment Planning section), and zero on `/wholesale` (that page targets buyer/product questions, not export-registration credibility).
+
+**Stopped here, as instructed**: no page was edited, no GEPA email was
+sent, no LinkedIn page was created or post published. Everything
+produced is ready to execute the moment BorgaFoods supplies the
+missing assets (logo, cover image, company size) or GEPA confirms
+renewal status.
+
+Validation: no code changed, so no build/test run was needed.
+
 ## 9 August 2026 — External Authority Phase 2 (supply-chain evidence review; no new public claim)
 
 No supplier name published, no certificate published, no certification
