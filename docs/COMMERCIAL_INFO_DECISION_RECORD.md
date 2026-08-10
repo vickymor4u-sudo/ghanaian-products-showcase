@@ -1,8 +1,8 @@
 # Commercial Information — Decision Record
 
 Status: **Rows 1–5 await business decision; nothing published for them.
-Row 6 (product sale pricing) is approved for 3 of 5 live products —
-see that row for scope and what remains open.**
+Row 6 (product sale pricing) is approved and published for all 5 live
+products — see that row for history.**
 
 This is the sign-off sheet for the 5 commercial-information gaps
 catalogued in detail in `docs/COMMERCIAL_INFO_APPROVAL_LIST.md` (full
@@ -28,11 +28,11 @@ there is no default or safe assumption to fall back on.
 | 3 | **Lead time** (production + shipment) | Not published, not even as a range | ☐ Approved — publish &nbsp; ☐ Not approved — keep internal | `/export`, each product page's "Shipping & Lead Time" card | | |
 | 4 | **Export documents** (e.g. Certificate of Origin, commercial invoice, phytosanitary certificate) | Only the *category* "export documentation" is named; no specific document types | ☐ Approved — publish &nbsp; ☐ Not approved — keep internal | `/export`'s "Export documentation" card | | |
 | 5 | **Production capacity** (volume, order-size ceiling, facility count) | Not published or implied anywhere | ☐ Approved — publish &nbsp; ☐ Not approved — keep internal | `/about`'s Value Chain / Competitive Advantages sections | | |
-| 6 | **Product sale price** (wholesale, per carton, USD) | Not published — no `Product` schema `offers`, no on-page price | ☑ Approved — publish, **for Gari, Cassava Flour, and Kokonte only** ($35, $45, $38 per carton respectively, 12 units/carton, confirmed as BorgaFoods' sale price to wholesale buyers, not internal cost) | `Product` structured data (`offers`) on the relevant product pages, via BPIP's `wholesalePricing` field | Business owner, via chat | 11 Aug 2026 |
+| 6 | **Product sale price** (wholesale, per carton, USD) | Not published — no `Product` schema `offers`, no on-page price | ☑ Approved — publish, **for all 5 live products** ($35 Gari, $45 Cassava Flour, $38 Kokonte, $65 Fufu Flour, $35 Banku Borga, per carton) — confirmed as BorgaFoods' sale price to wholesale buyers, not internal cost | `Product` structured data (`offers`) on the relevant product pages, via BPIP's `wholesalePricing` field | Business owner, via chat | 11 Aug 2026 |
 
-**Row 6 explicitly excludes two products, both still open:**
-- **Fufu Flour** — the source workbook's price row carries brand "Neat," conflicting with the approved public brand "Borga"/"BorgaFoods" (the same conflict tracked as `PCR-001` in `docs/PRODUCT_INTELLIGENCE_RECONCILIATION.md`). Held out of publication until that classification question resolves, consistent with how all other new Fufu Flour content has been treated.
-- **Banku Borga** — no price row exists for it in either version of the source workbook reviewed. Needs a business-supplied figure before it can be added; not a code blocker.
+**Row 6 history — two products were initially held back, both since resolved by explicit business instruction:**
+- **Fufu Flour** — the source workbook's price row carries brand "Neat," conflicting with the approved public brand "Borga"/"BorgaFoods" (the same conflict tracked as `PCR-001` in `docs/PRODUCT_INTELLIGENCE_RECONCILIATION.md`). Initially held out pending that classification question. Business owner explicitly confirmed (11 Aug 2026) the same price applies to the live product regardless of the workbook's brand label — pricing published on that basis. **PCR-001's broader brand/classification gate is unaffected and remains open** for any future content beyond this price.
+- **Banku Borga** — no price row exists for it in either version of the source workbook reviewed. Business owner supplied $35/carton directly via chat (11 Aug 2026); no per-unit-carton count supplied, so `unitsPerCarton` is omitted for this product only.
 
 Each row is independent — approve some and decline others; there's no
 requirement to decide all five the same way.

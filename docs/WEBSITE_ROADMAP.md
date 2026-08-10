@@ -748,3 +748,13 @@ Full validation: typecheck, all 4 build guards (including a
 post-build internal-leak re-check), full test suite (53/53, unchanged
 — no new test surface), production build, Cloudflare preview
 verification before merging, production re-verification after.
+
+**Same-day follow-up**: the business owner directly resolved both
+held-out products. Banku Borga ($35/carton) had no workbook price at
+all, supplied directly via chat. Fufu Flour ($65/carton) had a
+workbook price tagged with a conflicting brand ("Neat" vs. approved
+"Borga") — the business owner confirmed the price applies to the live
+product regardless, so it was published; `PCR-001`'s broader
+classification gate remains open for anything beyond this price. All 5
+live products now carry `offers`. Same full validation and
+preview/production verification discipline applied.

@@ -2,6 +2,33 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 11 August 2026 — Product pricing extended to Fufu Flour and Banku Borga
+
+Status: **Implemented, validated, and deployed.** Follow-up to the same
+day's earlier `offers` fix (below): the business owner directly
+resolved both products previously held out.
+
+- **Banku Borga** ($35/carton) — no price existed for this product in
+  either source workbook; the business owner supplied the figure
+  directly via chat. `unitsPerCarton` is omitted for this one product
+  since no per-carton unit count was supplied.
+- **Fufu Flour** ($65/carton, 12 units/carton) — the source workbook's
+  price row carries brand "Neat," conflicting with this product's
+  approved public brand ("Borga"/"BorgaFoods"), the same conflict
+  tracked as `PCR-001`. The business owner explicitly confirmed the
+  price applies to the live product regardless of the workbook's brand
+  label, so it was published on that basis. This resolves the pricing
+  question only — `PCR-001`'s broader brand/classification gate is
+  unchanged and still open for any other new content.
+
+All 5 live products now carry `offers` in their `Product` structured
+data. Full detail and the decision trail in
+`docs/COMMERCIAL_INFO_DECISION_RECORD.md` row 6.
+
+Full validation: `tsc --noEmit`, all 4 build guards, 53/53 tests, `vite
+build`. Verified on a Cloudflare preview before merging, re-verified on
+production after.
+
 ## 11 August 2026 — Product pricing added to structured data (GSC `offers` fix)
 
 Status: **Implemented, validated, and deployed.** Resolves the Google
