@@ -110,6 +110,22 @@ export default function SchemaMarkup({
           name: data.countryOfOrigin,
         },
         image: data.images.map(image => `${SITE_ORIGIN}${image}`),
+        ...(data.wholesalePricing && {
+          offers: {
+            "@type": "Offer",
+            price: data.wholesalePricing.pricePerCarton,
+            priceCurrency: data.wholesalePricing.currency,
+            availability: "https://schema.org/InStock",
+            ...(data.wholesalePricing.unitsPerCarton && {
+              priceSpecification: {
+                "@type": "UnitPriceSpecification",
+                price: data.wholesalePricing.pricePerCarton,
+                priceCurrency: data.wholesalePricing.currency,
+                unitText: `Per carton (${data.wholesalePricing.unitsPerCarton} units)`,
+              },
+            }),
+          },
+        }),
       };
     } else if (type === "breadcrumb" && breadcrumbs) {
       schema = {

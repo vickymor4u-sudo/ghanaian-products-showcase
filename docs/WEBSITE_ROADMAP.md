@@ -1,6 +1,6 @@
 # BorgaFoods Website Roadmap
 
-Last updated: 9 August 2026
+Last updated: 11 August 2026
 
 ## Roadmap principles
 
@@ -721,3 +721,30 @@ improvement" in one phase.
 No new pages, no product changes, no BPIP change, no RFQ qualification
 change, and no external account activated — per this phase's explicit
 "no unnecessary expansion" constraint.
+
+## Product pricing added to structured data (11 August 2026)
+
+Status: **Implemented, validated, deployed, verified live.**
+
+Resolved a live Google Search Console structured-data issue (`Product`
+schema missing `offers`/`review`/`aggregateRating`) using a real,
+business-approved wholesale price list, supplied and explicitly
+confirmed via chat as USD, per-carton, sale-price-to-buyers (not
+internal cost). Added an optional `wholesalePricing` field to BPIP,
+populated it for 3 of 5 live products (Gari, Cassava Flour, Kokonte),
+and added a conditional `offers` block to `SchemaMarkup.tsx`.
+
+Held two products out deliberately: Fufu Flour (its price row in the
+source data carries a brand conflicting with the approved public
+brand, reinforcing the standing `PCR-001` gate) and Banku Borga (no
+price data exists for it in the source at all). Both recorded in
+`docs/COMMERCIAL_INFO_DECISION_RECORD.md` row 6 as open.
+
+No brand/manufacturer field changed — the "no brand" instruction that
+accompanied the price data was confirmed in scope to price quoting
+only, not the site's existing brand attribution.
+
+Full validation: typecheck, all 4 build guards (including a
+post-build internal-leak re-check), full test suite (53/53, unchanged
+— no new test surface), production build, Cloudflare preview
+verification before merging, production re-verification after.

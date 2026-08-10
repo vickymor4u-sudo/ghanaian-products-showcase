@@ -80,6 +80,11 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     certification: "Ghana FDA registered facilities",
     images: ["/images/gari-borga.jpg"],
     variants: ["Fine grain", "Medium grain", "Coarse grain"],
+    wholesalePricing: {
+      pricePerCarton: 35,
+      currency: "USD",
+      unitsPerCarton: 12,
+    },
     lifecycle: { state: "published" },
     approvals: {
       publicDisplayStatus: "approved_current_catalog",
@@ -109,10 +114,15 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     certification: "Ghana FDA registered facilities",
     images: ["/images/kokonte-borga.jpg"],
     variants: ["Standard mix", "High plantain blend"],
+    wholesalePricing: {
+      pricePerCarton: 38,
+      currency: "USD",
+      unitsPerCarton: 12,
+    },
     lifecycle: {
       state: "published",
       internalNotes:
-        "Not present in the reconciled master export workbook; approval predates and is independent of it.",
+        "Not present in the earlier reconciled master export workbook; approval predates and was independent of it. Pricing added from a later master export workbook where a Kokonte row first appeared.",
     },
     approvals: {
       publicDisplayStatus: "approved_current_catalog",
@@ -175,6 +185,11 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     certification: "Ghana FDA registered facilities",
     images: ["/images/cassava-flour.jpg"],
     variants: ["Fine milled", "For fufu preparation"],
+    wholesalePricing: {
+      pricePerCarton: 45,
+      currency: "USD",
+      unitsPerCarton: 12,
+    },
     lifecycle: { state: "published" },
     approvals: {
       publicDisplayStatus: "approved_current_catalog",

@@ -49,6 +49,12 @@ interface ProductBase {
    * discussion. Absence means the product is not selectable for that flow.
    */
   privateLabelDiscoveryApproved?: true;
+  /** Approved wholesale carton sale price. Absent when not yet approved for publication. */
+  wholesalePricing?: {
+    pricePerCarton: number;
+    currency: string;
+    unitsPerCarton?: number;
+  };
 }
 
 export interface ManufacturedProduct extends ProductBase {
@@ -153,6 +159,9 @@ function toPublicProduct(record: PublishedProductRecord): Product {
     sourceAlignment: record.approvals.sourceAlignment,
     ...(record.approvals.privateLabelEligibility === "approved_for_discovery"
       ? { privateLabelDiscoveryApproved: true as const }
+      : {}),
+    ...(record.wholesalePricing
+      ? { wholesalePricing: record.wholesalePricing }
       : {}),
   };
 
