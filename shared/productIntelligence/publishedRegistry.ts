@@ -46,11 +46,16 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     certification: "Ghana FDA registered facilities",
     images: ["/images/fufu-borga.jpg", "/images/fufu-product.jpg"],
     variants: ["Plantain-based fufu flour", "Cassava-plantain blends"],
+    wholesalePricing: {
+      pricePerCarton: 65,
+      currency: "USD",
+      unitsPerCarton: 12,
+    },
     lifecycle: {
       state: "published",
       reviewGate: "PCR-001",
       internalNotes:
-        "Existing approved catalog record retained as-is. PCR-001 restricts new Phase 4 packaging/export/classification content, not this existing presentation. Private-label discovery approved for this record only.",
+        "Existing approved catalog record retained as-is. PCR-001 restricts new Phase 4 packaging/export/classification content, not this existing presentation. Private-label discovery approved for this record only. Pricing: the source workbook's price row for this product carries brand \"Neat\" (vs. this record's approved \"Borga\"), the same conflict PCR-001 tracks. Business owner explicitly confirmed (via chat, 11 Aug 2026) that price applies to this product regardless of the workbook's brand label, so wholesalePricing was added on that basis. This resolves the pricing question only — it is not a resolution of PCR-001's broader brand/classification conflict, which remains open for any other new content.",
     },
     approvals: {
       publicDisplayStatus: "approved_current_catalog",
@@ -152,10 +157,14 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     certification: "Ghana FDA registered facilities",
     images: ["/images/banku-borga.jpg", "/images/banku-product.jpg"],
     variants: ["Standard mix", "High corn blend", "High cassava blend"],
+    wholesalePricing: {
+      pricePerCarton: 35,
+      currency: "USD",
+    },
     lifecycle: {
       state: "published",
       internalNotes:
-        "Not present in the reconciled master export workbook; approval predates and is independent of it.",
+        "Not present in either reconciled master export workbook; approval predates and is independent of them. Pricing supplied directly by the business owner via chat (11 Aug 2026), since no workbook row exists for this product.",
     },
     approvals: {
       publicDisplayStatus: "approved_current_catalog",
