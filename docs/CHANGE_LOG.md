@@ -2,6 +2,43 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 11 August 2026 — Product pricing added to structured data (GSC `offers` fix)
+
+Status: **Implemented, validated, and deployed.** Resolves the Google
+Search Console "critical issue" reported by email (structured-data
+`Product` items missing required `offers`/`review`/`aggregateRating`
+field) for 3 of BorgaFoods' 5 live products.
+
+Business owner supplied a wholesale carton price list (via chat,
+sourced from an internal pricing workbook) and explicitly confirmed:
+figures are USD, per-carton wholesale sale prices (not retail, not
+internal cost), and that pricing should be quoted using plain generic
+product names with no brand label — confirmed as scoped to price
+quoting only, not a change to the site's existing brand/manufacturer
+attribution, which remains untouched.
+
+Added an optional `wholesalePricing` field to BPIP
+(`shared/productIntelligence/types.ts`), populated it in
+`publishedRegistry.ts` for Gari ($35/carton), Cassava Flour
+($45/carton), and Kokonte ($38/carton) — all 12 units/carton — threaded
+it through the `client/src/data/products.ts` adapter, and added a
+conditional `offers` block (with a `UnitPriceSpecification` clarifying
+the per-carton unit) to `SchemaMarkup.tsx`'s `Product` schema.
+
+**Deliberately excluded from this round**, both recorded in
+`docs/COMMERCIAL_INFO_DECISION_RECORD.md` row 6:
+- **Fufu Flour** — its price row in the source workbook carries a
+  conflicting brand ("Neat" vs. the approved "Borga"), reinforcing the
+  standing `PCR-001` classification gate. Held out until that resolves.
+- **Banku Borga** — no price row exists for it in the source data at
+  all. Needs a business-supplied figure, not a code change.
+
+Full validation: `tsc --noEmit` clean, all 4 build guards pass
+(including a fresh `verify-no-internal-leak` run against the rebuilt
+JS asset — no source-workbook data of any kind, only the 3 approved
+public sale prices, reaches the bundle), 53/53 tests pass unchanged,
+`vite build` succeeds.
+
 ## 9 August 2026 — Lead Generation Phase 2 (Market Activation & Conversion Intelligence)
 
 Status: **4 planning documents produced; one safe, high-confidence

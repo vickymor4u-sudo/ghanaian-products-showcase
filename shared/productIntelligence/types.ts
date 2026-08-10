@@ -113,6 +113,21 @@ interface ProductIntelligenceBase {
   certification?: string;
   images?: readonly string[];
   variants?: readonly string[];
+
+  /**
+   * Approved wholesale (not retail) carton sale price, for structured-data
+   * `Offer` eligibility (Google Search Console requires a `Product` schema
+   * to carry `offers`, `review`, or `aggregateRating`). Optional and
+   * deliberately absent for any record without an explicit, current,
+   * business-approved sale price — see
+   * `docs/COMMERCIAL_INFO_DECISION_RECORD.md`. Never populate this for a
+   * record with an open `lifecycle.reviewGate`.
+   */
+  wholesalePricing?: {
+    pricePerCarton: number;
+    currency: string;
+    unitsPerCarton?: number;
+  };
 }
 
 export interface ManufacturedProductRecord extends ProductIntelligenceBase {
