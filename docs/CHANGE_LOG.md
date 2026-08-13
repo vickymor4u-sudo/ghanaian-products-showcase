@@ -2,6 +2,47 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 11 August 2026 — shippingDetails and hasMerchantReturnPolicy added to Offer schema
+
+Status: **Implemented, validated, deployed.** Second Google Search
+Console structured-data fix the same day: GSC also flagged the
+`Product` items' `offers` as missing shipping and return-policy
+information.
+
+Added `SHIPPING_ORIGIN_COUNTRY`, `SHIPPING_DESTINATION_COUNTRIES`,
+`SHIPPING_HANDLING_TIME_DAYS`, `RETURN_POLICY_COUNTRIES`, and
+`RETURN_POLICY_CATEGORY` as new site-wide constants in
+`client/src/config/site.ts` (uniform across every product, not a BPIP
+per-product field) and wired them into `SchemaMarkup.tsx`'s existing
+`offers` block:
+
+- `shippingDetails`: origin Ghana (`GH`), destination United States
+  (`US`), `handlingTime` 30–45 business days. No `shippingRate` —
+  business owner confirmed wholesale container freight is quoted per
+  enquiry, not a fixed figure, so it was omitted rather than
+  fabricated.
+- `hasMerchantReturnPolicy`: `MerchantReturnNotPermitted` (perishable
+  food, sold EXW), `applicableCountry: ["US"]`.
+- No `review`/`aggregateRating` added, per explicit instruction — no
+  reviews exist to report.
+
+Two limitations recorded in `docs/COMMERCIAL_INFO_DECISION_RECORD.md`
+rows 7–8: schema.org has no "ships to most/all countries" wildcard, so
+only `US` is listed even though the business owner's actual policy is
+broader; and this data is structured-data-only — the visible page
+copy on `/export` and every product page still says shipping/lead
+time are "confirmed per enquiry," so there is now a real (flagged, not
+silently resolved) gap between what the invisible schema states and
+what a visiting buyer reads.
+
+Verified with Google's actual Rich Results Test against the deployed
+page (not just documentation) — see verification note below.
+
+Full validation: `tsc --noEmit`, all 4 build guards (including a
+post-build internal-leak re-check), 53/53 tests (unchanged), `vite
+build`. Cloudflare preview verified before merging, production
+re-verified after.
+
 ## 11 August 2026 — Product pricing extended to Fufu Flour and Banku Borga
 
 Status: **Implemented, validated, and deployed.** Follow-up to the same

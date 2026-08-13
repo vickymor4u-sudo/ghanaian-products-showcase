@@ -1,5 +1,13 @@
 import { useEffect } from "react";
-import { EXPORT_ENQUIRY_EMAIL, SITE_ORIGIN } from "@/config/site";
+import {
+  EXPORT_ENQUIRY_EMAIL,
+  SITE_ORIGIN,
+  SHIPPING_ORIGIN_COUNTRY,
+  SHIPPING_DESTINATION_COUNTRIES,
+  SHIPPING_HANDLING_TIME_DAYS,
+  RETURN_POLICY_COUNTRIES,
+  RETURN_POLICY_CATEGORY,
+} from "@/config/site";
 import type { Product } from "@/data/products";
 import { getProductPageUrl } from "@/data/productUrlSlugs";
 
@@ -124,6 +132,36 @@ export default function SchemaMarkup({
                 unitText: `Per carton (${data.wholesalePricing.unitsPerCarton} units)`,
               },
             }),
+            // No shippingRate: wholesale container-order freight is quoted
+            // per enquiry, not a fixed figure — schema.org doesn't require
+            // one, though it isn't part of Google's own worked example.
+            shippingDetails: {
+              "@type": "OfferShippingDetails",
+              shippingOrigin: {
+                "@type": "DefinedRegion",
+                addressCountry: SHIPPING_ORIGIN_COUNTRY,
+              },
+              shippingDestination: SHIPPING_DESTINATION_COUNTRIES.map(
+                country => ({
+                  "@type": "DefinedRegion",
+                  addressCountry: country,
+                })
+              ),
+              deliveryTime: {
+                "@type": "ShippingDeliveryTime",
+                handlingTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: SHIPPING_HANDLING_TIME_DAYS.min,
+                  maxValue: SHIPPING_HANDLING_TIME_DAYS.max,
+                  unitCode: "DAY",
+                },
+              },
+            },
+            hasMerchantReturnPolicy: {
+              "@type": "MerchantReturnPolicy",
+              returnPolicyCategory: RETURN_POLICY_CATEGORY,
+              applicableCountry: RETURN_POLICY_COUNTRIES,
+            },
           },
         }),
       };
