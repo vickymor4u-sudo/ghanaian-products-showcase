@@ -26,3 +26,25 @@ export const TURNSTILE_SITE_KEY =
 // and docs/SEO_FOUNDATION.md.
 export const GA4_MEASUREMENT_ID =
   import.meta.env.VITE_GA4_MEASUREMENT_ID?.trim() ?? "";
+
+// Shipping & returns — approved by the business owner via chat, 11 Aug
+// 2026, for Product `offers` structured data (Google Search Console
+// flagged missing shippingDetails/hasMerchantReturnPolicy). Uniform across
+// every product — not a per-product fact — so it lives here rather than in
+// BPIP's per-product registry.
+//
+// schema.org has no wildcard for "ships to most/all countries": both
+// shippingDestination and a return policy's applicableCountry require
+// explicit ISO 3166-1 country codes. The business owner's actual answer
+// ("ships to most countries") isn't representable that way, so this lists
+// only the one market this fix's Search Console issue and the site's USD
+// pricing already concretely target. Add more codes here if BorgaFoods
+// wants specific additional destination markets represented.
+export const SHIPPING_ORIGIN_COUNTRY = "GH";
+export const SHIPPING_DESTINATION_COUNTRIES = ["US"];
+export const SHIPPING_HANDLING_TIME_DAYS = { min: 30, max: 45 };
+// No shippingRate: freight for wholesale container orders is quoted
+// per-order, not a fixed figure — omitted rather than fabricated.
+export const RETURN_POLICY_COUNTRIES = ["US"];
+export const RETURN_POLICY_CATEGORY =
+  "https://schema.org/MerchantReturnNotPermitted";
