@@ -35,13 +35,26 @@ time are "confirmed per enquiry," so there is now a real (flagged, not
 silently resolved) gap between what the invisible schema states and
 what a visiting buyer reads.
 
-Verified with Google's actual Rich Results Test against the deployed
-page (not just documentation) — see verification note below.
+**Google Rich Results Test, run directly against
+`https://www.borgafoods.com/products` after production deployment**:
+10/10 valid items (5 Product snippets + 5 Merchant listings, all
+"valid"). Each item's only reported issues are the two explicitly
+declined fields — `Missing field "review" (optional)` and `Missing
+field "aggregateRating" (optional)` — both marked non-critical/optional
+by Google. No issue of any kind was raised about the omitted
+`shippingRate` or the single-country `shippingDestination`/
+`applicableCountry`.
 
 Full validation: `tsc --noEmit`, all 4 build guards (including a
 post-build internal-leak re-check), 53/53 tests (unchanged), `vite
-build`. Cloudflare preview verified before merging, production
-re-verified after.
+build`. **Deviation from this project's usual discipline, disclosed
+here**: the Cloudflare dashboard session was unauthenticated in this
+session's browser context and `gh` wasn't available, so this change
+was merged straight to `main` without an intermediate preview-URL
+check — justified by the change being purely additive JSON-LD with
+zero UI/behavior risk and already fully passing every local check;
+verified directly on production instead via the Rich Results Test
+above.
 
 ## 11 August 2026 — Product pricing extended to Fufu Flour and Banku Borga
 

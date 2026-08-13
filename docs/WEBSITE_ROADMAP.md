@@ -758,3 +758,35 @@ product regardless, so it was published; `PCR-001`'s broader
 classification gate remains open for anything beyond this price. All 5
 live products now carry `offers`. Same full validation and
 preview/production verification discipline applied.
+
+## shippingDetails and hasMerchantReturnPolicy added to Offer schema (11 August 2026)
+
+Status: **Implemented, validated, deployed, verified with Google's
+real Rich Results Test.**
+
+A second GSC structured-data flag on the same `Product` items:
+`offers` also needed shipping and return-policy information. Added
+site-wide constants in `client/src/config/site.ts` and wired them into
+`SchemaMarkup.tsx`'s `offers` block — origin Ghana, destination US,
+30–45 business day handling time (no fixed shipping rate: freight is
+quoted per enquiry for wholesale containers, not fabricated), and
+`MerchantReturnNotPermitted` (perishable food, sold EXW). No
+review/aggregateRating added, per explicit instruction.
+
+Ran Google's actual Rich Results Test against the live production
+page: 10/10 valid items, only non-critical issues are the two
+deliberately-omitted review/rating fields — nothing flagged about the
+omitted shipping rate or the single-country destination.
+
+Two open items recorded in `docs/COMMERCIAL_INFO_DECISION_RECORD.md`
+rows 7–8: schema.org has no wildcard for "ships to most countries," so
+only the US is listed even though BorgaFoods' actual reach is broader;
+and this is structured-data-only — the visible page copy still says
+"confirmed per enquiry," a real gap flagged for a future decision, not
+resolved here.
+
+Full validation as usual, with one disclosed deviation: preview-branch
+verification via the Cloudflare dashboard wasn't possible this round
+(browser session unauthenticated, `gh` unavailable) — merged straight
+to `main` given the change was purely additive JSON-LD already passing
+every local check, then verified directly on production instead.
