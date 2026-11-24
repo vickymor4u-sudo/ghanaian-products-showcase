@@ -2,6 +2,25 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 24 November 2026 — Complete website refresh
+
+Implementation commit: `10ce0796327c0053a1ed6a5e2c7f6e518c7ce624`
+
+Added the approved homepage banner and replaced the Banku 1 kg pouch with
+the original WebP supplied in `BorgaFoods_Complete_Website_Refresh.zip`.
+Redesigned the homepage around the banner and five core products, changed the
+product listing to a compact grid with verified pack sizes, and shortened the
+product pages while retaining their SEO, serving photos, Banku 1 kg/2 kg
+range image, and approved private-label discovery. Catalogue requests now
+open an email to `export@borgafoods.com`; the existing quote flow remains in
+place. The navigation brand text no longer uses the main page heading tag.
+
+Validation: TypeScript check, all 53 tests, production build and catalog
+guards passed. Local browser checks at 390 px, 768 px and 1440 px covered the
+homepage, product listing and all five product pages with no broken images,
+page errors or horizontal overflow. Catalogue and quote destinations and
+mobile navigation were checked.
+
 ## 24 November 2026 — Fufu and Banku packaging images
 
 Implementation commit: `2c2962a9bfc2c30cd95b32626942df0cbe1e1647`
