@@ -247,6 +247,17 @@ export default function ProductDetail() {
                   className="h-full w-full object-contain"
                 />
               </div>
+              {product.slug === "banku-borga" && product.images[2] && (
+                <div className="mt-6 max-w-sm mx-auto lg:mx-0 overflow-hidden rounded-xl border border-border/60 bg-background p-4 shadow-sm">
+                  <img
+                    src={product.images[2]}
+                    alt="Banku Borga 1 kg and 2 kg packs"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
+              )}
             </div>
 
             <div>

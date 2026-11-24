@@ -44,7 +44,7 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "Up to 24 months",
     storage: "Cool, dry place away from direct sunlight",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/fufu-borga.jpg", "/images/fufu-product.jpg"],
+    images: ["/images/fufu-borga-2026.webp", "/images/fufu-product.jpg"],
     variants: ["Plantain-based fufu flour", "Cassava-plantain blends"],
     wholesalePricing: {
       pricePerCarton: 65,
@@ -155,7 +155,11 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "Up to 24 months",
     storage: "Cool, dry place away from direct sunlight",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/banku-borga.jpg", "/images/banku-product.jpg"],
+    images: [
+      "/images/banku-borga-2026.webp",
+      "/images/banku-product.jpg",
+      "/images/banku-borga-range-2026.webp",
+    ],
     variants: ["Standard mix", "High corn blend", "High cassava blend"],
     wholesalePricing: {
       pricePerCarton: 35,
