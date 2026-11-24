@@ -2,6 +2,20 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 24 November 2026 — One image per product
+
+Implementation commit: `7cc9eec5c19a1f5d60216f6356c8aa542bb745fc`
+
+Removed the secondary Fufu and Banku images from the published product
+registry and the product-detail image column. Every published product now
+has one primary packaging image in the page and product structured data.
+The supporting image files remain in the repository but are not referenced
+by the public product catalog.
+
+Validation: TypeScript check, 53 tests, production build and catalog guards
+passed. Local browser checks at 390 px and 1440 px confirmed one image per
+product detail page with no page errors or horizontal overflow.
+
 ## 24 November 2026 — Banku mockup consistency
 
 Implementation commits: `e6bcebd65d97ed4a0d75a1a3c30bdeaa381a2d6a`,
