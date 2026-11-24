@@ -37,9 +37,9 @@ export default function Navigation() {
             </span>
           </div>
           <div>
-            <h1 className="text-lg font-bold text-foreground">
+            <span className="block text-lg font-bold text-foreground">
               Supply & Demand
-            </h1>
+            </span>
             <p className="text-xs text-muted-foreground">Export Solutions</p>
           </div>
         </Link>

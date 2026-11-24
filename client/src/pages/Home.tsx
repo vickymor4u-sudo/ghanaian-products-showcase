@@ -1,11 +1,14 @@
+import { ArrowRight, Factory, Globe2, PackageCheck } from "lucide-react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Zap, Package, TrendingUp } from "lucide-react";
-import { Link } from "wouter";
-import SEO from "@/components/SEO";
-import SchemaMarkup from "@/components/SchemaMarkup";
+import CatalogueRequestButton from "@/components/CatalogueRequestButton";
 import ExportQuoteButton from "@/components/ExportQuoteButton";
+import ProductCard from "@/components/ProductCard";
+import SchemaMarkup from "@/components/SchemaMarkup";
+import SEO from "@/components/SEO";
 import { publicManufacturedProducts } from "@/data/products";
+import { SITE_ORIGIN } from "@/config/site";
 
 export default function Home() {
   return (
@@ -14,316 +17,153 @@ export default function Home() {
         title="BorgaFoods | Ghanaian Food Manufacturer & Export Partner"
         description="BorgaFoods manufactures Ghanaian staples and coordinates selected export products for distributors, wholesalers, importers, retailers, and food-service buyers."
         keywords="Ghanaian food manufacturer, Ghana food export, fufu wholesale, gari export, kokonte, banku, African grocery distributor, BorgaFoods"
+        image={`${SITE_ORIGIN}/images/borga-home-hero-2026.webp`}
       />
       <SchemaMarkup type="organization" />
-      {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
-        <div className="container relative z-10">
-          <div className="max-w-3xl">
-            <div className="inline-block mb-6 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
-              <span className="text-sm font-semibold text-primary">
-                B2B Export Solutions
-              </span>
-            </div>
 
-            <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Ghanaian Food Manufacturing and Export Supply
+      <section className="bg-gradient-to-b from-sky-50 via-white to-amber-50/40 pb-12 pt-6 md:pb-16 md:pt-10">
+        <div className="container">
+          <img
+            src="/images/borga-home-hero-2026.webp"
+            alt="BorgaFoods range of Gari, Banku, Fufu, Kokonte and Cassava Flour packaging"
+            width={1774}
+            height={887}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            className="h-auto w-full rounded-2xl border border-border/50 object-contain shadow-sm"
+          />
+          <div className="mx-auto max-w-4xl pt-8 text-center md:pt-10">
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-primary">
+              Ghanaian staples for global trade
+            </p>
+            <h1 className="text-3xl font-bold leading-tight text-foreground sm:text-4xl lg:text-5xl">
+              Ghanaian food manufacturing and export supply
             </h1>
-
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-2xl">
-              BorgaFoods manufactures Ghanaian staple foods and supports a
-              broader export assortment through selected Ghanaian production
-              partners.
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Authentic Ghanaian staples for distributors, importers,
+              wholesalers, retailers and food-service buyers.
             </p>
-
-            <p className="text-lg text-foreground mb-12 max-w-2xl">
-              Built for conversations with international distributors,
-              wholesalers, importers, retailers, restaurants, and food-service
-              buyers.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <ExportQuoteButton className="bg-primary hover:bg-primary/90 text-primary-foreground" />
-              <Link href="/export-solutions">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-primary text-primary hover:bg-primary/5"
-                >
-                  Explore Export Solutions
-                </Button>
-              </Link>
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="bg-primary text-primary-foreground"
+              >
+                <Link href="/products">Explore Products</Link>
+              </Button>
+              <ExportQuoteButton />
+              <CatalogueRequestButton className="border-primary/40 bg-white text-primary hover:bg-primary/5" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Company Introduction */}
-      <section className="py-20 bg-secondary/5">
+      <section className="py-14 md:py-18" aria-labelledby="manufactured-range">
         <div className="container">
-          <div className="max-w-3xl">
-            <h2 className="text-4xl font-bold text-foreground mb-6">
-              Who We Are
-            </h2>
-            <p className="text-lg text-foreground mb-6 leading-relaxed">
-              <strong>Supply & Demand Worldwide Ltd</strong> is a Ghana-focused
-              Ghanaian food and export business supporting international B2B
-              buyers.
-            </p>
-            <p className="text-lg text-foreground mb-6 leading-relaxed">
-              Through <strong>BorgaFoods Processing</strong>, we manufacture our
-              current range of gari, cassava flour, fufu flour, kokonte, and
-              Banku Borga.
-            </p>
-            <p className="text-lg text-foreground mb-6 leading-relaxed">
-              We also coordinate approved export selections—selected from
-              trusted Ghanaian production partners—without presenting those
-              products as BorgaFoods manufacturing.
-            </p>
-            <p className="text-lg text-foreground leading-relaxed">
-              Supply and Demand Worldwide Limited is registered with the
-              Ghana Export Promotion Authority (GEPA) as a commercial
-              exporter (Registration No. GEPA2018800113).
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* The BorgaFoods Brand with Images */}
-      <section className="py-20">
-        <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-4">
-            The BorgaFoods Brand
-          </h2>
-          <p className="text-xl text-muted-foreground mb-12 max-w-2xl">
-            Our current manufactured range is produced by BorgaFoods Processing
-            for wholesale and export enquiries.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 mb-12">
-            {publicManufacturedProducts.map((product, index) => (
-              <Card
-                key={product.name}
-                className="group p-6 text-center border-border/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-primary">
+                Manufactured in Ghana
+              </p>
+              <h2
+                id="manufactured-range"
+                className="text-3xl font-bold text-foreground md:text-4xl"
               >
-                <div className="mb-4 aspect-[4/5] overflow-hidden rounded-lg border border-border/50 bg-gradient-to-br from-secondary/15 via-background to-secondary/5 p-4 flex items-center justify-center">
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    loading={index === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <h3 className="text-xl font-bold text-primary mb-2">
-                  {product.name}
-                </h3>
-                <p className="text-sm text-foreground">{product.summary}</p>
-              </Card>
+                Explore our five core products
+              </h2>
+            </div>
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 font-semibold text-primary hover:underline"
+            >
+              View all products <ArrowRight size={17} aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {publicManufacturedProducts.map(product => (
+              <ProductCard key={product.slug} product={product} />
             ))}
           </div>
-
-          <Link href="/products">
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
-              Explore All BorgaFoods Products
-              <ArrowRight size={20} className="ml-2" />
-            </Button>
-          </Link>
         </div>
       </section>
 
-      {/* Why Partner With Us */}
-      <section className="py-20 bg-secondary/5">
+      <section
+        className="bg-secondary/5 py-14 md:py-18"
+        aria-labelledby="how-we-supply"
+      >
         <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-12">
-            Why Partner With Us
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="mb-8 max-w-3xl">
+            <h2
+              id="how-we-supply"
+              className="text-3xl font-bold text-foreground md:text-4xl"
+            >
+              A clear supply partner for international buyers
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              BorgaFoods Processing manufactures our core Ghanaian range. We
+              also coordinate approved export selections from trusted Ghanaian
+              production partners, clearly distinguished from our own products.
+            </p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
             {[
               {
-                icon: Package,
-                title: "BorgaFoods Manufacturing",
-                description:
-                  "A clearly identified range of Ghanaian staples manufactured by BorgaFoods Processing.",
+                icon: Factory,
+                title: "Our manufactured range",
+                text: "Five BorgaFoods staples presented with their own product details and enquiry paths.",
               },
               {
-                icon: Zap,
-                title: "BorgaFoods Export Selection",
-                description:
-                  "Selected from trusted Ghanaian production partners and kept distinct from our manufactured range.",
+                icon: PackageCheck,
+                title: "Buyer requirements review",
+                text: "Discuss product mix, packaging needs and destination requirements for your market.",
               },
               {
-                icon: TrendingUp,
-                title: "Container Supply Planning",
-                description:
-                  "Product mix, bulk requirements, packaging, documentation, and shipment needs are reviewed per enquiry.",
+                icon: Globe2,
+                title: "Export coordination",
+                text: "Wholesale and shipment requirements are reviewed with each buyer before quotation.",
               },
-              {
-                icon: ArrowRight,
-                title: "B2B Buyer Coordination",
-                description:
-                  "A focused contact point for distributors, importers, wholesalers, retailers, and food-service buyers.",
-              },
-            ].map((item, index) => {
+            ].map(item => {
               const Icon = item.icon;
               return (
-                <Card key={index} className="p-8">
-                  <Icon size={32} className="text-primary mb-4" />
-                  <h3 className="text-xl font-bold text-foreground mb-3">
+                <Card key={item.title} className="bg-white p-6 shadow-sm">
+                  <Icon size={28} className="text-primary" aria-hidden="true" />
+                  <h3 className="mt-4 text-xl font-bold text-foreground">
                     {item.title}
                   </h3>
-                  <p className="text-foreground">{item.description}</p>
+                  <p className="mt-2 leading-relaxed text-muted-foreground">
+                    {item.text}
+                  </p>
                 </Card>
               );
             })}
           </div>
-
-          <Link href="/about">
-            <Button
-              variant="outline"
-              className="border-primary text-primary hover:bg-primary/5"
-            >
-              Learn More About Our Advantages
-              <ArrowRight size={20} className="ml-2" />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* What Makes BorgaFoods Different */}
-      <section className="py-20">
-        <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-12">
-            What Makes BorgaFoods Different
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Manufacturer First",
-                items: [
-                  "Five current manufactured products",
-                  "BorgaFoods brand",
-                  "BorgaFoods Processing manufacturer",
-                  "Ghana country of origin",
-                ],
-              },
-              {
-                title: "Export Selection Second",
-                items: [
-                  "Trusted Ghanaian production partners",
-                  "Clear supply-type separation",
-                  "No public supplier disclosure",
-                  "Availability confirmed per enquiry",
-                ],
-              },
-              {
-                title: "Export Conversation",
-                items: [
-                  "Product and market requirements",
-                  "Wholesale and bulk formats",
-                  "Container supply planning",
-                  "Documentation coordination",
-                ],
-              },
-            ].map((section, index) => (
-              <Card key={index} className="p-8">
-                <h3 className="text-xl font-bold text-primary mb-6">
-                  {section.title}
-                </h3>
-                <ul className="space-y-3">
-                  {section.items.map(item => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-3 text-foreground"
-                    >
-                      <span className="text-primary font-bold">✓</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Our Mission */}
-      <section className="py-20 bg-primary">
-        <div className="container text-center">
-          <h2 className="text-4xl font-bold mb-6 text-white">Our Mission</h2>
-          <p className="text-xl mb-12 max-w-2xl mx-auto leading-relaxed text-white/90">
-            To make high-quality Ghanaian staple foods accessible to
-            international markets through reliable supply, honest partnerships,
-            and export-focused execution.
-          </p>
-          <Link href="/contact">
-            <Button
-              size="lg"
-              className="bg-primary-foreground hover:bg-primary-foreground/90 text-primary"
-            >
-              Start Your Partnership Today
-              <ArrowRight size={20} className="ml-2" />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Quick Stats */}
-      <section className="py-20 bg-secondary/5">
-        <div className="container">
-          <h2 className="text-4xl font-bold text-foreground mb-12 text-center">
-            BorgaFoods by the Numbers
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              {
-                number: publicManufacturedProducts.length.toString(),
-                label: "Premium BorgaFoods Products",
-              },
-              { number: "2", label: "Clearly Defined Supply Models" },
-              { number: "Ghana", label: "Manufacturing & Sourcing Origin" },
-              { number: "B2B", label: "Wholesale & Export Focus" },
-            ].map((stat, index) => (
-              <Card key={index} className="p-8 text-center">
-                <p className="text-5xl font-bold text-primary mb-2">
-                  {stat.number}
-                </p>
-                <p className="text-foreground font-semibold">{stat.label}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="container text-center">
-          <h2 className="text-4xl font-bold text-foreground mb-6">
-            Ready to Explore BorgaFoods?
-          </h2>
-          <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Whether you're looking for product samples, detailed specifications,
-            or partnership opportunities, we're ready to discuss your needs.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/products">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary/5"
-              >
-                View Products
-              </Button>
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold text-primary">
+            <Link href="/wholesale" className="hover:underline">
+              Wholesale &amp; Distribution
             </Link>
-            <ExportQuoteButton className="bg-primary hover:bg-primary/90 text-primary-foreground" />
+            <Link href="/export-solutions" className="hover:underline">
+              Export Solutions
+            </Link>
+            <Link href="/about" className="hover:underline">
+              About BorgaFoods
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-primary py-14 text-center text-white md:py-16">
+        <div className="container">
+          <h2 className="text-3xl font-bold md:text-4xl">
+            Ready to discuss your product needs?
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90">
+            Tell us which products and destination market matter to your
+            business.
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <ExportQuoteButton className="bg-white text-primary hover:bg-white/90" />
+            <CatalogueRequestButton className="border-white bg-transparent text-white hover:bg-white/10" />
           </div>
         </div>
       </section>
