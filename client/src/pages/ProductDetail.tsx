@@ -52,10 +52,6 @@ export default function ProductDetail() {
   const otherProducts = currentPublicCatalogueProducts.filter(
     item => item.slug !== product.slug && getProductPageUrl(item.slug)
   );
-  const additionalImages =
-    product.slug === "banku-borga"
-      ? [product.images[2], product.images[1]].filter(Boolean)
-      : product.images.slice(1);
   const faqs = getProductFaqs(product);
 
   return (
@@ -112,28 +108,6 @@ export default function ProductDetail() {
                 className="h-full w-full object-contain"
               />
             </div>
-            {additionalImages.length > 0 && (
-              <div className="mt-4 grid max-w-xl gap-4 sm:grid-cols-2">
-                {additionalImages.map(image => (
-                  <div
-                    key={image}
-                    className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-white p-3"
-                  >
-                    <img
-                      src={image}
-                      alt={
-                        image.includes("range")
-                          ? "Banku Borga 1 kg and 2 kg packs"
-                          : product.name + " serving photograph"
-                      }
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
 
           <div className="lg:pt-4">
