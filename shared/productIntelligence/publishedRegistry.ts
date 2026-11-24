@@ -156,7 +156,7 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     storage: "Cool, dry place away from direct sunlight",
     certification: "Ghana FDA registered facilities",
     images: [
-      "/images/banku-borga-2026.webp",
+      "/images/banku-borga.jpg",
       "/images/banku-product.jpg",
       "/images/banku-borga-range-2026.webp",
     ],
