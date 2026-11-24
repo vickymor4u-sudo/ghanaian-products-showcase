@@ -2,6 +2,20 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 24 November 2026 — Fufu and Banku packaging images
+
+Implementation commit: `2c2962a9bfc2c30cd95b32626942df0cbe1e1647`
+
+Added the approved Fufu 700 g, Banku 1 kg, and Banku 1 kg/2 kg range WebP
+images. The published product registry and default SEO image now use the new
+packaging. The Banku detail page shows the range image beneath the main pack.
+Existing serving photographs, product data, and page layouts remain unchanged.
+
+Validation: TypeScript check, 53 tests, production build and catalog guards
+passed. Desktop and mobile checks covered the homepage, product listing, and
+Fufu and Banku detail pages; the new images loaded without page errors or
+horizontal overflow.
+
 ## 11 August 2026 — shippingDetails and hasMerchantReturnPolicy added to Offer schema
 
 Status: **Implemented, validated, deployed.** Second Google Search
