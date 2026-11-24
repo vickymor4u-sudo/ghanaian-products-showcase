@@ -2,6 +2,23 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 24 November 2026 — Banku mockup consistency
+
+Implementation commits: `e6bcebd65d97ed4a0d75a1a3c30bdeaa381a2d6a`,
+`2a6ce3efee9dbbe36411c1d66496ccf89198d9c9`
+
+Replaced the legacy white Banku pouch at `images/banku-borga.jpg` with the
+exact `176.JPG` supplied by the owner. The central published registry now
+uses that image as Banku's primary image, so the homepage and product listing
+cards, product detail page, and product SEO image use the original file. The
+approved homepage banner and 1 kg/2 kg range image remain as separate
+composites. The supplied JPEG and previous primary WebP have the same gold
+pouch artwork, so this change corrects the asset source and legacy URL rather
+than altering the package design.
+
+Validation: TypeScript check, all 53 tests, production build and catalogue
+guards passed. The supplied and repository JPEG SHA-256 hashes match.
+
 ## 24 November 2026 — Complete website refresh
 
 Implementation commit: `10ce0796327c0053a1ed6a5e2c7f6e518c7ce624`
