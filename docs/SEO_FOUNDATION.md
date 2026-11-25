@@ -1,5 +1,15 @@
 # SEO & Analytics Foundation
 
+**25 November 2026 local implementation note:** The public routes now have
+build-time HTML snapshots generated from the existing React pages and
+published product registry. Each snapshot contains the page body, title,
+description, social metadata, and canonical URL before JavaScript runs.
+The existing Cloudflare Pages middleware serves the snapshots on known
+routes; browser interactivity still comes from the same React app. This
+supersedes the earlier client-only HTML limitation described below once
+the change is deployed and verified in production. No live Search Console
+ranking or indexing outcome is claimed from the local build.
+
 Status: **Implemented and production-deployed, 8 August 2026.**
 
 ## Purpose

@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
-    "build": "pnpm verify:catalog && pnpm verify:single-source && vite build && pnpm verify:no-leak && pnpm verify:site-verification",
+    "build": "pnpm verify:catalog && pnpm verify:single-source && vite build && tsx scripts/prerender-pages.tsx && pnpm verify:no-leak && pnpm verify:site-verification",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
     "test": "vitest run --config vitest.config.ts",

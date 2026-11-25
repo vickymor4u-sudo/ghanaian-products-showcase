@@ -1,6 +1,6 @@
 # BorgaFoods Project Context
 
-Last updated: 7 August 2026
+Last updated: 25 November 2026
 
 ## Purpose of this document
 
@@ -117,7 +117,7 @@ Category names may be refined as the catalog grows, but changes to product suppl
 
 ## Current website architecture
 
-The existing website must be extended rather than replaced. It is a static, client-rendered single-page application with these routes:
+The existing website must be extended rather than replaced. It is a React single-page application. The production build now also prepares static HTML snapshots of its public routes so page copy and metadata can be read before JavaScript runs; the browser then mounts the interactive application. Its routes include:
 
 - `/`
 - `/products`

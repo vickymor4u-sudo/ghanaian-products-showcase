@@ -1,16 +1,16 @@
 // Owns routing for every request except /api/*: serves real static assets
-// unchanged, serves the SPA shell (index.html) for the 7 known public
-// routes with a per-route <link rel="canonical">, and serves the same
-// shell for anything else with an actual HTTP 404 plus
-// <meta name="robots" content="noindex, nofollow"> — instead of a soft
+// unchanged, serves build-time-rendered HTML for the known public
+// routes, and serves the SPA shell (index.html) for anything else with an
+// actual HTTP 404 plus <meta name="robots" content="noindex, nofollow">
+// — instead of a soft
 // 404 (HTTP 200 for any unknown path, which is what this project shipped
 // until today).
 //
 // Why this lives in a root Pages Function rather than client/public/_redirects:
 // Cloudflare Pages does not apply _redirects rules to a request once it's
 // routed to Pages Functions (client/public/_routes.json now routes every
-// path here, not just /api/*, specifically so canonical/robots tags can be
-// injected before any JavaScript runs). That means this Function has to
+// path here, not just /api/*, so prerendered content and canonical/robots
+// tags can be served before JavaScript runs). That means this Function has to
 // take over the SPA-fallback job _redirects used to do (rewriting an
 // unmatched path to index.html) — the earlier version of this fix tried
 // to keep using _redirects for that while _routes.json was still /api/*
@@ -35,7 +35,7 @@
 // runtime this file actually executes in.
 const SITE_ORIGIN = "https://www.borgafoods.com";
 
-const KNOWN_PUBLIC_PATHS = new Set([
+export const KNOWN_PUBLIC_PATHS = new Set([
   "/",
   "/products",
   "/products/fufu-flour",
@@ -109,6 +109,10 @@ export const onRequest = async (
   if (url.pathname.startsWith("/api/")) {
     return context.next();
   }
+  // Snapshots are internal delivery assets, not separate pages for indexing.
+  if (url.pathname.startsWith("/_prerender/")) {
+    return new Response("Not found", { status: 404 });
+  }
 
   // Try the exact requested path as a real static file first (JS/CSS
   // bundles, images, sitemap.xml, robots.txt, fonts, favicons, ...).
@@ -130,14 +134,31 @@ export const onRequest = async (
     return assetResponse;
   }
 
-  // Anything else is the SPA shell: one of the 7 known public routes, or
-  // an unknown path that should render the client-side NotFound page
-  // (wouter still handles that once the shell's JS runs) behind a real
-  // 404 status rather than a soft 404.
+  // Public routes use HTML snapshots generated from the React pages during
+  // pnpm build. Their copy and metadata are readable before JavaScript runs.
+  // The interactive app still mounts normally in the browser.
   const pathname = normalizePathname(url.pathname);
   const isKnownPublicPath = KNOWN_PUBLIC_PATHS.has(pathname);
+  if (isKnownPublicPath) {
+    const snapshotPath = `/_prerender${pathname === "/" ? "/home" : pathname}.txt`;
+    const snapshotRequest = new Request(
+      new URL(snapshotPath, url),
+      context.request
+    );
+    const snapshotResponse = await context.env.ASSETS.fetch(snapshotRequest);
+    if (snapshotResponse.ok) {
+      const html = await snapshotResponse.text();
+      if (html.startsWith("<!doctype html>")) {
+        const headers = new Headers(snapshotResponse.headers);
+        headers.set("content-type", "text/html; charset=utf-8");
+        headers.delete("content-length");
+        return new Response(html, { status: 200, headers });
+      }
+    }
+  }
 
-  // Fetch the shell via "/", not "/index.html": Cloudflare Pages
+  // Fallback for a missing snapshot and for unknown paths. Fetch the shell
+  // via "/", not "/index.html": Cloudflare Pages
   // automatically 308-redirects a direct /index.html request to / (the
   // same canonicalization that made the first fetch above ambiguous),
   // and the ASSETS binding replicates that. "/" is already the canonical
@@ -150,7 +171,9 @@ export const onRequest = async (
       ? `<link rel="canonical" href="${SITE_ORIGIN}${pathname}">`
       : `<meta name="robots" content="noindex, nofollow">`
   );
-  const rewritten = new HTMLRewriter().on("head", handler).transform(shellResponse);
+  const rewritten = new HTMLRewriter()
+    .on("head", handler)
+    .transform(shellResponse);
 
   return new Response(rewritten.body, {
     status: isKnownPublicPath ? 200 : 404,

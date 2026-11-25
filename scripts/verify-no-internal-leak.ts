@@ -13,6 +13,7 @@ import { resolve } from "node:path";
 import { internalCandidates } from "../shared/productIntelligence/internalCandidates";
 
 const ASSETS_DIR = resolve("dist/public/assets");
+const SNAPSHOTS_DIR = resolve("dist/public/_prerender");
 
 function collectForbiddenMarkers(): string[] {
   const markers = new Set<string>();
@@ -42,8 +43,21 @@ function verifyNoInternalLeak(): void {
 
   const violations: string[] = [];
 
-  for (const file of jsFiles) {
-    const contents = readFileSync(resolve(ASSETS_DIR, file), "utf8");
+  const snapshotFiles = readdirSync(SNAPSHOTS_DIR, { recursive: true }).filter(
+    file => file.endsWith(".txt")
+  );
+  if (snapshotFiles.length === 0) {
+    throw new Error(
+      `No prerendered public pages found in ${SNAPSHOTS_DIR}. Run "pnpm build" first.`
+    );
+  }
+
+  const publicFiles = [
+    ...jsFiles.map(file => resolve(ASSETS_DIR, file)),
+    ...snapshotFiles.map(file => resolve(SNAPSHOTS_DIR, file)),
+  ];
+  for (const file of publicFiles) {
+    const contents = readFileSync(file, "utf8");
     for (const marker of markers) {
       if (contents.includes(marker)) {
         violations.push(`${file} contains internal-only marker: "${marker}"`);
@@ -58,7 +72,7 @@ function verifyNoInternalLeak(): void {
   }
 
   console.info(
-    `Verified no internal-only BPIP markers (${markers.length} checked) in ${jsFiles.length} built JS asset(s).`
+    `Verified no internal-only BPIP markers (${markers.length} checked) in ${jsFiles.length} JS asset(s) and ${snapshotFiles.length} page snapshot(s).`
   );
 }
 

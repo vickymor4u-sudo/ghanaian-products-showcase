@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useLocation } from "wouter";
 import { SITE_ORIGIN } from "@/config/site";
 
-interface SEOProps {
+export interface SEOProps {
   title?: string;
   description?: string;
   keywords?: string;
@@ -10,6 +10,10 @@ interface SEOProps {
   type?: string;
   noIndex?: boolean;
 }
+
+export const ServerSeoContext = createContext<
+  ((seo: Required<SEOProps>) => void) | null
+>(null);
 
 export default function SEO({
   title = "borgafoods.com - Premium Ghanaian Staple Foods",
@@ -19,7 +23,12 @@ export default function SEO({
   type = "website",
   noIndex = false,
 }: SEOProps) {
+  const collectServerSeo = useContext(ServerSeoContext);
   const [location] = useLocation();
+
+  if (typeof window === "undefined" && collectServerSeo) {
+    collectServerSeo({ title, description, keywords, image, type, noIndex });
+  }
 
   useEffect(() => {
     const path = location.split(/[?#]/)[0] || "/";

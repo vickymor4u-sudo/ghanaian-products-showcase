@@ -205,6 +205,7 @@ export default function ProductDetail() {
               Common questions
             </summary>
             <div className="mt-5 space-y-5">
+              <h2 className="sr-only">Common questions about {product.name}</h2>
               {faqs.map(faq => (
                 <div key={faq.q}>
                   <h3 className="font-semibold text-foreground">{faq.q}</h3>

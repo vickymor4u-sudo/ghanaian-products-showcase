@@ -53,7 +53,9 @@ function createInitialFormData(): QuoteFormData {
     distribution: "distribution",
     "private-label": "private_label",
   };
-  const query = new URLSearchParams(window.location.search);
+  const query = new URLSearchParams(
+    typeof window === "undefined" ? "" : window.location.search
+  );
   const inquiryType =
     inquiryTypeByQuery[query.get("inquiry") ?? ""] ?? "general";
 
