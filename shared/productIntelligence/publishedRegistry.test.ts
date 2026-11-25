@@ -16,6 +16,14 @@ describe("publishedProducts", () => {
       ].sort()
     );
   });
+
+  it("keeps review-gated Fufu Flour free of a public price", () => {
+    const fufu = publishedProducts.find(
+      product => product.slug === "fufu-borga"
+    );
+    expect(fufu?.lifecycle.reviewGate).toBe("PCR-001");
+    expect(fufu?.wholesalePricing).toBeUndefined();
+  });
 });
 
 describe("privateLabelEligibleProducts", () => {

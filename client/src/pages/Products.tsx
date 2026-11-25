@@ -20,8 +20,8 @@ export default function Products() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="BorgaFoods Products - Premium Ghanaian Staple Foods | borgafoods.com"
-        description={`Explore BorgaFoods ${productNames} for wholesale and export enquiries from international distributors, retailers, and food-service buyers.`}
+        title="Ghanaian Food Products for Export | BorgaFoods"
+        description={`Explore BorgaFoods ${productNames} for wholesale and export. Request a catalogue or quote.`}
         keywords={`${productNames}, Ghana fufu export, cassava flour wholesale, plantain flour, fermented corn flour`}
       />
       <section className="border-b border-border bg-gradient-to-br from-sky-50 via-white to-amber-50/40 py-12 md:py-16">

@@ -7,9 +7,25 @@ import {
   phase4ExpansionProducts,
   products,
 } from "../client/src/data/products";
+import { publishedRegistry } from "../shared/productIntelligence/publishedRegistry";
 
 async function verifyProductCatalog() {
   assertProductCatalogIntegrity(products);
+
+  for (const record of publishedRegistry) {
+    // The browser imports this entire registry before projecting Product,
+    // so internal notes would otherwise be shipped inside its JS bundle.
+    if (record.lifecycle.internalNotes) {
+      throw new Error(
+        `Published product ${record.slug} contains browser-delivered internal notes.`
+      );
+    }
+    if (record.lifecycle.reviewGate && record.wholesalePricing) {
+      throw new Error(
+        `Review-gated product ${record.slug} cannot publish a price.`
+      );
+    }
+  }
 
   if (
     phase4ExpansionProducts.some(

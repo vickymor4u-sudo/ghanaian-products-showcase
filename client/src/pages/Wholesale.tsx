@@ -14,7 +14,7 @@ export default function Wholesale() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Wholesale Ghanaian Foods & Distributor Partnerships | BorgaFoods"
+        title="Ghanaian Food Wholesale & Distribution | BorgaFoods"
         description="Wholesale BorgaFoods staples and approved Ghanaian export selections for distributors, African grocery retailers, restaurants, and food-service buyers."
         keywords="wholesale Ghanaian foods, BorgaFoods distributor, African grocery wholesale, Ghana food importer, restaurant bulk Ghana foods"
       />
