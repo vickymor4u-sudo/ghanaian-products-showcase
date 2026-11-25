@@ -15,9 +15,14 @@ still rejected a GET request with HTTP 405.
 During the release check, the new favicon returned alternating 200 and 404
 responses on `www.borgafoods.com`, while the Pages project address returned
 200 consistently. Routed `/favicon.svg` as a native static Pages asset and
-set a one-hour cache lifetime. TypeScript, all 57 tests, the production build,
+configured a one-hour cache lifetime for the Pages project address. The
+custom domain currently applies a four-hour Cloudflare cache policy.
+TypeScript, all 57 tests, the production build,
 and the catalog, single-source, no-leak, and site-verification guards passed.
-The favicon correction still needs a live check after its deployment.
+After deployment, the Pages project address served the committed SVG with
+HTTP 200 and the one-hour cache header; the custom domain returned HTTP 200
+for 16 consecutive requests after rollout. The Home, Products, all five
+product pages, Wholesale, Contact, and sitemap routes returned HTTP 200.
 
 ## 25 November 2026 — Product search data and search appearance
 
