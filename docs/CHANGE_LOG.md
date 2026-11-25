@@ -2,6 +2,29 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 25 November 2026 — Product search data and search appearance
+
+Implementation commit: `ad4343675854d8faec54e80880bab8572a3d7b66`
+
+Removed Fufu Flour's old USD 65 carton price from the public registry and
+its Product Offer schema. The controlled working Commercial Price Register
+marks that public reference as `SUPERSEDED` (Public Prices, row 7); the
+current international-price row has an unresolved brand distinction
+(International Prices, row 9), so no replacement price was inferred for
+the BorgaFoods-branded product. Removed internal-only notes from all
+client-imported published records and added build checks preventing those
+notes, or a price on a review-gated product, from being shipped again.
+
+Shortened the Products and Wholesale search titles, shortened the Products
+description, and added a square favicon based on the existing S&D navigation
+mark. No visible product price, catalogue classification, RFQ behavior, or
+customer-specific commercial term changed.
+
+Validation: `pnpm check`, 57 tests, and `pnpm build` passed. The build
+generated all 12 page snapshots; the public JS and snapshots contain no
+internal-only product markers or the removed source-brand note. This work
+is committed locally and has not been pushed or deployed.
+
 ## 25 November 2026 — Search-readable public page content
 
 Implementation commit: `1974110ddf700852433c369fc7b70f1bebd2fc86`
