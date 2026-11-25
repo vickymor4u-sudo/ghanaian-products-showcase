@@ -2,6 +2,23 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 25 November 2026 — Production publication and favicon routing
+
+Implementation commit: `ac6b1baad546987bf0e4c97d943d26b7d1466e2c`
+
+Published the previously local website search and page-content changes to
+GitHub `main` through commit `3cef39cb495c65b637fc5d7051c48314e0c0cdce`.
+The live product pages returned the new search titles and rendered page text,
+the unknown product route returned HTTP 404 with `noindex`, and the quote API
+still rejected a GET request with HTTP 405.
+
+During the release check, the new favicon returned alternating 200 and 404
+responses on `www.borgafoods.com`, while the Pages project address returned
+200 consistently. Routed `/favicon.svg` as a native static Pages asset and
+set a one-hour cache lifetime. TypeScript, all 57 tests, the production build,
+and the catalog, single-source, no-leak, and site-verification guards passed.
+The favicon correction still needs a live check after its deployment.
+
 ## 25 November 2026 — Product search data and search appearance
 
 Implementation commit: `ad4343675854d8faec54e80880bab8572a3d7b66`
