@@ -2,6 +2,27 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+## 25 November 2026 — Search-readable public page content
+
+Implementation commit: `1974110ddf700852433c369fc7b70f1bebd2fc86`
+
+The existing Vite build now renders static HTML snapshots for all 12 public
+sitemap routes from the same React pages and published product registry.
+Cloudflare Pages middleware serves each snapshot with its page text, unique
+title, description, social metadata, and canonical URL in the initial HTML;
+the existing React application still provides browser interactivity. The
+Contact form now renders safely during the build, and product FAQ headings
+have a proper section heading. No product record, price, business claim,
+quote endpoint, or hosting configuration changed.
+
+The build checks that sitemap routes match the middleware route list and
+checks the generated page snapshots for internal-only product markers.
+Validation: `pnpm check`, all 56 tests, and `pnpm build` passed. All 12
+snapshots contain one page title, description, canonical URL, and H1.
+Middleware tests cover initial product HTML, API routing, and snapshot URL
+protection. The implementation is committed locally and has not been pushed
+or deployed; production and Search Console outcomes remain unverified.
+
 ## 24 November 2026 — One image per product
 
 Implementation commit: `7cc9eec5c19a1f5d60216f6356c8aa542bb745fc`
