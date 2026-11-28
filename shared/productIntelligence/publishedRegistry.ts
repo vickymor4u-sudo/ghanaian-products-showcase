@@ -150,7 +150,7 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "36 months from manufacture",
     storage: "Store in a cool, dry place. Reseal after opening",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/hero/banku.webp"],
+    images: ["/images/banku-borga-1kg.jpg"],
     variants: ["Fermented maize and cassava flour"],
     wholesalePricing: {
       pricePerCarton: 35,
