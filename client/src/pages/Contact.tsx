@@ -6,7 +6,7 @@ import TurnstileWidget from "@/components/TurnstileWidget";
 import { CheckCircle2, Mail, MapPin, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import SEO from "@/components/SEO";
-import { trackEvent } from "@/lib/analytics";
+import { trackSuccessfulInquiry } from "@/lib/analytics";
 import {
   privateLabelDiscoveryProducts,
   rfqEligibleProducts,
@@ -48,6 +48,7 @@ interface SubmissionStatus {
 
 function createInitialFormData(): QuoteFormData {
   const inquiryTypeByQuery: Record<string, InquiryType> = {
+    catalogue: "catalogue",
     "export-quote": "export_quote",
     wholesale: "wholesale",
     distribution: "distribution",
@@ -213,13 +214,10 @@ export default function Contact() {
             "Your enquiry has been received by BorgaFoods. Please keep the request ID for reference.",
           requestId: responseBody.requestId,
         });
-        // GA4 conversion event. Public, non-identifying classification data
-        // only (inquiry type + product slug) — never buyer-provided fields.
-        // No-op if GA4 is not configured.
-        trackEvent("generate_lead", {
-          inquiry_type: formData.inquiryType,
-          product_slug: formData.productSelection || "unspecified",
-        });
+        trackSuccessfulInquiry(
+          formData.inquiryType,
+          formData.productSelection
+        );
         setFormData(createInitialFormData());
         setWebsite("");
         submissionIdRef.current = crypto.randomUUID();
@@ -243,12 +241,16 @@ export default function Contact() {
   const isQualificationForm = isQualificationInquiry(formData.inquiryType);
   const isPrivateLabelForm = isPrivateLabelInquiry(formData.inquiryType);
   const isGeneralForm = formData.inquiryType === "general";
+  const isCatalogueForm = formData.inquiryType === "catalogue";
+  const allowsOptionalProduct = isGeneralForm || isCatalogueForm;
   const showsMarketContext = isQualificationForm || isPrivateLabelForm;
   const selectableProducts = isPrivateLabelForm
     ? privateLabelDiscoveryProducts
     : rfqEligibleProducts;
   const formTitle =
-    formData.inquiryType === "export_quote"
+    formData.inquiryType === "catalogue"
+      ? "Request Product Catalogue"
+      : formData.inquiryType === "export_quote"
       ? "Request Export Quote"
       : formData.inquiryType === "wholesale"
         ? "Request Wholesale Supply"
@@ -258,7 +260,9 @@ export default function Contact() {
             ? "Private-label Discovery"
             : "Business Inquiry Form";
   const submitLabel =
-    formData.inquiryType === "wholesale"
+    formData.inquiryType === "catalogue"
+      ? "Send Catalogue Request"
+      : formData.inquiryType === "wholesale"
       ? "Submit Wholesale Enquiry"
       : formData.inquiryType === "distribution"
         ? "Submit Distribution Enquiry"
@@ -415,6 +419,7 @@ export default function Contact() {
                       className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     >
                       <option value="general">General business inquiry</option>
+                      <option value="catalogue">Product catalogue request</option>
                       <option value="export_quote">Export quotation</option>
                       <option value="wholesale">Wholesale supply</option>
                       <option value="distribution">
@@ -433,6 +438,16 @@ export default function Contact() {
                         requesting a formal quote? Product and quantity are
                         optional here — share what you already know and we'll
                         follow up.
+                      </p>
+                    </div>
+                  )}
+
+                  {isCatalogueForm && (
+                    <div className="rounded-lg border border-primary/20 bg-primary/5 p-5">
+                      <p className="text-sm text-muted-foreground">
+                        Submit this form to request the current BorgaFoods
+                        catalogue. Choose a product if you want a
+                        product-specific follow-up.
                       </p>
                     </div>
                   )}
@@ -673,18 +688,18 @@ export default function Contact() {
                         htmlFor="productSelection"
                         className="block text-sm font-semibold text-foreground mb-2"
                       >
-                        Product Selection {isGeneralForm ? "(optional)" : "*"}
+                        Product Selection {allowsOptionalProduct ? "(optional)" : "*"}
                       </label>
                       <select
                         id="productSelection"
                         name="productSelection"
                         value={formData.productSelection}
                         onChange={handleChange}
-                        required={!isGeneralForm}
+                        required={!allowsOptionalProduct}
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="">
-                          {isGeneralForm
+                          {allowsOptionalProduct
                             ? "Not sure yet / general enquiry"
                             : "Select products"}
                         </option>
@@ -737,7 +752,7 @@ export default function Contact() {
                       >
                         {isQualificationForm
                           ? "Expected Order Volume *"
-                          : isGeneralForm
+                          : allowsOptionalProduct
                             ? "Estimated Quantity (optional)"
                             : "Estimated Quantity *"}
                       </label>
@@ -747,11 +762,11 @@ export default function Contact() {
                         name="estimatedQuantity"
                         value={formData.estimatedQuantity}
                         onChange={handleChange}
-                        required={!isGeneralForm}
+                        required={!allowsOptionalProduct}
                         maxLength={100}
                         className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder={
-                          isGeneralForm
+                          allowsOptionalProduct
                             ? "Quantity and unit, if known"
                             : "Quantity and unit"
                         }

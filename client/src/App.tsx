@@ -17,6 +17,7 @@ import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Analytics from "./components/Analytics";
 import GariKokonteExport from "./pages/GariKokonteExport";
+import AnalyticsConsent from "./components/AnalyticsConsent";
 
 function Router() {
   return (
@@ -61,6 +62,7 @@ function App() {
           </div>
           <WhatsAppButton />
           <Analytics />
+          <AnalyticsConsent />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

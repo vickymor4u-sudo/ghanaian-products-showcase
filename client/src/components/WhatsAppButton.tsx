@@ -1,4 +1,5 @@
 import { MessageCircle } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 /**
  * Floating WhatsApp button component
@@ -10,6 +11,7 @@ export default function WhatsAppButton() {
     "Hello! I'm interested in learning more about BorgaFoods products.";
 
   const handleClick = () => {
+    trackEvent("whatsapp_click", { page_path: window.location.pathname });
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };

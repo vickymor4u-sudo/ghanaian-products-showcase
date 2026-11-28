@@ -739,6 +739,21 @@ approval. Full detail in each document; summary:
 No product was added or reclassified, no supplier information was
 referenced, no page was created, and no public claim was changed.
 
+## 28 November 2026 — GA4 analytics activated
+
+- Activated GA4 property `566118250` / Measurement ID `G-38WD1EQZ08` through
+  one direct, consent-gated Google tag. GTM container `GTM-TTKFNVZN` is not
+  installed, avoiding duplicate delivery.
+- Added successful-submission conversion events (`generate_lead`,
+  `catalogue_request`, `contact_form_submit`), `email_click`,
+  `whatsapp_click`, privacy-safe product `view_item`, and identifiable AI
+  referral classification.
+- Added a site-wide analytics consent choice and persistent preferences
+  control. No buyer contact fields or quotation content are sent to GA4.
+- Converted catalogue requests from unmeasurable email links into the existing
+  validated enquiry flow. Full implementation and verification details are in
+  `docs/GA4_ACTIVATION_PLAN.md`.
+
 ## 8 August 2026 — SEO route handling repair completed and verified live (commit `d944ee3`)
 
 Explicitly authorized follow-up to the two entries directly below, after

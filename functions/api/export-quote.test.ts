@@ -142,6 +142,33 @@ describe("POST /api/export-quote", () => {
     expect(String(email.text)).toContain("Estimated quantity: Not provided");
   });
 
+  it("accepts a catalogue request with no product or quantity specified", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        Response.json({
+          success: true,
+          hostname: "www.borgafoods.com",
+          action: "export_quote",
+        })
+      )
+      .mockResolvedValueOnce(Response.json({ id: "resend-catalogue" }));
+    vi.stubGlobal("fetch", fetchMock);
+    vi.spyOn(console, "info").mockImplementation(() => undefined);
+
+    const response = await onRequest(
+      createContext({
+        ...validSubmission,
+        inquiryType: "catalogue",
+        productSelection: "",
+        estimatedQuantity: "",
+      })
+    );
+
+    expect(response.status).toBe(201);
+    expect(await response.json()).toMatchObject({ ok: true });
+  });
+
   it("requires a buyer category for wholesale and distributor enquiries", async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);

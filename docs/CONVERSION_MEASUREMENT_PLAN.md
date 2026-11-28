@@ -1,20 +1,17 @@
 # Conversion Measurement Plan
 
-Status: **Plan only. No external account activated, no new tracking
-code added.** Reviews what's already built (GA4 integration readiness,
-the `generate_lead` event, RFQ-side logging) and defines what should be
-measured and why — deliberately not what could theoretically be
-measured. Every recommendation below either uses code that already
-exists, or is a zero-code discipline (link tagging) rather than a new
-feature, per this phase's explicit "no unnecessary expansion" and "do
-not activate external accounts" constraints.
+Status: **Historical planning record.** GA4 has since been activated using a
+consent-gated direct Google tag. The current implementation and verification
+record are in `docs/GA4_ACTIVATION_PLAN.md`; where this document describes an
+inactive environment-variable integration, that description is superseded.
 
 ## What already exists — reviewed directly in code, not assumed
 
-### GA4 integration: built, inert, waiting on one external input
+### GA4 integration: original pre-activation design
 
-`client/src/lib/analytics.ts` is a complete, working GA4 integration
-that does nothing until `VITE_GA4_MEASUREMENT_ID` is set:
+The original integration did nothing until `VITE_GA4_MEASUREMENT_ID` was set.
+It has since been replaced by the consent-gated direct tag documented in
+`docs/GA4_ACTIVATION_PLAN.md`:
 
 - `initAnalytics()` loads `gtag.js` and configures GA4 with
   `send_page_view: false` (pageviews are tracked explicitly, once per
@@ -74,7 +71,7 @@ was run through.
    has. It already answers "which products generate interest" and
    distinguishes enquiry seriousness via `inquiry_type`. Once GA4 is
    active, no further engineering is needed to start learning from it.
-2. **Automatic pageviews** (`trackPageview`) — already answers "which
+2. **Automatic pageviews** (GA4 Enhanced Measurement) — answers "which
    pages get visited" and, combined with GA4's standard referrer/session
    data, "where do buyers come from" — both mission questions, both
    already instrumented.

@@ -24,8 +24,10 @@ export const TURNSTILE_SITE_KEY =
 // by the Vite plugin in vite.config.ts, which injects them straight into
 // index.html rather than through client-side React code. See that file
 // and docs/SEO_FOUNDATION.md.
-export const GA4_MEASUREMENT_ID =
-  import.meta.env.VITE_GA4_MEASUREMENT_ID?.trim() ?? "";
+// Public identifier for the verified BorgaFoods GA4 web stream. The site uses
+// the direct Google tag, not GTM, so one source-owned ID avoids an environment
+// override accidentally sending production traffic to another property.
+export const GA4_MEASUREMENT_ID = "G-38WD1EQZ08";
 
 // Shipping & returns — approved by the business owner via chat, 11 Aug
 // 2026, for Product `offers` structured data (Google Search Console

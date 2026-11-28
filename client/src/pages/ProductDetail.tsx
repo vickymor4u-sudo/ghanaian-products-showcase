@@ -222,7 +222,7 @@ export default function ProductDetail() {
                 label={"Request Quote for " + product.name}
               />
               <CatalogueRequestButton
-                productName={product.name}
+                productSlug={product.slug}
                 className="border-primary/40 text-primary hover:bg-primary/5"
               />
             </div>

@@ -118,8 +118,17 @@ function getProductDetails(
   // General enquiries are the one inquiry type allowed to omit a product
   // (see the schema's superRefine) — a blank selection is expected and
   // valid there, not a lookup failure.
-  if (!productSelection && inquiryType === "general") {
-    return { label: "Not specified — general enquiry", supply: "N/A" };
+  if (
+    !productSelection &&
+    (inquiryType === "general" || inquiryType === "catalogue")
+  ) {
+    return {
+      label:
+        inquiryType === "catalogue"
+          ? "Full BorgaFoods product catalogue"
+          : "Not specified — general enquiry",
+      supply: "N/A",
+    };
   }
 
   const eligibleProducts = isPrivateLabelInquiry(inquiryType)

@@ -1,25 +1,24 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 interface CatalogueRequestButtonProps {
-  productName?: string;
+  productSlug?: string;
   className?: string;
 }
 
 export default function CatalogueRequestButton({
-  productName,
+  productSlug,
   className,
 }: CatalogueRequestButtonProps) {
-  const subject = productName
-    ? `BorgaFoods Product Catalogue Request — ${productName}`
-    : "BorgaFoods Product Catalogue Request";
+  const href = productSlug
+    ? `/contact?inquiry=catalogue&product=${encodeURIComponent(productSlug)}`
+    : "/contact?inquiry=catalogue";
 
   return (
     <Button asChild size="lg" variant="outline" className={className}>
-      <a
-        href={`mailto:export@borgafoods.com?subject=${encodeURIComponent(subject)}`}
-      >
+      <Link href={href}>
         Request Product Catalogue
-      </a>
+      </Link>
     </Button>
   );
 }

@@ -4,6 +4,7 @@ export const EXPORT_ENQUIRY_EMAIL = "export@borgafoods.com";
 
 export const inquiryTypes = [
   "general",
+  "catalogue",
   "export_quote",
   "wholesale",
   "distribution",
@@ -174,7 +175,7 @@ export const exportQuoteSchema = z
     country: requiredText("Company country", 100),
     email: z.string().trim().email().max(254),
     phoneWhatsApp: optionalText(50),
-    // Required for every inquiry type except "general" — enforced below in
+    // Required for every inquiry type except general and catalogue requests
     // superRefine, not here, so a first-touch buyer with a general question
     // isn't forced to name an exact product or quantity before they'll get
     // a reply. See docs/LEAD_GENERATION_CHANGE_REPORT.md.
@@ -201,6 +202,7 @@ export const exportQuoteSchema = z
   .superRefine((submission, context) => {
     if (
       submission.inquiryType !== "general" &&
+      submission.inquiryType !== "catalogue" &&
       submission.productSelection.trim().length === 0
     ) {
       context.addIssue({
@@ -212,6 +214,7 @@ export const exportQuoteSchema = z
 
     if (
       submission.inquiryType !== "general" &&
+      submission.inquiryType !== "catalogue" &&
       submission.estimatedQuantity.trim().length === 0
     ) {
       context.addIssue({

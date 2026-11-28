@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
 import { Link } from "wouter";
 import { EXPORT_ENQUIRY_EMAIL } from "@/config/site";
+import { openAnalyticsPreferences } from "@/lib/analytics";
 
 /**
  * Footer Component
@@ -148,6 +149,15 @@ export default function Footer() {
           <p className="text-center text-sm text-background/70">
             © {currentYear} Supply & Demand Worldwide Ltd. All rights reserved.
             | Professional Export Solutions
+          </p>
+          <p className="mt-3 text-center text-sm">
+            <button
+              type="button"
+              onClick={openAnalyticsPreferences}
+              className="text-background/70 underline underline-offset-4 hover:text-background"
+            >
+              Analytics preferences
+            </button>
           </p>
         </div>
       </div>

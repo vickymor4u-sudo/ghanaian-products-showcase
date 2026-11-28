@@ -77,24 +77,28 @@ Same shape as Search Console, and same fix: the Vite plugin in `vite.config.ts` 
 
 ## 3. GA4 integration
 
-**Status: Built, deployed, and verified inert. No GA4 property exists yet — BorgaFoods must create one.**
+**Status: Activated with consent-gated direct Google tag integration.**
 
-- `client/src/lib/analytics.ts` — loads `gtag.js` and exposes `trackPageview`/`trackEvent`, entirely gated on `VITE_GA4_MEASUREMENT_ID`.
-- `client/src/components/Analytics.tsx` — mounted once in `App.tsx`; tracks SPA route changes (the site never does a full page reload between routes, so pageviews must be tracked manually — `send_page_view: false` is set on `gtag config` for exactly this reason).
-- **Verified inert**: with no Measurement ID configured, `gtag.js` never loads, `window.dataLayer` is never created, and no request to Google leaves the browser. Confirmed via the browser console against a local production build (`gtagScript: false, dataLayer: false`).
-
-**To activate**: create a GA4 property at [analytics.google.com](https://analytics.google.com) for `borgafoods.com`, copy the Measurement ID (`G-XXXXXXXXXX`), set it as `VITE_GA4_MEASUREMENT_ID` in Cloudflare, redeploy.
-
-**Before activating in production, also do this** — turning on real visitor tracking is a privacy-notice and possibly a consent-banner decision, not a pure engineering one:
-
-- Update the existing quotation-form privacy notice (and consider a short site-wide note) to mention Google Analytics as one of the "trusted service providers" already referenced in that notice's wording.
-- Decide whether a cookie-consent banner is needed for the markets BorgaFoods actually serves (GA4 sets first-party cookies). This is a business/legal call the repository does not make on its own — flagging it rather than guessing, per `AI_TASK_PROTOCOL.md`.
+- `client/src/lib/analytics.ts` loads the direct Google tag for verified
+  Measurement ID `G-38WD1EQZ08` only after the visitor grants analytics
+  consent. Declining leaves the tag unloaded and analytics storage denied.
+- `client/src/components/Analytics.tsx` records privacy-safe business events.
+  GA4 Enhanced Measurement handles initial and browser-history page views;
+  the app deliberately does not also emit manual `page_view` events.
+- No Google Tag Manager container is installed, preventing a second delivery
+  path from duplicating events. See `docs/GA4_ACTIVATION_PLAN.md` for the
+  complete event map, privacy boundary, and verification record.
 
 ## 4. Conversion events for RFQs
 
-**Status: Built, deployed, and verified inert alongside GA4 (same gate).**
+**Status: Activated behind analytics consent.**
 
-`client/src/pages/Contact.tsx` fires a GA4 `generate_lead` event (GA4's own recommended event name for lead-generation forms) immediately after a successful `/api/export-quote` submission, with exactly two parameters: `inquiry_type` and `product_slug`. Both are public, non-identifying classification values already known to the server. **No buyer-provided field is ever sent** — no company name, contact name, email, phone, destination, or free text. This is a deliberate boundary matching the supplier/buyer-confidentiality posture already enforced server-side; see the module doc comment in `analytics.ts`.
+`client/src/pages/Contact.tsx` records `generate_lead`,
+`catalogue_request`, or `contact_form_submit` only after a successful
+`/api/export-quote` response, with exactly two parameters: `inquiry_type` and
+`product_slug`. Both are public, non-identifying classification values already
+known to the server. **No buyer-provided field is ever sent** — no company
+name, contact name, email, phone, destination, or free text.
 
 Once GA4 is active, `generate_lead` events segmented by `inquiry_type` (`export_quote` / `wholesale` / `distribution` / `private_label` / `general`) directly answer "which enquiry paths convert" — the core question this foundation exists to make measurable.
 
