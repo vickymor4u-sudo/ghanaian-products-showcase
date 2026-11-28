@@ -11,7 +11,7 @@ import { publicManufacturedProducts } from "@/data/products";
 import { SITE_ORIGIN } from "@/config/site";
 
 const heroProducts = [
-  { name: "Yellow Gari", file: "yellow-gari", width: 850, height: 584 },
+  { name: "Gari Borga", file: "yellow-gari", width: 850, height: 584 },
   { name: "Banku Borga", file: "banku", width: 720, height: 598 },
   { name: "Kokonte Borga", file: "kokonte", width: 720, height: 635 },
   { name: "Cassava Flour", file: "cassava-flour", width: 720, height: 625 },
