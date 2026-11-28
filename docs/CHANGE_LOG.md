@@ -2,6 +2,17 @@
 
 This file records completed, approved changes. Add new entries in reverse chronological order and include the completion date, concise description, and full commit hash.
 
+
+## 28 November 2026 — Product details aligned with November customer catalogue
+
+Updated the published product registry with the approved pack sizes,
+carton quantities, Gari variants and sack sizes, shelf lives, and storage
+instructions. Product pages show carton quantities next to the pack sizes.
+Validated the build, type check, 57 tests, and the five prerendered product
+pages. Production deployment is pending GitHub write access.
+
+Implementation commit: `2bf52f7a8b21c502c14be2b256205daf63c60cbf`.
+
 ## 25 November 2026 — Production publication and favicon routing
 
 Implementation commit: `ac6b1baad546987bf0e4c97d943d26b7d1466e2c`
