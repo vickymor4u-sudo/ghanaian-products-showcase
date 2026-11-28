@@ -129,6 +129,18 @@ export const onRequest = async (
     !assetContentType.includes("text/html") &&
     assetResponse.headers.get("content-length") !== "0";
   if (isRealStaticAsset) {
+    if (url.pathname === "/robots.txt" || url.pathname === "/sitemap.xml") {
+      const headers = new Headers(assetResponse.headers);
+      // These files control discovery and indexing. Revalidate them instead
+      // of allowing a previous deployment's policy to remain at the edge for
+      // hours after a release.
+      headers.set("cache-control", "public, max-age=0, must-revalidate");
+      headers.delete("content-length");
+      return new Response(assetResponse.body, {
+        status: assetResponse.status,
+        headers,
+      });
+    }
     return assetResponse;
   }
 

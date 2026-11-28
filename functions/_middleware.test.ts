@@ -76,4 +76,28 @@ describe("public page snapshots", () => {
     );
     expect(fetch).not.toHaveBeenCalled();
   });
+
+  it("revalidates robots.txt so crawler policy updates are not stale", async () => {
+    const fetch = vi.fn(async () =>
+      new Response("User-agent: OAI-SearchBot\nAllow: /", {
+        headers: {
+          "content-type": "text/plain",
+          "content-length": "39",
+          "cache-control": "public, max-age=14400",
+        },
+      })
+    );
+    const response = await onRequest({
+      request: new Request("https://www.borgafoods.com/robots.txt"),
+      env: { ASSETS: { fetch } },
+      next: vi.fn(),
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("cache-control")).toBe(
+      "public, max-age=0, must-revalidate"
+    );
+    expect(response.headers.has("content-length")).toBe(false);
+    expect(await response.text()).toContain("OAI-SearchBot");
+  });
 });

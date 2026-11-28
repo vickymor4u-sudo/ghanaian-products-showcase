@@ -1,6 +1,7 @@
 # Only applies to requests Cloudflare serves as native static assets —
 # i.e. the paths client/public/_routes.json excludes from Pages
-# Functions (/assets/*, /images/*, /favicon.svg, /robots.txt, /sitemap.xml). HTML page
+# Functions (/assets/*, /images/* and /favicon.svg). HTML pages, robots.txt
+# and sitemap.xml
 # routes still go through functions/_middleware.ts and are deliberately
 # left alone here, so canonical/robots injection keeps controlling their
 # response and they keep revalidating on every deploy.
@@ -24,11 +25,3 @@
 /favicon.svg
   Cache-Control: public, max-age=3600
 
-/robots.txt
-  Cache-Control: public, max-age=3600
-
-/sitemap.xml
-  Cache-Control: public, max-age=3600
-
-/a489de60df4b41708aa83eeb7147598c.txt
-  Cache-Control: public, max-age=86400
