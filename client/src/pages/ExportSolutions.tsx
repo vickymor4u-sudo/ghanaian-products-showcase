@@ -90,6 +90,10 @@ export default function ExportSolutions() {
               For distributors, supermarkets, importers, restaurants,
               wholesalers, and food-service buyers.
             </p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Business enquiries: <a href="mailto:export@borgafoods.com" className="font-semibold text-primary hover:underline">export@borgafoods.com</a>
+              {" · "}<Link href="/export/gari-and-kokonte" className="font-semibold text-primary hover:underline">Gari and kokonte export guide</Link>
+            </p>
           </div>
         </div>
       </section>
@@ -185,6 +189,12 @@ export default function ExportSolutions() {
                 title: "Mixed container solutions",
                 description:
                   "Coordinate eligible manufactured and approved export-selection products in a buyer-led assortment.",
+              },
+              {
+                icon: FileText,
+                title: "Specifications and samples",
+                description:
+                  "Request current product specifications and discuss sample requirements during the enquiry process.",
               },
               {
                 icon: PackageCheck,

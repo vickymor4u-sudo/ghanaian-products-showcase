@@ -5,11 +5,11 @@ describe("public page snapshots", () => {
   it("serves product copy and metadata before client JavaScript loads", async () => {
     const html =
       "<!doctype html><html><head><title>Fufu Flour | BorgaFoods</title>" +
-      '<link rel="canonical" href="https://www.borgafoods.com/products/fufu-flour">' +
+      '<link rel="canonical" href="https://www.borgafoods.com/products/fufu">' +
       "</head><body><h1>Fufu Flour</h1><p>Premium Ghanaian fufu flour</p></body></html>";
     const fetch = vi.fn(async (request: Request) => {
       const path = new URL(request.url).pathname;
-      if (path === "/_prerender/products/fufu-flour.txt") {
+      if (path === "/_prerender/products/fufu.txt") {
         return new Response(html, {
           headers: { "content-type": "text/plain", "content-length": "999" },
         });
@@ -20,7 +20,7 @@ describe("public page snapshots", () => {
 
     const response = await onRequest({
       request: new Request(
-        "https://www.borgafoods.com/products/fufu-flour?ref=buyer"
+        "https://www.borgafoods.com/products/fufu?ref=buyer"
       ),
       env: { ASSETS: { fetch } },
       next,
@@ -52,13 +52,28 @@ describe("public page snapshots", () => {
     const fetch = vi.fn();
     const response = await onRequest({
       request: new Request(
-        "https://www.borgafoods.com/_prerender/products/fufu-flour.txt"
+        "https://www.borgafoods.com/_prerender/products/fufu.txt"
       ),
       env: { ASSETS: { fetch } },
       next: vi.fn(),
     });
 
     expect(response.status).toBe(404);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("redirects legacy product URLs to their canonical pages", async () => {
+    const fetch = vi.fn();
+    const response = await onRequest({
+      request: new Request("https://www.borgafoods.com/products/gari"),
+      env: { ASSETS: { fetch } },
+      next: vi.fn(),
+    });
+
+    expect(response.status).toBe(301);
+    expect(response.headers.get("location")).toBe(
+      "https://www.borgafoods.com/products/white-gari"
+    );
     expect(fetch).not.toHaveBeenCalled();
   });
 });

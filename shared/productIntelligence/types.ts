@@ -109,6 +109,8 @@ interface ProductIntelligenceBase {
   packagingSizes?: readonly string[];
   bulkPackagingSizes?: readonly string[];
   cartonConfiguration?: string;
+  packagingFormat?: string;
+  ingredients?: readonly string[];
   shelfLife?: string;
   storage?: string;
   certification?: string;

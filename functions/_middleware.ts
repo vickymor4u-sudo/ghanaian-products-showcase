@@ -38,12 +38,14 @@ const SITE_ORIGIN = "https://www.borgafoods.com";
 export const KNOWN_PUBLIC_PATHS = new Set([
   "/",
   "/products",
-  "/products/fufu-flour",
-  "/products/gari",
+  "/products/fufu",
+  "/products/white-gari",
+  "/products/yellow-gari",
   "/products/cassava-flour",
-  "/products/banku-mix",
+  "/products/banku",
   "/products/kokonte",
   "/export-solutions",
+  "/export/gari-and-kokonte",
   "/wholesale",
   "/export",
   "/about",
@@ -108,6 +110,15 @@ export const onRequest = async (
   // (functions/api/export-quote.ts) — hand off immediately, untouched.
   if (url.pathname.startsWith("/api/")) {
     return context.next();
+  }
+  const legacyRedirects: Record<string, string> = {
+    "/products/fufu-flour": "/products/fufu",
+    "/products/gari": "/products/white-gari",
+    "/products/banku-mix": "/products/banku",
+  };
+  const legacyTarget = legacyRedirects[normalizePathname(url.pathname)];
+  if (legacyTarget) {
+    return Response.redirect(`${SITE_ORIGIN}${legacyTarget}`, 301);
   }
   // Snapshots are internal delivery assets, not separate pages for indexing.
   if (url.pathname.startsWith("/_prerender/")) {

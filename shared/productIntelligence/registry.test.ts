@@ -27,13 +27,14 @@ describe("BPIP registry", () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it("exposes exactly the 5 currently public products, unchanged", () => {
+  it("exposes exactly the 6 currently public products", () => {
     expect(publishedProducts.map(product => product.slug).sort()).toEqual(
       [
         "banku-borga",
         "cassava-flour",
         "fufu-borga",
-        "gari-borga",
+        "white-gari",
+        "yellow-gari",
         "kokonte-borga",
       ].sort()
     );

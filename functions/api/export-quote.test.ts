@@ -10,7 +10,7 @@ const validSubmission = {
   country: "United Kingdom",
   email: "buyer@example.com",
   phoneWhatsApp: "+44 20 0000 0000",
-  productSelection: "gari-borga",
+  productSelection: "white-gari",
   packagingPreference: "retail",
   estimatedQuantity: "5 metric tons",
   destinationCountry: "United Kingdom",
@@ -166,7 +166,7 @@ describe("POST /api/export-quote", () => {
       createContext({
         ...validSubmission,
         inquiryType: "private_label",
-        productSelection: "gari-borga",
+        productSelection: "white-gari",
         message: "Retail product discussion for manual review.",
       })
     );

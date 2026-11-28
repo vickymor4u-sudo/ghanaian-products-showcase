@@ -118,6 +118,27 @@ export default function SchemaMarkup({
           name: data.countryOfOrigin,
         },
         image: data.images.map(image => `${SITE_ORIGIN}${image}`),
+        additionalProperty: [
+          {
+            "@type": "PropertyValue",
+            name: "Available pack sizes",
+            value: [...data.packagingSizes, ...data.bulkPackagingSizes].join(", "),
+          },
+          ...(data.cartonConfiguration
+            ? [{ "@type": "PropertyValue", name: "Carton configuration", value: data.cartonConfiguration }]
+            : []),
+          ...(data.packagingFormat
+            ? [{ "@type": "PropertyValue", name: "Packaging format", value: data.packagingFormat }]
+            : []),
+          ...(data.ingredients?.length
+            ? [{ "@type": "PropertyValue", name: "Ingredients", value: data.ingredients.join(", ") }]
+            : []),
+          {
+            "@type": "PropertyValue",
+            name: "Shelf life",
+            value: data.shelfLife,
+          },
+        ],
         ...(data.wholesalePricing && {
           offers: {
             "@type": "Offer",

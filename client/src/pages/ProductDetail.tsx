@@ -17,6 +17,39 @@ import {
   productUrlToInternalSlug,
 } from "@/data/productUrlSlugs";
 
+const productSeo: Record<string, { title: string; description: string; heading: string }> = {
+  "white-gari": {
+    title: "White Gari Manufacturer and Export Supplier in Ghana | BorgaFoods",
+    description: "BorgaFoods manufactures white gari in Ghana for wholesale export in 1 kg to 50 kg retail packs and sacks.",
+    heading: "White Gari Manufacturer and Export Supplier in Ghana",
+  },
+  "yellow-gari": {
+    title: "Yellow Gari Wholesale Export Supplier in Ghana | BorgaFoods",
+    description: "Buy Ghanaian yellow gari for wholesale export in retail pouches and 10 kg, 25 kg and 50 kg sacks.",
+    heading: "Yellow Gari Wholesale Export Supplier in Ghana",
+  },
+  "kokonte-borga": {
+    title: "Kokonte (Konkonte) Flour Manufacturer and Exporter in Ghana | BorgaFoods",
+    description: "BorgaFoods manufactures Ghanaian kokonte (konkonte) flour in 1 kg and 2 kg branded pouches for wholesale export.",
+    heading: "Kokonte (Konkonte) Flour Manufacturer and Exporter in Ghana",
+  },
+  "banku-borga": {
+    title: "Banku Flour Manufacturer and Export Supplier in Ghana | BorgaFoods",
+    description: "BorgaFoods manufactures banku flour from 70% maize and 30% cassava in 1 kg and 2 kg branded pouches.",
+    heading: "Banku Flour Manufacturer and Export Supplier in Ghana",
+  },
+  "cassava-flour": {
+    title: "Cassava Flour Wholesale Export Supplier in Ghana | BorgaFoods",
+    description: "Ghanaian cassava flour manufactured by BorgaFoods in 1 kg and 2 kg branded pouches for wholesale export.",
+    heading: "Cassava Flour Wholesale Export Supplier in Ghana",
+  },
+  "fufu-borga": {
+    title: "Ghanaian Fufu Flour Manufacturer and Exporter | BorgaFoods",
+    description: "BorgaFoods manufactures Ghanaian plantain and cassava fufu flour in branded 700 g boxes for wholesale export.",
+    heading: "Ghanaian Fufu Flour Manufacturer and Exporter",
+  },
+};
+
 function getProductFaqs(product: Product) {
   return [
     {
@@ -36,6 +69,16 @@ function getProductFaqs(product: Product) {
       q: "How can I request a quote for " + product.name + "?",
       a: "Use the product quote button and tell us your destination, packaging needs and estimated order volume.",
     },
+    {
+      q: "Is " + product.name + " available for wholesale export?",
+      a: product.exportAvailable && product.wholesaleAvailable
+        ? "Yes. BorgaFoods accepts wholesale and export enquiries from international business buyers."
+        : "Availability is confirmed for each enquiry.",
+    },
+    {
+      q: "Where is " + product.name + " produced?",
+      a: product.countryOfOrigin + ". " + productSupplyStatements[product.supplyType] + ".",
+    },
   ];
 }
 
@@ -52,12 +95,13 @@ export default function ProductDetail() {
     item => item.slug !== product.slug && getProductPageUrl(item.slug)
   );
   const faqs = getProductFaqs(product);
+  const seo = productSeo[product.slug];
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={`${product.name} | Ghana Wholesale & Export | BorgaFoods`}
-        description={`${product.summary}. Wholesale and export enquiries welcome from distributors, retailers, and food-service buyers.`}
+        title={seo?.title ?? `${product.name} | Ghana Wholesale & Export | BorgaFoods`}
+        description={seo?.description ?? `${product.summary}. Wholesale and export enquiries welcome from distributors, retailers, and food-service buyers.`}
         keywords={`${product.name}, ${product.category}, Ghana food export, BorgaFoods ${product.name}, ${product.name} wholesale`}
         image={SITE_ORIGIN + product.images[0]}
       />
@@ -107,6 +151,21 @@ export default function ProductDetail() {
                 className="h-full w-full object-contain"
               />
             </div>
+            {product.images.length > 1 && (
+              <div className="mt-4 grid max-w-xl grid-cols-2 gap-4">
+                {product.images.slice(1).map((image, index) => (
+                  <div key={image} className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-white p-3">
+                    <img
+                      src={image}
+                      alt={`${product.name} serving suggestion ${index + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="lg:pt-4">
@@ -115,7 +174,7 @@ export default function ProductDetail() {
               {productTypeLabels[product.supplyType]}
             </p>
             <h1 className="mt-4 text-4xl font-bold leading-tight text-foreground md:text-5xl">
-              {product.name}
+              {seo?.heading ?? product.name}
             </h1>
             <p className="mt-4 text-xl text-muted-foreground">
               {product.summary}
@@ -130,6 +189,12 @@ export default function ProductDetail() {
                 ["Pack sizes", product.packagingSizes.join(", ")],
                 ...(product.cartonConfiguration
                   ? [["Packs per carton", product.cartonConfiguration]]
+                  : []),
+                ...(product.packagingFormat
+                  ? [["Packaging", product.packagingFormat]]
+                  : []),
+                ...(product.ingredients?.length
+                  ? [["Ingredients", product.ingredients.join(", ")]]
                   : []),
                 ...(product.bulkPackagingSizes.length > 0
                   ? [
@@ -176,6 +241,19 @@ export default function ProductDetail() {
               >
                 Export Solutions
               </Link>
+              {(["white-gari", "yellow-gari", "kokonte"] as const).includes(
+                product.slug as "white-gari" | "yellow-gari" | "kokonte",
+              ) && (
+                <>
+                  {" · "}
+                  <Link
+                    href="/export/gari-and-kokonte"
+                    className="font-semibold text-primary hover:underline"
+                  >
+                    Gari &amp; Kokonte Export Guide
+                  </Link>
+                </>
+              )}
             </p>
           </div>
         </div>

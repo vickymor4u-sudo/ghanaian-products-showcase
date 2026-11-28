@@ -16,6 +16,7 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Analytics from "./components/Analytics";
+import GariKokonteExport from "./pages/GariKokonteExport";
 
 function Router() {
   return (
@@ -25,6 +26,7 @@ function Router() {
       <Route path={"/products/:urlSlug"} component={ProductDetail} />
       <Route path={"/export-solutions"} component={ExportSolutions} />
       <Route path={"/wholesale"} component={Wholesale} />
+      <Route path={"/export/gari-and-kokonte"} component={GariKokonteExport} />
       <Route path={"/export"} component={ExportCompliance} />
       <Route path={"/about"} component={About} />
       <Route path={"/contact"} component={Contact} />

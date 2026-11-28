@@ -7,7 +7,8 @@ import { getProductPageUrl } from "@/data/productUrlSlugs";
 const descriptions: Record<string, string> = {
   "fufu-borga": "Plantain-rich fufu flour with cassava.",
   "banku-borga": "Fermented maize and cassava flour.",
-  "gari-borga": "Cassava granules for traditional Ghanaian meals.",
+  "white-gari": "White cassava granules for retail and bulk export supply.",
+  "yellow-gari": "Yellow cassava granules for retail and bulk export supply.",
   "kokonte-borga": "Traditional dried cassava flour for making kokonte.",
   "cassava-flour": "Finely milled cassava flour for making fufu.",
 };

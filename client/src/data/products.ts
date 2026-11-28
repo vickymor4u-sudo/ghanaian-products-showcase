@@ -36,6 +36,8 @@ interface ProductBase {
   packagingSizes: readonly string[];
   bulkPackagingSizes: readonly string[];
   cartonConfiguration?: string;
+  packagingFormat?: string;
+  ingredients?: readonly string[];
   shelfLife: string;
   storage: string;
   certification: string;
@@ -150,6 +152,8 @@ function toPublicProduct(record: PublishedProductRecord): Product {
     packagingSizes: record.packagingSizes,
     bulkPackagingSizes: record.bulkPackagingSizes,
     cartonConfiguration: record.cartonConfiguration,
+    packagingFormat: record.packagingFormat,
+    ingredients: record.ingredients,
     shelfLife: record.shelfLife,
     storage: record.storage,
     certification: record.certification,

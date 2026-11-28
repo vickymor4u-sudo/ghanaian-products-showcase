@@ -55,9 +55,9 @@ export default function Products() {
             BorgaFoods manufactured range
           </h2>
           <p className="mt-2 text-muted-foreground">
-            Five Ghanaian staples manufactured by BorgaFoods Processing.
+            Six Ghanaian staples manufactured by BorgaFoods Processing.
           </p>
-          <div className="mt-8 grid grid-cols-1 gap-5 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="mt-8 grid grid-cols-1 gap-5 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {manufacturedProducts.map(product => (
               <div key={product.slug}>
                 <SchemaMarkup type="product" data={product} />
@@ -107,6 +107,9 @@ export default function Products() {
             </Link>
             <Link href="/export-solutions" className="hover:underline">
               Export Solutions
+            </Link>
+            <Link href="/export/gari-and-kokonte" className="hover:underline">
+              Gari &amp; Kokonte Export
             </Link>
             <Link href="/contact" className="hover:underline">
               Contact

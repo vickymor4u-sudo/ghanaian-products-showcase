@@ -5,13 +5,14 @@ import {
 } from "./publishedRegistry";
 
 describe("publishedProducts", () => {
-  it("contains exactly the 5 currently public products", () => {
+  it("contains exactly the 6 currently public products", () => {
     expect(publishedProducts.map(p => p.slug).sort()).toEqual(
       [
         "banku-borga",
         "cassava-flour",
         "fufu-borga",
-        "gari-borga",
+        "white-gari",
+        "yellow-gari",
         "kokonte-borga",
       ].sort()
     );

@@ -67,6 +67,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/export/gari-and-kokonte"
+                  className="hover:text-background/70 transition-colors"
+                >
+                  Gari &amp; Kokonte Export
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/wholesale"
                   className="hover:text-background/70 transition-colors"
                 >

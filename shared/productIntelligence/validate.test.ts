@@ -4,7 +4,7 @@ import { publishedRegistry } from "./publishedRegistry";
 import type { ProductIntelligenceRecord } from "./types";
 
 const validPublished = publishedRegistry.find(
-  record => record.slug === "gari-borga"
+  record => record.slug === "white-gari"
 )!;
 
 describe("assertRegistryIntegrity", () => {

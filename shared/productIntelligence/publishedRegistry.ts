@@ -14,9 +14,8 @@
  * and `scripts/verify-no-internal-leak.ts` for the automated build-time
  * guard that checks this boundary held.
  *
- * Field values for the 5 records below are migrated byte-for-byte from the
- * prior `client/src/data/products.ts` — this migration changes no approved
- * fact, wording, classification, or public content.
+ * Product specifications below are the public catalogue source used by the
+ * website, structured data, prerendered HTML, and quotation workflow.
  */
 import type {
   ProductIntelligenceRecord,
@@ -42,10 +41,12 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     packagingSizes: ["700 g"],
     bulkPackagingSizes: [],
     cartonConfiguration: "700 g × 12 packs (8.4 kg net)",
+    packagingFormat: "Branded 700 g box",
     shelfLife: "24 months from manufacture",
     storage: "Store in a cool, dry place. Reseal after opening",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/fufu-borga-2026.webp"],
+    ingredients: ["Plantain", "cassava"],
+    images: ["/images/fufu-borga-2026.webp", "/images/fufu-product.jpg"],
     variants: ["Fufu Borga"],
     lifecycle: {
       state: "published",
@@ -62,12 +63,12 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     },
   },
   {
-    slug: "gari-borga",
-    name: "Gari",
+    slug: "white-gari",
+    name: "White Gari",
     category: "Cassava Products",
     description:
-      "Clean, well-processed cassava granules—the BorgaFoods standard for retail, wholesale, and food service distribution.",
-    summary: "Clean cassava granules",
+      "Clean, well-processed white cassava granules made in Ghana for retail, wholesale, food-service and export distribution.",
+    summary: "Ghanaian white cassava granules",
     brand: "BorgaFoods",
     manufacturer: "BorgaFoods Processing",
     supplyType: "manufactured",
@@ -75,11 +76,50 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     packagingSizes: ["1 kg", "2 kg", "5 kg"],
     bulkPackagingSizes: ["10 kg", "25 kg", "50 kg"],
     cartonConfiguration: "1 kg × 12 packs, 2 kg × 6 packs, 5 kg × 5 packs",
+    packagingFormat: "Plastic pouches (1 kg, 2 kg and 5 kg); individual woven sacks (10 kg, 25 kg and 50 kg)",
     shelfLife: "36 months from manufacture",
     storage: "Store in a cool, dry place",
     certification: "Ghana FDA registered facilities",
+    ingredients: ["Cassava"],
     images: ["/images/gari-borga.jpg"],
-    variants: ["White Gari", "Yellow Gari"],
+    variants: ["White Gari"],
+    wholesalePricing: {
+      pricePerCarton: 35,
+      currency: "USD",
+      unitsPerCarton: 12,
+    },
+    lifecycle: { state: "published" },
+    approvals: {
+      publicDisplayStatus: "approved_current_catalog",
+      sourceAlignment: "aligned",
+      privateLabelEligibility: "requires_business_approval",
+      imageStatus: "approved_public_safe",
+      documentationStatus: "public_ready",
+      exportAvailable: true,
+      wholesaleAvailable: true,
+    },
+  },
+  {
+    slug: "yellow-gari",
+    name: "Yellow Gari",
+    category: "Cassava Products",
+    description:
+      "Ghanaian yellow cassava granules prepared for retail, wholesale, food-service and export distribution.",
+    summary: "Ghanaian yellow cassava granules",
+    brand: "BorgaFoods",
+    manufacturer: "BorgaFoods Processing",
+    supplyType: "manufactured",
+    countryOfOrigin: "Ghana",
+    packagingSizes: ["1 kg", "2 kg", "5 kg"],
+    bulkPackagingSizes: ["10 kg", "25 kg", "50 kg"],
+    cartonConfiguration: "1 kg × 12 packs, 2 kg × 6 packs, 5 kg × 5 packs",
+    packagingFormat: "Plastic pouches (1 kg, 2 kg and 5 kg); individual woven sacks (10 kg, 25 kg and 50 kg)",
+    shelfLife: "36 months from manufacture",
+    storage: "Store in a cool, dry place",
+    certification: "Ghana FDA registered facilities",
+    ingredients: ["Cassava"],
+    images: ["/images/hero/yellow-gari.webp"],
+    variants: ["Yellow Gari"],
     wholesalePricing: {
       pricePerCarton: 35,
       currency: "USD",
@@ -110,11 +150,13 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     packagingSizes: ["1 kg", "2 kg"],
     bulkPackagingSizes: [],
     cartonConfiguration: "1 kg × 12 packs or 2 kg × 6 packs",
+    packagingFormat: "Branded pouches",
     shelfLife: "24 months from manufacture",
     storage: "Store in a cool, dry place. Reseal after opening",
     certification: "Ghana FDA registered facilities",
+    ingredients: ["Cassava"],
     images: ["/images/kokonte-borga.jpg"],
-    variants: ["100% cassava flour for making kokonte"],
+    variants: ["Kokonte flour"],
     wholesalePricing: {
       pricePerCarton: 38,
       currency: "USD",
@@ -147,10 +189,12 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     packagingSizes: ["1 kg", "2 kg"],
     bulkPackagingSizes: [],
     cartonConfiguration: "1 kg × 12 packs or 2 kg × 6 packs",
+    packagingFormat: "Branded pouches",
     shelfLife: "36 months from manufacture",
     storage: "Store in a cool, dry place. Reseal after opening",
     certification: "Ghana FDA registered facilities",
-    images: ["/images/banku-borga-1kg.jpg"],
+    ingredients: ["Maize (70%)", "cassava (30%)"],
+    images: ["/images/banku-borga-1kg.jpg", "/images/banku-product.jpg"],
     variants: ["Fermented maize and cassava flour"],
     wholesalePricing: {
       pricePerCarton: 35,
@@ -183,9 +227,11 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     packagingSizes: ["1 kg", "2 kg"],
     bulkPackagingSizes: [],
     cartonConfiguration: "1 kg × 12 packs or 2 kg × 6 packs",
+    packagingFormat: "Branded pouches",
     shelfLife: "24 months from manufacture",
     storage: "Store in a cool, dry place. Reseal after opening",
     certification: "Ghana FDA registered facilities",
+    ingredients: ["Cassava"],
     images: ["/images/cassava-flour.jpg"],
     variants: ["100% cassava flour for making fufu"],
     wholesalePricing: {

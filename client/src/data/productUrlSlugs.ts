@@ -5,16 +5,24 @@
  * renamed to match. See docs/CONTENT_ARCHITECTURE_IMPLEMENTATION_PLAN.md
  * §"URL slug decision".
  */
-export const productUrlToInternalSlug: Record<string, string> = {
-  "fufu-flour": "fufu-borga",
-  gari: "gari-borga",
+const canonicalProductUrlToInternalSlug: Record<string, string> = {
+  fufu: "fufu-borga",
+  "white-gari": "white-gari",
+  "yellow-gari": "yellow-gari",
   "cassava-flour": "cassava-flour",
-  "banku-mix": "banku-borga",
+  banku: "banku-borga",
   kokonte: "kokonte-borga",
 };
 
+export const productUrlToInternalSlug: Record<string, string> = {
+  ...canonicalProductUrlToInternalSlug,
+  "fufu-flour": "fufu-borga",
+  gari: "white-gari",
+  "banku-mix": "banku-borga",
+};
+
 const internalToUrlSlug: Record<string, string> = Object.fromEntries(
-  Object.entries(productUrlToInternalSlug).map(([url, internal]) => [
+  Object.entries(canonicalProductUrlToInternalSlug).map(([url, internal]) => [
     internal,
     url,
   ])

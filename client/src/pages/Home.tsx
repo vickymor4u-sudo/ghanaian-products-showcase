@@ -21,8 +21,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="BorgaFoods | Ghanaian Food Manufacturer & Export Partner"
-        description="BorgaFoods manufactures Ghanaian staples and coordinates selected export products for distributors, wholesalers, importers, retailers, and food-service buyers."
+        title="Gari, Kokonte, Banku & Fufu Exporter in Ghana | BorgaFoods"
+        description="BorgaFoods is a Ghanaian manufacturer and wholesale export supplier of gari, kokonte, banku, cassava flour and fufu. Retail and bulk packaging available."
         keywords="Ghanaian food manufacturer, Ghana food export, fufu wholesale, gari export, kokonte, banku, African grocery distributor, BorgaFoods"
         image={`${SITE_ORIGIN}/images/hero/fufu-front.webp`}
       />
@@ -87,11 +87,14 @@ export default function Home() {
               Ghanaian staples for global trade
             </p>
             <h1 className="text-3xl font-bold leading-tight text-foreground sm:text-4xl lg:text-5xl">
-              Ghanaian food manufacturing and export supply
+              Ghanaian Food Manufacturer and Export Supplier
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Authentic Ghanaian staples for distributors, importers,
-              wholesalers, retailers and food-service buyers.
+              BorgaFoods, a brand of Supply &amp; Demand Worldwide Ltd, is a
+              Ghanaian food manufacturer and wholesale export supplier based
+              in Tema, Ghana. We supply white gari, yellow gari, kokonte flour,
+              banku flour, cassava flour and fufu flour to importers,
+              distributors, wholesalers and supermarkets.
             </p>
             <div className="mt-7 flex flex-wrap justify-center gap-3">
               <Button
@@ -119,7 +122,7 @@ export default function Home() {
                 id="manufactured-range"
                 className="text-3xl font-bold text-foreground md:text-4xl"
               >
-                Explore our five core products
+                Explore our six core products
               </h2>
             </div>
             <Link
@@ -129,7 +132,7 @@ export default function Home() {
               View all products <ArrowRight size={17} aria-hidden="true" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {publicManufacturedProducts.map(product => (
               <ProductCard key={product.slug} product={product} />
             ))}
@@ -150,9 +153,10 @@ export default function Home() {
               A clear supply partner for international buyers
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              BorgaFoods Processing manufactures our core Ghanaian range. We
-              also coordinate approved export selections from trusted Ghanaian
-              production partners, clearly distinguished from our own products.
+              BorgaFoods Processing manufactures our core Ghanaian range in
+              retail-packaged and bulk formats. International buyers can
+              discuss wholesale supply, mixed-product container orders and
+              destination requirements through our export enquiry process.
             </p>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
@@ -160,7 +164,7 @@ export default function Home() {
               {
                 icon: Factory,
                 title: "Our manufactured range",
-                text: "Five BorgaFoods staples presented with their own product details and enquiry paths.",
+                text: "Six BorgaFoods staples presented with product specifications, packaging and enquiry paths.",
               },
               {
                 icon: PackageCheck,
@@ -193,6 +197,9 @@ export default function Home() {
             </Link>
             <Link href="/export-solutions" className="hover:underline">
               Export Solutions
+            </Link>
+            <Link href="/export/gari-and-kokonte" className="hover:underline">
+              Gari &amp; Kokonte Export
             </Link>
             <Link href="/about" className="hover:underline">
               About BorgaFoods

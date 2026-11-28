@@ -26,8 +26,8 @@ export default function About() {
             About Supply & Demand Worldwide Ltd
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            Professional export solutions connecting quality Ghanaian producers
-            with international markets.
+            The Ghanaian company behind BorgaFoods manufacturing and wholesale
+            export supply.
           </p>
         </div>
       </section>
@@ -45,7 +45,9 @@ export default function About() {
                 limited liability company in Ghana, established in 2013. With
                 over a decade of trading experience, we specialize in exporting
                 traditional West African staple foods to global markets through
-                our flagship BorgaFoods brand.
+                our BorgaFoods brand. BorgaFoods Processing manufactures white
+                gari, yellow gari, kokonte, banku flour, cassava flour and fufu
+                flour in Ghana.
               </p>
               <p className="text-lg text-foreground mb-4 leading-relaxed">
                 We operate international trading activities with operational
@@ -54,9 +56,10 @@ export default function About() {
                 expectations.
               </p>
               <p className="text-lg text-foreground mb-6 leading-relaxed">
-                With over a decade of trading experience, we serve
-                diaspora-focused and specialty food markets across Asia and
-                Africa, supported by scalable sourcing and logistics partners.
+                We serve international food importers, wholesalers,
+                distributors and supermarkets. Manufactured BorgaFoods products
+                are clearly distinguished from any separately approved products
+                coordinated through Ghanaian production partners.
               </p>
               <Link href="/contact" className="inline-block">
                 <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
@@ -124,15 +127,15 @@ export default function About() {
             {[
               {
                 step: "1",
-                title: "Sourcing",
+                title: "Raw materials and supply",
                 description:
-                  "Direct relationships with quality producers across Ghana",
+                  "Ghanaian inputs and approved supply requirements are reviewed for the manufactured range",
               },
               {
                 step: "2",
                 title: "Production",
                 description:
-                  "Manufacturing with consistent process and quality controls at BorgaFoods Processing",
+                  "Manufacturing, packing and product checks at BorgaFoods Processing",
               },
               {
                 step: "3",
