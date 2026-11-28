@@ -17,9 +17,11 @@ const GA4_SCRIPT_ID = "ga4-gtag-script";
 const AI_REFERRAL_SESSION_KEY = "borgafoods_ai_referral_recorded";
 let initialized = false;
 
-function gtag(...args: unknown[]) {
+function gtag(..._args: unknown[]) {
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(args);
+  // Google's command queue requires the canonical Arguments object. Plain
+  // arrays look similar in DevTools but are not consumed by gtag.js.
+  window.dataLayer.push(arguments);
 }
 
 export function getAnalyticsConsent(): AnalyticsConsent {

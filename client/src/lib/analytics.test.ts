@@ -1,8 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   detectAiPlatform,
   getSuccessfulInquiryAnalytics,
+  initAnalytics,
 } from "./analytics";
+
+afterEach(() => vi.unstubAllGlobals());
 
 describe("AI referral classification", () => {
   it.each([
@@ -44,5 +47,40 @@ describe("successful inquiry analytics", () => {
       "inquiry_type",
       "product_slug",
     ]);
+  });
+});
+
+describe("Google tag command transport", () => {
+  it("queues canonical Arguments objects instead of ignored arrays", () => {
+    const dataLayer: unknown[] = [];
+    const appendedScripts: unknown[] = [];
+    vi.stubGlobal("window", {
+      dataLayer,
+      localStorage: {
+        getItem: () => "granted",
+      },
+      sessionStorage: {
+        getItem: () => null,
+      },
+    });
+    vi.stubGlobal("document", {
+      referrer: "",
+      getElementById: () => null,
+      createElement: () => ({}),
+      head: {
+        appendChild: (script: unknown) => appendedScripts.push(script),
+      },
+    });
+
+    initAnalytics();
+
+    expect(dataLayer).toHaveLength(4);
+    expect(
+      dataLayer.every(item =>
+        Object.prototype.toString.call(item).includes("Arguments")
+      )
+    ).toBe(true);
+    expect(Array.isArray(dataLayer[0])).toBe(false);
+    expect(appendedScripts).toHaveLength(1);
   });
 });
