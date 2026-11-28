@@ -23,15 +23,14 @@ function getProductFaqs(product: Product) {
       q: "What sizes are listed for " + product.name + "?",
       a:
         product.packagingSizes.join(", ") +
+        (product.bulkPackagingSizes.length > 0
+          ? ". Single sacks: " + product.bulkPackagingSizes.join(", ")
+          : "") +
         ". Other requirements can be discussed in an enquiry.",
     },
     {
       q: "How should " + product.name + " be stored?",
-      a:
-        product.shelfLife +
-        ". Recommended storage: " +
-        product.storage.toLowerCase() +
-        ".",
+      a: product.shelfLife + ". " + product.storage + ".",
     },
     {
       q: "How can I request a quote for " + product.name + "?",
@@ -128,7 +127,18 @@ export default function ProductDetail() {
             <dl className="mt-7 grid gap-4 rounded-xl border border-border/60 bg-white p-6 shadow-sm sm:grid-cols-2">
               {[
                 ["Origin", product.countryOfOrigin],
-                ["Standard sizes", product.packagingSizes.join(", ")],
+                ["Pack sizes", product.packagingSizes.join(", ")],
+                ...(product.cartonConfiguration
+                  ? [["Packs per carton", product.cartonConfiguration]]
+                  : []),
+                ...(product.bulkPackagingSizes.length > 0
+                  ? [
+                      [
+                        "Single woven sacks",
+                        product.bulkPackagingSizes.join(", "),
+                      ],
+                    ]
+                  : []),
                 ["Shelf life", product.shelfLife],
                 ["Supply", productSupplyStatements[product.supplyType]],
               ].map(([label, value]) => (
@@ -186,10 +196,11 @@ export default function ProductDetail() {
                     ]
                   : []),
                 ["Category", product.category],
-                ["Bulk options", product.bulkPackagingSizes.join(", ")],
                 ["Storage", product.storage],
                 ["Certification", product.certification],
-                ["Available variants", product.variants.join(", ")],
+                ...(product.variants.length > 1
+                  ? [["Available variants", product.variants.join(", ")]]
+                  : []),
               ].map(([label, value]) => (
                 <div key={label}>
                   <dt className="text-sm font-semibold text-muted-foreground">
