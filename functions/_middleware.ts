@@ -33,24 +33,11 @@
 // import.meta.env.VITE_TURNSTILE_SITE_KEY at load time, a Vite client
 // build concern that has no meaning in the Pages Functions/Workers
 // runtime this file actually executes in.
+import { publicPathnames } from "../shared/publicRoutes";
+
 const SITE_ORIGIN = "https://www.borgafoods.com";
 
-export const KNOWN_PUBLIC_PATHS = new Set([
-  "/",
-  "/products",
-  "/products/fufu",
-  "/products/white-gari",
-  "/products/yellow-gari",
-  "/products/cassava-flour",
-  "/products/banku",
-  "/products/kokonte",
-  "/export-solutions",
-  "/export/gari-and-kokonte",
-  "/wholesale",
-  "/export",
-  "/about",
-  "/contact",
-]);
+export const KNOWN_PUBLIC_PATHS = new Set(publicPathnames);
 
 interface ElementHandlerLike {
   append(content: string, options?: { html?: boolean }): void;

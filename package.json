@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
-    "build": "pnpm verify:catalog && pnpm verify:single-source && vite build && tsx scripts/prerender-pages.tsx && pnpm verify:no-leak && pnpm verify:site-verification",
+    "build": "pnpm generate:sitemap && pnpm verify:catalog && pnpm verify:single-source && vite build && tsx scripts/prerender-pages.tsx && pnpm verify:structured-data && pnpm verify:no-leak && pnpm verify:site-verification",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
     "test": "vitest run --config vitest.config.ts",
@@ -13,6 +13,8 @@
     "verify:no-leak": "tsx scripts/verify-no-internal-leak.ts",
     "verify:single-source": "tsx scripts/verify-single-source-of-truth.ts",
     "verify:site-verification": "tsx scripts/verify-site-verification-tags.ts",
+    "verify:structured-data": "tsx scripts/verify-structured-data.ts",
+    "generate:sitemap": "tsx scripts/generate-sitemap.ts",
     "format": "prettier --write ."
   },
   "dependencies": {

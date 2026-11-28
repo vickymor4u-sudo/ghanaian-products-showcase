@@ -27,6 +27,7 @@ export default function Home() {
         image={`${SITE_ORIGIN}/images/hero/fufu-front.webp`}
       />
       <SchemaMarkup type="organization" />
+      <SchemaMarkup type="website" />
 
       <section className="bg-gradient-to-b from-sky-50 via-white to-amber-50/40 pb-12 pt-6 md:pb-16 md:pt-10">
         <div className="container">

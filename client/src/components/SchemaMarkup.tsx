@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   EXPORT_ENQUIRY_EMAIL,
   SITE_ORIGIN,
@@ -23,7 +22,7 @@ interface FaqEntry {
 }
 
 interface SchemaMarkupProps {
-  type: "organization" | "product" | "breadcrumb" | "faq";
+  type: "organization" | "website" | "product" | "breadcrumb" | "faq";
   data?: Product;
   /** Required when type is "breadcrumb", in display order (root first). */
   breadcrumbs?: BreadcrumbEntry[];
@@ -40,11 +39,10 @@ export default function SchemaMarkup({
   faqs,
   faqKey,
 }: SchemaMarkupProps) {
-  useEffect(() => {
-    let schema: any = {};
+  let schema: Record<string, unknown> = {};
 
-    if (type === "organization") {
-      schema = {
+  if (type === "organization") {
+    schema = {
         "@context": "https://schema.org",
         "@type": "Organization",
         name: "Supply & Demand Worldwide Ltd",
@@ -85,13 +83,27 @@ export default function SchemaMarkup({
           },
         ],
         email: EXPORT_ENQUIRY_EMAIL,
-        sameAs: [SITE_ORIGIN],
       };
-    } else if (type === "product" && data) {
-      const isManufactured = data.supplyType === "manufactured";
-      const productPageUrl = getProductPageUrl(data.slug);
+  } else if (type === "website") {
+    schema = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "BorgaFoods",
+      alternateName: "Supply & Demand Worldwide Ltd",
+      url: SITE_ORIGIN,
+      inLanguage: "en",
+      publisher: {
+        "@type": "Organization",
+        name: "Supply & Demand Worldwide Ltd",
+        alternateName: "BorgaFoods",
+        url: SITE_ORIGIN,
+      },
+    };
+  } else if (type === "product" && data) {
+    const isManufactured = data.supplyType === "manufactured";
+    const productPageUrl = getProductPageUrl(data.slug);
 
-      schema = {
+    schema = {
         "@context": "https://schema.org",
         "@type": "Product",
         name: data.name,
@@ -185,9 +197,9 @@ export default function SchemaMarkup({
             },
           },
         }),
-      };
-    } else if (type === "breadcrumb" && breadcrumbs) {
-      schema = {
+    };
+  } else if (type === "breadcrumb" && breadcrumbs) {
+    schema = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: breadcrumbs.map((crumb, index) => ({
@@ -196,12 +208,12 @@ export default function SchemaMarkup({
           name: crumb.name,
           item: `${SITE_ORIGIN}${crumb.path}`,
         })),
-      };
-    } else if (type === "faq" && faqs && faqs.length > 0) {
+    };
+  } else if (type === "faq" && faqs && faqs.length > 0) {
       // Markup only — every question/answer here is the same text already
       // visibly rendered on the page (see ProductFaq in ProductDetail.tsx).
       // No new claim is introduced by adding structured data around it.
-      schema = {
+    schema = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         mainEntity: faqs.map(faq => ({
@@ -212,38 +224,28 @@ export default function SchemaMarkup({
             text: faq.a,
           },
         })),
-      };
-    }
-
-    // Create or update script tag. Product/FAQ schema are keyed by
-    // slug/faqKey so multiple instances of the same type on one page (e.g.
-    // one <SchemaMarkup type="product" /> per card on /products) can
-    // coexist without overwriting or removing each other's <script> tag.
-    const scriptId =
-      type === "product" && data
-        ? `schema-product-${data.slug}`
-        : type === "faq" && faqKey
-          ? `schema-faq-${faqKey}`
-          : `schema-${type}`;
-    let scriptTag = document.getElementById(scriptId) as HTMLScriptElement;
-
-    if (!scriptTag) {
-      scriptTag = document.createElement("script");
-      scriptTag.id = scriptId;
-      scriptTag.type = "application/ld+json";
-      document.head.appendChild(scriptTag);
-    }
-
-    scriptTag.textContent = JSON.stringify(schema);
-
-    return () => {
-      // Cleanup on unmount
-      const tag = document.getElementById(scriptId);
-      if (tag) {
-        tag.remove();
-      }
     };
-  }, [type, data, breadcrumbs, faqs, faqKey]);
+  }
 
-  return null;
+  if (Object.keys(schema).length === 0) return null;
+
+  const scriptId =
+    type === "product" && data
+      ? `schema-product-${data.slug}`
+      : type === "faq" && faqKey
+        ? `schema-faq-${faqKey}`
+        : `schema-${type}`;
+
+  // Render JSON-LD as part of the HTML so crawlers that do not execute
+  // JavaScript receive the same structured data as a browser. Escaping '<'
+  // prevents a product value from terminating the script element.
+  return (
+    <script
+      id={scriptId}
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replaceAll("<", "\\u003c"),
+      }}
+    />
+  );
 }

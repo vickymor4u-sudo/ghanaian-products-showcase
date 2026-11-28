@@ -164,6 +164,25 @@ export default function About() {
         </div>
       </section>
 
+      <section className="border-y border-border bg-white py-14">
+        <div className="container max-w-4xl">
+          <h2 className="text-3xl font-bold text-foreground">
+            Ghana FDA registration and buyer documentation
+          </h2>
+          <p className="mt-4 leading-relaxed text-muted-foreground">
+            BorgaFoods products are manufactured at Ghana FDA registered
+            facilities. Product-specific certification details and supporting
+            documents are provided to qualified buyers after the applicable
+            certificate scope has been verified for their enquiry.
+          </p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Certificate numbers, issue dates and covered products are not
+            published here until they have been checked against the issued
+            documentation.
+          </p>
+        </div>
+      </section>
+
       {/* Competitive Advantages */}
       <section className="py-20">
         <div className="container">

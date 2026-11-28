@@ -45,7 +45,13 @@ export const publishedRegistry: readonly ProductIntelligenceRecord[] = [
     shelfLife: "24 months from manufacture",
     storage: "Store in a cool, dry place. Reseal after opening",
     certification: "Ghana FDA registered facilities",
-    ingredients: ["Plantain", "cassava"],
+    ingredients: [
+      "Cassava",
+      "Plantain",
+      "Potato granules",
+      "Beta-carotene",
+      "Turmeric",
+    ],
     images: ["/images/fufu-borga-2026.webp", "/images/fufu-product.jpg"],
     variants: ["Fufu Borga"],
     lifecycle: {

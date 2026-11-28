@@ -29,3 +29,6 @@
 
 /sitemap.xml
   Cache-Control: public, max-age=3600
+
+/a489de60df4b41708aa83eeb7147598c.txt
+  Cache-Control: public, max-age=86400

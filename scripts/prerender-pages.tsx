@@ -14,6 +14,7 @@ import { createServer } from "vite";
 import { Router } from "wouter";
 import type { SEOProps } from "../client/src/components/SEO";
 import { KNOWN_PUBLIC_PATHS } from "../functions/_middleware";
+import { publicPathnames } from "../shared/publicRoutes";
 
 const SITE_ORIGIN = "https://www.borgafoods.com";
 const OUTPUT_DIR = resolve("dist/public/_prerender");
@@ -42,6 +43,13 @@ const paths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => {
   }
   return url.pathname;
 });
+
+if (
+  paths.length !== publicPathnames.length ||
+  paths.some((path, index) => path !== publicPathnames[index])
+) {
+  throw new Error("Generated sitemap is out of sync with the public route registry.");
+}
 
 if (paths.length === 0 || new Set(paths).size !== paths.length) {
   throw new Error("Sitemap has no public routes or contains duplicate routes.");
